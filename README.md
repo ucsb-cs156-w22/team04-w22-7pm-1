@@ -1,5 +1,7 @@
 # STARTER-team04-courses
 
+[![codecov](https://codecov.io/gh/ucsb-cs156-w22/team04-w22-7pm-HappyCows/branch/main/graph/badge.svg?token=51BgF6sq8Q)](https://codecov.io/gh/ucsb-cs156-w22/team04-w22-7pm-HappyCows)
+
 Storybook is here:
 * Production: <https://ucsb-cs156-w22.github.io/team04-w22-7pm-courses-docs/>
 * QA:  <https://ucsb-cs156-w22.github.io/team04-w22-7pm-courses-docs-qa/>
