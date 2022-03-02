@@ -1,57 +1,64 @@
 package edu.ucsb.cs156.example.services;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import org.springframework.web.client.RestTemplate;
+
 import java.util.List;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.stereotype.Service;
 
 import edu.ucsb.cs156.example.entities.UCSBSubject;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
+
 @Service("UCSBSubjects")
 public class UCSBSubjectsService {
+        @Autowired
+        private ObjectMapper mapper;
 
-    public List<UCSBSubject> get() {
+        private final RestTemplate restTemplate;
 
-        // TODO: Replace with a service that will call the UCSB
-        // developer API at the endpoint
-        // https://api.ucsb.edu/students/lookups/v1/subjects?includeInactive=false
-        // convert the JSON to a List<UCSBSubjects> object
-        // return that object.
+        public UCSBSubjectsService(RestTemplateBuilder restTemplateBuilder) {
+                restTemplate = restTemplateBuilder.build();
+        }
 
-        UCSBSubject us1 = UCSBSubject.builder()
-                .subjectCode("ANTH")
-                .subjectTranslation("Anthropology")
-                .deptCode("ANTH")
-                .collegeCode("L&S")
-                .relatedDeptCode(null)
-                .inactive(false)
-                .build();
+        public static final String ENDPOINT = "https://api.ucsb.edu/students/lookups/v1/subjects?includeInactive=false";
 
-        UCSBSubject us2 = UCSBSubject.builder()
-                .subjectCode("ART  CS")
-                .subjectTranslation("Art (Creative Studies)")
-                .deptCode("CRSTU")
-                .collegeCode("CRST")
-                .relatedDeptCode(null)
-                .inactive(false)
-                .build();
+        @Value("${app.ucsb.api.consumer_key}")
+        private String apiKey;
 
-        UCSBSubject us3 = UCSBSubject.builder()
-                .subjectCode("CH E")
-                .subjectTranslation("Chemical Engineering")
-                .deptCode("CNENG")
-                .collegeCode("ENGR")
-                .relatedDeptCode(null)
-                .inactive(false)
-                .build();
+        public List<UCSBSubject> get() throws HttpClientErrorException, JsonProcessingException {
 
-        List<UCSBSubject> temporaryFakeList = new ArrayList<>();
-        temporaryFakeList.addAll(Arrays.asList(us1, us2, us3));
-        log.info("temporaryFakeList={}",temporaryFakeList);
-        return temporaryFakeList;
-    }
+                // TODO: Replace with a service that will call the UCSB
+                // developer API at the endpoint
+                // https://api.ucsb.edu/students/lookups/v1/subjects?includeInactive=false
+                // convert the JSON to a List<UCSBSubjects> object
+                // return that object.
 
+                HttpHeaders headers = new HttpHeaders();
+                headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                headers.set("ucsb-api-version", "1.0");
+                headers.set("ucsb-api-key", this.apiKey);
+
+                HttpEntity<String> entity = new HttpEntity<>("body", headers);
+
+                ResponseEntity<String> re = restTemplate.exchange(ENDPOINT, HttpMethod.GET, entity, String.class);
+                String json = re.getBody();
+                // Convert json to list of UCSBSubject objects
+                List<UCSBSubject> result = mapper.readValue(json, new TypeReference<List<UCSBSubject>>() {
+                });
+                return result;
+        }
 }
