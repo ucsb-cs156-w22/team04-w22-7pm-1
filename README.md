@@ -1,6 +1,6 @@
-# STARTER-team04-courses
+# team04-w22-7pm-courses
 
-[![codecov](https://codecov.io/gh/ucsb-cs156-w22/team04-w22-7pm-HappyCows/branch/main/graph/badge.svg?token=51BgF6sq8Q)](https://codecov.io/gh/ucsb-cs156-w22/team04-w22-7pm-HappyCows)
+[![codecov](https://codecov.io/gh/ucsb-cs156-w22/team04-w22-7pm-courses/branch/master/graph/badge.svg?token=SCO1wER1BQ)](https://codecov.io/gh/ucsb-cs156-w22/team04-w22-7pm-courses)
 
 Storybook is here:
 * Production: <https://ucsb-cs156-w22.github.io/team04-w22-7pm-courses-docs/>
