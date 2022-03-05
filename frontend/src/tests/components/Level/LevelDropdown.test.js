@@ -1,6 +1,6 @@
 import { render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import ManyLevelDropdown from "main/components/level/LevelDropdown"
+import leveldropdown from "main/components/level/LevelDropdown"
 
 
 jest.mock('react', ()=>({
@@ -23,7 +23,7 @@ describe("manyLevelDropdown tests", () => {
     const setLevel = jest.fn();
 
     test("renders without crashing on one level", () => {
-        render(<ManyLevelDropdown
+        render(<leveldropdown
             //quarters={quarterRange("20211", "20211")}
             level={level}
             setLevel={setLevel}
@@ -42,7 +42,7 @@ describe("manyLevelDropdown tests", () => {
 
     test("when I select an object, the value changes", async () => {
         const { getByLabelText } =
-            render(<ManyLevelDropdown
+            render(<leveldropdown
                 //quarters={quarterRange("20211", "20222")}
                 level={level}
                 setLevel={setLevel}
@@ -59,7 +59,7 @@ describe("manyLevelDropdown tests", () => {
     test("if I pass a non-null onChange, it gets called when the value changes", async () => {
         const onChange = jest.fn();
         const { getByLabelText } =
-            render(<ManyLevelDropdown
+            render(<leveldropdown
                 //quarters={quarterRange("20211", "20222")}
                 level={level}
                 setLevel={setLevel}
@@ -83,7 +83,7 @@ describe("manyLevelDropdown tests", () => {
 
     test("default label is Course Level", async () => {
         const { getByLabelText } =
-            render(<ManyLevelDropdown
+            render(<leveldropdown
                 //quarters={quarterRange("20211", "20222")}
                 level={level}
                 setLevel={setLevel}
