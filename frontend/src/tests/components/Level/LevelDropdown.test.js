@@ -27,7 +27,7 @@ describe("manyLevelDropdown tests", () => {
             //quarters={quarterRange("20211", "20211")}
             level={level}
             setLevel={setLevel}
-            //controlId="sqd1" //DUDE WHAT IS THIS LMAO
+            //controlId="sqd1" //DUDE WHAT IS THIS 
         />);
     });
 
@@ -50,6 +50,7 @@ describe("manyLevelDropdown tests", () => {
                 label="Course Level"
             />
             );
+        
         await waitFor(() => expect(getByLabelText("Course Level")).toBeInTheDocument);
         const selectLevel = getByLabelText("Course Level")
         userEvent.selectOptions(selectLevel, "GRAD");

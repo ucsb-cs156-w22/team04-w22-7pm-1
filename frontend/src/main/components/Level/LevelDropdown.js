@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Form } from 'react-bootstrap';
 
-const ManyLevelDropdown = ({ level, setLevel, onChange = null}) => {
+const leveldropdown = ({ level, setLevel, onChange = null}) => {
 
     // const localSearchLevel= localStorage.getItem(controlId);
 
@@ -42,7 +42,7 @@ const ManyLevelDropdown = ({ level, setLevel, onChange = null}) => {
         //probably need to change the "LevelDropdown.Level"
         <Form.Group controlId="LevelDropdown.Level">  
             <Form.Label>Course Level</Form.Label>
-            <Form.Control as="select" value={level} onChange={handleLevelOnChange} >
+            <Form.Control label = "Course Level" as="select" value={level} onChange={handleLevelOnChange} >
                 <option label = "UG-lower div" value="UG-lower div"></option>;
                 <option label = "UG-upper div" value="UG-upper div"></option>;
                 <option label = "GRAD" value="GRAD"></option>;
@@ -53,4 +53,4 @@ const ManyLevelDropdown = ({ level, setLevel, onChange = null}) => {
     );
 };
 
-export default ManyLevelDropdown;
+export default leveldropdown;
