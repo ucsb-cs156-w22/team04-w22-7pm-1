@@ -54,12 +54,14 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
                 .andExpect(status().is(403));
     }
 
+    /*
     @WithMockUser(roles = { "USER" })
     @Test
     public void personal_schedules_admin__user_logged_in() throws Exception {
         mockMvc.perform(get("/api/PersonalSchedules/admin?id=7"))
                 .andExpect(status().is(403));
     }
+    */
 
     @WithMockUser(roles = { "ADMIN", "USER" })
     @Test
