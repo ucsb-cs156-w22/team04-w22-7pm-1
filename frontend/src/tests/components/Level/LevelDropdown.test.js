@@ -1,6 +1,6 @@
 import { render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import leveldropdown from "main/components/level/LevelDropdown"
+import leveldropdown from "main/components/Level/LevelDropdown"
 
 
 jest.mock('react', ()=>({
