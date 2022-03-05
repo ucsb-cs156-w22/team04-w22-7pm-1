@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Form } from 'react-bootstrap';
 
-const LevelDropdown = ({ level, setLevel, onChange = null}) => {
+const ManyLevelDropdown = ({ level, setLevel, onChange = null}) => {
 
     // const localSearchLevel= localStorage.getItem(controlId);
 
@@ -53,4 +53,4 @@ const LevelDropdown = ({ level, setLevel, onChange = null}) => {
     );
 };
 
-export default LevelDropdown;
+export default ManyLevelDropdown;
