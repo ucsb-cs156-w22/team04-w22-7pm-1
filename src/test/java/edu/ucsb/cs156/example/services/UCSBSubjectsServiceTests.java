@@ -6,52 +6,42 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import org.junit.jupiter.api.Test;
 import edu.ucsb.cs156.example.ControllerTestCase;
 import edu.ucsb.cs156.example.entities.UCSBSubject;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.client.MockRestServiceServer;
+import org.springframework.web.client.HttpClientErrorException;
 
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
+
+@RestClientTest(UCSBSubjectsService.class)
 class UCSBSubjectsServiceTests extends ControllerTestCase {
 
-  
-  UCSBSubjectsService ucsbSubjectsService = new UCSBSubjectsService();
+  @Autowired
+  private MockRestServiceServer mockRestServiceServer;
+
+  @Autowired
+  private UCSBSubjectsService ucsbSubjectsService;
 
   @Test
-  void get_returns_a_list_of_subjects() {
-    // This is a temporary test case for the temporary code
+  void get_returns_a_list_of_subjects() throws HttpClientErrorException, JsonProcessingException {
+    String fakeJsonResult = "{ \"fake\" : \"result\" }";
+    String expectedURL = UCSBSubjectsService.ENDPOINT;
+    this.mockRestServiceServer.expect(requestTo(expectedURL))
+        .andExpect(header("Accept", MediaType.APPLICATION_JSON.toString()))
+        .andExpect(header("Content-Type", MediaType.APPLICATION_JSON.toString()))
+        .andRespond(withSuccess(fakeJsonResult, MediaType.APPLICATION_JSON));
 
-
-    UCSBSubject us1 = UCSBSubject.builder()
-        .subjectCode("ANTH")
-        .subjectTranslation("Anthropology")
-        .deptCode("ANTH")
-        .collegeCode("L&S")
-        .relatedDeptCode(null)
-        .inactive(false)
-        .build();
-
-    UCSBSubject us2 = UCSBSubject.builder()
-        .subjectCode("ART  CS")
-        .subjectTranslation("Art (Creative Studies)")
-        .deptCode("CRSTU")
-        .collegeCode("CRST")
-        .relatedDeptCode(null)
-        .inactive(false)
-        .build();
-
-    UCSBSubject us3 = UCSBSubject.builder()
-        .subjectCode("CH E")
-        .subjectTranslation("Chemical Engineering")
-        .deptCode("CNENG")
-        .collegeCode("ENGR")
-        .relatedDeptCode(null)
-        .inactive(false)
-        .build();
-
-    List<UCSBSubject> temporaryFakeList = new ArrayList<>();
-    temporaryFakeList.addAll(Arrays.asList(us1, us2, us3));
-    assertEquals(temporaryFakeList, ucsbSubjectsService.get());
-
+    List<UCSBSubject> actualResult = ucsbSubjectsService.get();
+    assertEquals(fakeJsonResult, actualResult);
   }
 
 }
