@@ -1,97 +1,39 @@
-import { render, waitFor } from "@testing-library/react";
+import { getByLabelText, getByTitle, render, waitFor} from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { MemoryRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
-import leveldropdown from "main/components/Level/LevelDropdown"
 
 
-jest.mock('react', ()=>({
-    ...jest.requireActual('react'),
-    useState: jest.fn()
-  }))
-import { useState } from 'react';
+import ManyLevelDropdown from "main/components/Level/LevelDropdown";
 
-describe("manyLevelDropdown tests", () => {
 
-    beforeEach(() => {
-        useState.mockImplementation(jest.requireActual('react').useState);
-    });
+describe("level dropdown tests", () => {
 
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
+    const queryClient = new QueryClient();
 
-    const level = jest.fn();
-    const setLevel = jest.fn();
+    test("The Dropdown is able to reassign values and operates", async () => {
 
-    test("renders without crashing on one level", () => {
-        render(<leveldropdown
-            //quarters={quarterRange("20211", "20211")}
-            level={level}
-            setLevel={setLevel}
-            //controlId="sqd1" //DUDE WHAT IS THIS 
-        />);
-    });
+        const {getByTestId  } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <ManyLevelDropdown />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
 
-    // test("renders without crashing on three quarters", () => {
-    //     render(<SingleQuarterDropdown
-    //         quarters={quarterRange("20214", "20222")}
-    //         quarter={quarter}
-    //         setQuarter={setQuarter}
-    //         controlId="sqd1"
-    //     />);
-    // });
+        await waitFor(() => expect(getByTestId("level-dropdown")).toBeInTheDocument());
+        //const dropdown = getByTestId("level-dropdown");
 
-    test("when I select an object, the value changes", async () => {
-        const { getByLabelText } =
-            render(<leveldropdown
-                //quarters={quarterRange("20211", "20222")}
-                level={level}
-                setLevel={setLevel}
-               // controlId="sqd1"        //WHAT ARE THESE TWO BELOW 
-                label="Course Level"
-            />
-            );
-        
-        await waitFor(() => expect(getByLabelText("Course Level")).toBeInTheDocument);
-        const selectLevel = getByLabelText("Course Level")
-        userEvent.selectOptions(selectLevel, "GRAD");
+        //const selectLevel = getByTitle("Course Level")
+        userEvent.selectOptions(getByTestId("level-dropdown"), "GRAD");
         expect(setLevel).toBeCalledWith("GRAD");
+
+        // const aElement = dropdown.querySelector("All");
+        // expect(aElement).toBeInTheDocument();
+        // aElement?.click();
+        // await waitFor( () => expect(getByTestId("level-dropdown")).toBeInTheDocument() );
+
     });
 
-    test("if I pass a non-null onChange, it gets called when the value changes", async () => {
-        const onChange = jest.fn();
-        const { getByLabelText } =
-            render(<leveldropdown
-                //quarters={quarterRange("20211", "20222")}
-                level={level}
-                setLevel={setLevel}
-                //controlId="sqd1"       //WHAT IS THIS 
-                label="Course Level"
-                onChange={onChange}
-            />
-            );
-        await waitFor(() => expect(getByLabelText("Course Level")).toBeInTheDocument);
-        const selectedLevel = getByLabelText("Course Level")
-        userEvent.selectOptions(selectedLevel, "GRAD");
-        await waitFor(() => expect(setLevel).toBeCalledWith("GRAD"));
-        await waitFor(() => expect(onChange).toBeCalledTimes(1));
-
-        // x.mock.calls[0][0] is the first argument of the first call to the jest.fn() mock x
-
-        //const event = onChange.mock.calls[0][0];    //How doe I change these(2) from quarter to match my dropdown. 
-        //console.log(onChange.mock.calls)
-        //expect(event.target.value).toBe("GRAD");
-    });
-
-    test("default label is Course Level", async () => {
-        const { getByLabelText } =
-            render(<leveldropdown
-                //quarters={quarterRange("20211", "20222")}
-                level={level}
-                setLevel={setLevel}
-                //controlId="sqd1" //WHAT IS THIS ??
-            />
-            );
-        await waitFor(() => expect(getByLabelText("Course Level")).toBeInTheDocument);
-    });
 
 });
