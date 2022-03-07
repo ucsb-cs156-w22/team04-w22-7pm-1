@@ -206,7 +206,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         when(repository.findByIdAndUser(eq(13L), eq(otherUser))).thenReturn(Optional.of(otherSchedule));
 
         // act
-        MvcResult response = mockMvc.perform(get("/api/PersonalSchedule?id=13"))
+        MvcResult response = mockMvc.perform(get("/api/PersonalSchedules?id=13"))
                 .andExpect(status().isNotFound()).andReturn();
 
         // assert
@@ -234,7 +234,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         when(repository.findById(eq(27L))).thenReturn(Optional.of(otherSchedule));
 
         // act
-        MvcResult response = mockMvc.perform(get("/api/PersonalSchedule/admin?id=27"))
+        MvcResult response = mockMvc.perform(get("/api/PersonalSchedules/admin?id=27"))
                 .andExpect(status().isOk()).andReturn();
 
         // assert
@@ -254,7 +254,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         when(repository.findById(eq(29L))).thenReturn(Optional.empty());
 
         // act
-        MvcResult response = mockMvc.perform(get("/api/PersonalSchedule/admin?id=29"))
+        MvcResult response = mockMvc.perform(get("/api/PersonalSchedules/admin?id=29"))
                 .andExpect(status().isNotFound()).andReturn();
 
         // assert
