@@ -37,6 +37,7 @@ public class PersonalSchedulesController extends ApiController{
     @Autowired
     PersonalScheduleRepository repository;
 
+    // GET (all) functions
     @ApiOperation(value = "List all personal schedules")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/admin/all")
@@ -54,7 +55,83 @@ public class PersonalSchedulesController extends ApiController{
         return schedules;
     }
 
+    // GET (single) functions
+
+    @ApiOperation(value = "Get a single schedule (if it belongs to current user)")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public PersonalSchedule getScheduleById(
+            @ApiParam("id") @RequestParam Long id) {
+        User currentUser = getCurrentUser().getUser();
+        PersonalSchedule schedule = repository.findByIdAndUser(id, currentUser)
+          .orElseThrow(() -> new EntityNotFoundException(PersonalSchedule.class, id));
+
+        return schedule;
+    }
+
+    @ApiOperation(value = "Get a single schedule (no matter who it belongs to, admin only)")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/admin")
+    public PersonalSchedule getScheduleById_admin(
+            @ApiParam("id") @RequestParam Long id) {
+        PersonalSchedule schedule = repository.findById(id)
+          .orElseThrow(() -> new EntityNotFoundException(PersonalSchedule.class, id));
+
+        return schedule;
+    }
     /* 
+
+    // POST 
+
+    @ApiOperation(value = "Create a new Todo")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("/post")
+    public Todo postTodo(
+            @ApiParam("title") @RequestParam String title,
+            @ApiParam("details") @RequestParam String details,
+            @ApiParam("done") @RequestParam Boolean done) {
+        CurrentUser currentUser = getCurrentUser();
+        log.info("currentUser={}", currentUser);
+
+        Todo todo = new Todo();
+        todo.setUser(currentUser.getUser());
+        todo.setTitle(title);
+        todo.setDetails(details);
+        todo.setDone(done);
+        Todo savedTodo = todoRepository.save(todo);
+        return savedTodo;
+    }
+
+    // DELETE functions
+
+    @ApiOperation(value = "Delete a Todo owned by this user")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @DeleteMapping("")
+    public Object deleteTodo(
+            @ApiParam("id") @RequestParam Long id) {
+        User currentUser = getCurrentUser().getUser();
+        Todo todo = todoRepository.findByIdAndUser(id, currentUser)
+          .orElseThrow(() -> new EntityNotFoundException(Todo.class, id));
+
+        todoRepository.delete(todo);
+
+        return genericMessage("Todo with id %s deleted".formatted(id));
+
+    }
+
+    @ApiOperation(value = "Delete another user's todo")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/admin")
+    public Object deleteTodo_Admin(
+            @ApiParam("id") @RequestParam Long id) {
+        Todo todo = todoRepository.findById(id)
+          .orElseThrow(() -> new EntityNotFoundException(Todo.class, id));
+
+        todoRepository.delete(todo);
+
+        return genericMessage("Todo with id %s deleted".formatted(id));
+    }
+
     // EDIT functions
     
     @ApiOperation(value = "Update a single schedule (if it belongs to current user)")
