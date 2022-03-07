@@ -79,28 +79,29 @@ public class PersonalSchedulesController extends ApiController{
 
         return schedule;
     }
-    /* 
 
     // POST 
 
-    @ApiOperation(value = "Create a new Todo")
+    @ApiOperation(value = "Create a new PersonalSchedule")
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/post")
-    public Todo postTodo(
-            @ApiParam("title") @RequestParam String title,
-            @ApiParam("details") @RequestParam String details,
-            @ApiParam("done") @RequestParam Boolean done) {
+    public PersonalSchedule postPersonalSchedule(
+            @ApiParam("name") @RequestParam String name,
+            @ApiParam("description") @RequestParam String description,
+            @ApiParam("quarter") @RequestParam String quarter) {
         CurrentUser currentUser = getCurrentUser();
         log.info("currentUser={}", currentUser);
 
-        Todo todo = new Todo();
-        todo.setUser(currentUser.getUser());
-        todo.setTitle(title);
-        todo.setDetails(details);
-        todo.setDone(done);
-        Todo savedTodo = todoRepository.save(todo);
-        return savedTodo;
+        PersonalSchedule schedule = new PersonalSchedule();
+        schedule.setUser(currentUser.getUser());
+        schedule.setName(name);
+        schedule.setDescription(description);
+        schedule.setQuarter(quarter);
+        PersonalSchedule savedSchedule = repository.save(schedule);
+        return savedSchedule;
     }
+
+    /* 
 
     // DELETE functions
 

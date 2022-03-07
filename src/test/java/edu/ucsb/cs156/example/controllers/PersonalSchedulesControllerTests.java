@@ -39,6 +39,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
     @MockBean
     UserRepository userRepo;
 
+    // _________________________________________________________________________________
     // Authorization tests for /api/PersonalSchedules/admin/all
 
     @Test
@@ -68,6 +69,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
                 .andExpect(status().isOk());
     }
 
+    // _________________________________________________________________________________
     // Authorization tests for /api/PersonalSchedules/all
 
     @Test
@@ -264,4 +266,41 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         assertEquals("EntityNotFoundException", json.get("type"));
         assertEquals("PersonalSchedule with id 29 not found", json.get("message"));
     }
+
+    // _________________________________________________________________________________
+    // Test for /api/PersonalSchedules/post
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void post_personal_schedule() throws Exception {
+        // arrange
+
+        User u = currentUserService.getCurrentUser().getUser();
+
+        PersonalSchedule expectedSchedule = PersonalSchedule.builder()
+                .name("Schedule 1")
+                .description("Schedule 1")
+                .quarter("Quarter 1")
+                .user(u)
+                .id(0L)
+                .build();
+
+        when(repo.save(eq(expectedSchedule))).thenReturn(expectedSchedule);
+
+        // act
+        MvcResult response = mockMvc.perform(
+                post("/api/PersonalSchedules/post?name=Schedule 1&description=Schedule 1&quarter=Quarter 1")
+                        .with(csrf()))
+                .andExpect(status().isOk()).andReturn();
+
+        // assert
+        verify(repo, times(1)).save(expectedSchedule);
+        String expectedJson = mapper.writeValueAsString(expectedSchedule);
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals(expectedJson, responseString);
+    }
+
+    // _________________________________________________________________________________
+    // Tests for /api/PersonalSchedules deleting
+    
 }
