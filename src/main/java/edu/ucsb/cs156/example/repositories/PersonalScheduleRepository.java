@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface PersonalScheduleRepository extends CrudRepository<PersonalSchedule, String>{
+public interface PersonalScheduleRepository extends CrudRepository<PersonalSchedule, Long>{
   Optional<PersonalSchedule> findByIdAndUser(long id, User user);
   Iterable<PersonalSchedule> findAllByUserId(Long user_id);
 }

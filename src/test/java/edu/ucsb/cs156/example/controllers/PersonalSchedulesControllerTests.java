@@ -156,7 +156,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
 
         User u = currentUserService.getCurrentUser().getUser();
         PersonalSchedule s1 = PersonalSchedule.builder().name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(u).id(7L).build();
-        when(repository.findByIdAndUser(eq(7L), eq(u))).thenReturn(Optional.of(s1));
+        when(repo.findByIdAndUser(eq(7L), eq(u))).thenReturn(Optional.of(s1));
 
         // act
         MvcResult response = mockMvc.perform(get("/api/PersonalSchedules?id=7"))
@@ -164,7 +164,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
 
         // assert
 
-        verify(repository, times(1)).findByIdAndUser(7L, u);
+        verify(repo, times(1)).findByIdAndUser(7L, u);
         String expectedJson = mapper.writeValueAsString(s1);
         String responseString = response.getResponse().getContentAsString();
         assertEquals(expectedJson, responseString);
@@ -178,7 +178,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
 
         User u = currentUserService.getCurrentUser().getUser();
 
-        when(repository.findByIdAndUser(eq(7L), eq(u))).thenReturn(Optional.empty());
+        when(repo.findByIdAndUser(eq(7L), eq(u))).thenReturn(Optional.empty());
 
         // act
         MvcResult response = mockMvc.perform(get("/api/PersonalSchedules?id=7"))
@@ -186,7 +186,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
 
         // assert
 
-        verify(repository, times(1)).findByIdAndUser(7L, u);
+        verify(repo, times(1)).findByIdAndUser(7L, u);
         Map<String, Object> json = responseToJson(response);
         assertEquals("EntityNotFoundException", json.get("type"));
         assertEquals("PersonalSchedule with id 7 not found", json.get("message"));
@@ -203,7 +203,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         PersonalSchedule otherSchedule = PersonalSchedule.builder()
                 .name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(otherUser).id(13L).build();
 
-        when(repository.findByIdAndUser(eq(13L), eq(otherUser))).thenReturn(Optional.of(otherSchedule));
+        when(repo.findByIdAndUser(eq(13L), eq(otherUser))).thenReturn(Optional.of(otherSchedule));
 
         // act
         MvcResult response = mockMvc.perform(get("/api/PersonalSchedules?id=13"))
@@ -211,7 +211,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
 
         // assert
 
-        verify(repository, times(1)).findByIdAndUser(13L, u);
+        verify(repo, times(1)).findByIdAndUser(13L, u);
         Map<String, Object> json = responseToJson(response);
         assertEquals("EntityNotFoundException", json.get("type"));
         assertEquals("PersonalSchedule with id 13 not found", json.get("message"));
@@ -231,7 +231,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         PersonalSchedule otherSchedule = PersonalSchedule.builder()
                 .name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(otherUser).id(27L).build();
 
-        when(repository.findById(eq(27L))).thenReturn(Optional.of(otherSchedule));
+        when(repo.findById(eq(27L))).thenReturn(Optional.of(otherSchedule));
 
         // act
         MvcResult response = mockMvc.perform(get("/api/PersonalSchedules/admin?id=27"))
@@ -239,7 +239,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
 
         // assert
 
-        verify(repository, times(1)).findById(27L);
+        verify(repo, times(1)).findById(27L);
         String expectedJson = mapper.writeValueAsString(otherSchedule);
         String responseString = response.getResponse().getContentAsString();
         assertEquals(expectedJson, responseString);
@@ -251,7 +251,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
 
         // arrange
 
-        when(repository.findById(eq(29L))).thenReturn(Optional.empty());
+        when(repo.findById(eq(29L))).thenReturn(Optional.empty());
 
         // act
         MvcResult response = mockMvc.perform(get("/api/PersonalSchedules/admin?id=29"))
@@ -259,7 +259,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
 
         // assert
 
-        verify(repository, times(1)).findById(29L);
+        verify(repo, times(1)).findById(29L);
         Map<String, Object> json = responseToJson(response);
         assertEquals("EntityNotFoundException", json.get("type"));
         assertEquals("PersonalSchedule with id 29 not found", json.get("message"));
