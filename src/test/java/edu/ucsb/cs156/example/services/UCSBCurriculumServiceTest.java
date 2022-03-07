@@ -1,4 +1,4 @@
-package edu.ucsb.courses.services;
+package edu.ucsb.cs156.example.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
