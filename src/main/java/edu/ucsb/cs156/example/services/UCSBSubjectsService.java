@@ -4,7 +4,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,16 +16,19 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 @Service("UCSBSubjects")
 public class UCSBSubjectsService {
 
+        @Autowired
+        ObjectMapper mapper = new ObjectMapper();
+
         @Value("${app.ucsb.api.consumer_key}")
         private String apiKey;
 
-        ObjectMapper mapper = new ObjectMapper();
+        public static final String ENDPOINT = "https://api.ucsb.edu/students/lookups/v1/subjects?includeInactive=false";
 
         private final RestTemplate restTemplate;
 
@@ -34,9 +36,8 @@ public class UCSBSubjectsService {
                 restTemplate = restTemplateBuilder.build();
         }
 
-        public static final String ENDPOINT = "https://api.ucsb.edu/students/lookups/v1/subjects?includeInactive=false";
+        public List<UCSBSubject> get() throws JsonProcessingException {
 
-        public String getJSON() throws HttpClientErrorException {
                 HttpHeaders headers = new HttpHeaders();
                 headers.setAccept(List.of(MediaType.APPLICATION_JSON));
                 headers.setContentType(MediaType.APPLICATION_JSON);
@@ -44,28 +45,13 @@ public class UCSBSubjectsService {
                 headers.set("ucsb-api-version", "1.0");
 
                 HttpEntity<String> entity = new HttpEntity<>(headers);
-
                 ResponseEntity<String> re = restTemplate.exchange(ENDPOINT, HttpMethod.GET, entity, String.class);
-                return re.getBody();
-                // List<UCSBSubject> fakeResult = mapper.readValue(re.getBody(), new
-                // TypeReference<List<UCSBSubject>>() {
-                // });
-        }
 
-        public List<UCSBSubject> get() throws JsonMappingException, JsonProcessingException {
-
-                String json = getJSON();
-                List<UCSBSubject> allSubjects = mapper.readValue(json, new TypeReference<List<UCSBSubject>>() {
-                });
-
-                // List<UCSBSubject> allSubjects = new ArrayList<UCSBSubject>();
-                // try {
-                // UCSBSubject[] subjects = mapper.readValue(json, UCSBSubject[].class);
-                // allSubjects = new ArrayList(Arrays.asList(subjects));
-                // } catch (Exception e) {
-                // e.printStackTrace();
-                // }
-                return allSubjects;
+                String UCSBSubjectJSON = re.getBody();
+                List<UCSBSubject> UCSBSubjectList = mapper.readValue(UCSBSubjectJSON,
+                                new TypeReference<List<UCSBSubject>>() {
+                                });
+                return UCSBSubjectList;
         }
 
 }
