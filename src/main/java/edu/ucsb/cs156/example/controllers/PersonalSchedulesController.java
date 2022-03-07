@@ -131,7 +131,6 @@ public class PersonalSchedulesController extends ApiController{
         return genericMessage("PersonalSchedule with id %s deleted".formatted(id));
     }
 
-    /* 
     // EDIT functions
     
     @ApiOperation(value = "Update a single schedule (if it belongs to current user)")
@@ -170,5 +169,4 @@ public class PersonalSchedulesController extends ApiController{
 
         return schedule;
     }
-    */
 }

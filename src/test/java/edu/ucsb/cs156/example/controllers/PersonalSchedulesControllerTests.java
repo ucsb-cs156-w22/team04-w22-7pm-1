@@ -301,7 +301,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
     }
 
     // _________________________________________________________________________________
-    // Tests for /api/PersonalSchedules deleting
+    // Tests for /api/PersonalSchedules DELETE
 
     @WithMockUser(roles = { "USER" })
     @Test
@@ -370,6 +370,8 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         assertEquals("PersonalSchedule with id 31 not found", json.get("message"));
     }
 
+    // _________________________________________________________________________________
+    // Tests for /api/PersonalSchedules/admin DELETE
 
     @WithMockUser(roles = { "ADMIN", "USER" })
     @Test
@@ -412,4 +414,175 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         Map<String, Object> output = responseToJson(response);
         assertEquals("PersonalSchedule with id 17 not found", output.get("message"));
     }
+
+    // _________________________________________________________________________________
+    // Tests for /api/PersonalSchedules PUT/EDIT
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void put_personal_schedule__user() throws Exception {
+        // arrange
+
+        User u = currentUserService.getCurrentUser().getUser();
+        User otherUser = User.builder().id(999).build();
+        PersonalSchedule s1 = PersonalSchedule.builder()
+            .name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(u).id(67L).build();
+        // We deliberately set the user information to another user
+        // This should get ignored and overwritten with current user when PersonalSchedule is saved
+
+        PersonalSchedule updatedSchedule = PersonalSchedule.builder()
+            .name("New Schedule").description("New Schedule").quarter("New Quarter").user(otherUser).id(67L).build();
+        PersonalSchedule correctSchedule = PersonalSchedule.builder()
+            .name("New Schedule").description("New Schedule").quarter("New Quarter").user(u).id(67L).build();
+
+        String requestBody = mapper.writeValueAsString(updatedSchedule);
+        String expectedReturn = mapper.writeValueAsString(correctSchedule);
+
+        when(repo.findByIdAndUser(eq(67L), eq(u))).thenReturn(Optional.of(s1));
+
+        // act
+        MvcResult response = mockMvc.perform(
+                put("/api/PersonalSchedules?id=67")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(requestBody)
+                        .with(csrf()))
+                .andExpect(status().isOk()).andReturn();
+
+        // assert
+        verify(repo, times(1)).findByIdAndUser(67L, u);
+        verify(repo, times(1)).save(correctSchedule); // should be saved with correct user
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals(expectedReturn, responseString);
+    }
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void put_personal_schedule_dne__user() throws Exception {
+        // arrange
+
+        User u = currentUserService.getCurrentUser().getUser();
+        PersonalSchedule updatedSchedule = PersonalSchedule.builder()
+            .name("New Schedule").description("New Schedule").quarter("New Quarter").id(67L).build();
+
+        String requestBody = mapper.writeValueAsString(updatedSchedule);
+
+        when(repo.findByIdAndUser(eq(67L), eq(u))).thenReturn(Optional.empty());
+
+        // act
+        MvcResult response = mockMvc.perform(
+                put("/api/PersonalSchedules?id=67")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(requestBody)
+                        .with(csrf()))
+                .andExpect(status().isNotFound()).andReturn();
+
+        // assert
+        verify(repo, times(1)).findByIdAndUser(67L, u);
+        Map<String, Object> output = responseToJson(response);
+        assertEquals("PersonalSchedule with id 67 not found", output.get("message"));
+    }
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void put_personal_schedule_diff_user__user() throws Exception {
+        // arrange
+
+        User u = currentUserService.getCurrentUser().getUser();
+        User otherUser = User.builder().id(98L).build();
+        PersonalSchedule s1 = PersonalSchedule.builder()
+            .name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(otherUser).id(31L).build();
+        PersonalSchedule updatedSchedule = PersonalSchedule.builder()
+            .name("New Schedule").description("New Schedule").quarter("New Quarter").id(31L).build();
+
+        when(repo.findByIdAndUser(eq(31L), eq(otherUser))).thenReturn(Optional.of(s1));
+
+        String requestBody = mapper.writeValueAsString(updatedSchedule);
+
+        // act
+        MvcResult response = mockMvc.perform(
+                put("/api/PersonalSchedules?id=31")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(requestBody)
+                        .with(csrf()))
+                .andExpect(status().isNotFound()).andReturn();
+
+        // assert
+        verify(repo, times(1)).findByIdAndUser(31L, u);
+        Map<String, Object> json = responseToJson(response);
+        assertEquals("EntityNotFoundException", json.get("type"));
+        assertEquals("PersonalSchedule with id 31 not found", json.get("message"));
+    }
+
+    // _________________________________________________________________________________
+    // Tests for /api/PersonalSchedules/admin PUT/EDIT
+
+    @WithMockUser(roles = { "ADMIN", "USER" })
+    @Test
+    public void put_personal_schedule__admin() throws Exception {
+        // arrange
+
+        User otherUser = User.builder().id(255L).build();
+        PersonalSchedule s1 = PersonalSchedule.builder()
+            .name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(otherUser).id(77L).build();
+        User yetAnotherUser = User.builder().id(512L).build();
+        // We deliberately put the wrong user on the updated todo
+        // We expect the controller to ignore this and keep the user the same
+        PersonalSchedule updatedSchedule = PersonalSchedule.builder()
+            .name("New Schedule").description("New Schedule").quarter("New Quarter").user(yetAnotherUser).id(77L).build();
+        PersonalSchedule correctSchedule = PersonalSchedule.builder()
+            .name("New Schedule").description("New Schedule").quarter("New Quarter").user(otherUser).id(77L).build();
+
+        String requestBody = mapper.writeValueAsString(updatedSchedule);
+        String expectedJson = mapper.writeValueAsString(correctSchedule);
+
+        when(repo.findById(eq(77L))).thenReturn(Optional.of(s1));
+
+        // act
+        MvcResult response = mockMvc.perform(
+                put("/api/PersonalSchedules/admin?id=77")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(requestBody)
+                        .with(csrf()))
+                .andExpect(status().isOk()).andReturn();
+
+        // assert
+        verify(repo, times(1)).findById(77L);
+        verify(repo, times(1)).save(correctSchedule);
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals(expectedJson, responseString);
+    }
+
+    @WithMockUser(roles = { "ADMIN", "USER" })
+    @Test
+    public void put_personal_schedules_dne__admin() throws Exception {
+        // arrange
+
+        User otherUser = User.builder().id(345L).build();
+        PersonalSchedule updatedSchedule = PersonalSchedule.builder()
+            .name("New Schedule").description("New Schedule").quarter("New Quarter").user(otherUser).id(77L).build();
+
+        String requestBody = mapper.writeValueAsString(updatedSchedule);
+
+        when(repo.findById(eq(77L))).thenReturn(Optional.empty());
+
+        // act
+        MvcResult response = mockMvc.perform(
+                put("/api/PersonalSchedules/admin?id=77")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(requestBody)
+                        .with(csrf()))
+                .andExpect(status().isNotFound()).andReturn();
+
+        // assert
+        verify(repo, times(1)).findById(77L);
+        Map<String, Object> json = responseToJson(response);
+        assertEquals("EntityNotFoundException", json.get("type"));
+        assertEquals("PersonalSchedule with id 77 not found", json.get("message"));
+    }
+
 }
