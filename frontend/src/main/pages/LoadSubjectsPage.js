@@ -6,6 +6,9 @@ import { toast } from 'react-toastify';
 import { useBackendMutation } from 'main/utils/useBackend';
 
 import { useBackend } from 'main/utils/useBackend';
+
+let subjectsCount = 0;
+
 const LoadSubjectsPage = () => {
   const {
     data: subjects,
@@ -13,7 +16,7 @@ const LoadSubjectsPage = () => {
     status: _status,
   } = useBackend(
     // Stryker disable next-line all : don't test internal caching of React Query
-    ['/api/admin/UCSBSubjects'],
+    ['/api/admin/UCSBSubjects/all'],
     { method: 'GET', url: '/api/admin/UCSBSubjects/all' },
     []
   );
@@ -24,7 +27,12 @@ const LoadSubjectsPage = () => {
   });
 
   const onSuccess = (subjects) => {
-    toast(`${subjects.length} subjects loaded`);
+    if (subjectsCount === subjects.length) {
+      toast('No new subjects were loaded');
+    } else {
+      toast.success(`${subjects.length} subjects loaded`);
+      subjectsCount = subjects.length;
+    }
   };
   const postMutation = useBackendMutation(
     objectToAxiosParams,
