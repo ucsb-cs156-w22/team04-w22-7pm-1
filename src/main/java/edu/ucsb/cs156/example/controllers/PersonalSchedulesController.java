@@ -21,12 +21,16 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.Valid;
+import java.util.Optional;
 
 @Slf4j
 @Api(description = "API to handle CRUD operations for Personal Schedule database")
@@ -145,7 +149,7 @@ public class PersonalSchedulesController extends ApiController{
 
         schedule.setName(incomingSchedule.getName());
         schedule.setDescription(incomingSchedule.getDescription());
-        schedule.setQuarter(incomingSchedule.isQuarter());
+        schedule.setQuarter(incomingSchedule.getQuarter());
 
         repository.save(schedule);
 
@@ -158,12 +162,12 @@ public class PersonalSchedulesController extends ApiController{
     public PersonalSchedule putScheduleById_admin(
             @ApiParam("id") @RequestParam Long id,
             @RequestBody @Valid PersonalSchedule incomingSchedule) {
-        PersonalSchedule schedule = todoRepository.findById(id)
+        PersonalSchedule schedule = repository.findById(id)
           .orElseThrow(() -> new EntityNotFoundException(PersonalSchedule.class, id));
 
         schedule.setName(incomingSchedule.getName());
         schedule.setDescription(incomingSchedule.getDescription());
-        schedule.setQuarter(incomingSchedule.isQuarter());
+        schedule.setQuarter(incomingSchedule.getQuarter());
 
         repository.save(schedule);
 
