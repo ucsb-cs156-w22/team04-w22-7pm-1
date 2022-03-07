@@ -28,5 +28,23 @@ describe("level dropdown tests", () => {
         await waitFor(() => expect(onChange).toBeCalledTimes(1));
     });
 
+    test("Defaul value for onChange works properly", async () => {
+
+        const {getByTestId  } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <ManyLevelDropdown setLevel = {setLevel}/>
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        await waitFor(() => expect(getByTestId("level-dropdown")).toBeInTheDocument());
+
+        userEvent.selectOptions(getByTestId("level-dropdown"), "GRAD");
+
+        await waitFor(() => expect(setLevel).toBeCalledWith("GRAD"));
+        
+    });
+
 
 });
