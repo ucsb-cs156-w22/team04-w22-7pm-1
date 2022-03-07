@@ -101,38 +101,37 @@ public class PersonalSchedulesController extends ApiController{
         return savedSchedule;
     }
 
-    /* 
-
     // DELETE functions
 
-    @ApiOperation(value = "Delete a Todo owned by this user")
+    @ApiOperation(value = "Delete a PersonalSchedule owned by this user")
     @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("")
-    public Object deleteTodo(
+    public Object deleteSchedule(
             @ApiParam("id") @RequestParam Long id) {
         User currentUser = getCurrentUser().getUser();
-        Todo todo = todoRepository.findByIdAndUser(id, currentUser)
-          .orElseThrow(() -> new EntityNotFoundException(Todo.class, id));
+        PersonalSchedule schedule = repository.findByIdAndUser(id, currentUser)
+          .orElseThrow(() -> new EntityNotFoundException(PersonalSchedule.class, id));
 
-        todoRepository.delete(todo);
+        repository.delete(schedule);
 
-        return genericMessage("Todo with id %s deleted".formatted(id));
+        return genericMessage("PersonalSchedule with id %s deleted".formatted(id));
 
     }
 
-    @ApiOperation(value = "Delete another user's todo")
+    @ApiOperation(value = "Delete another user's PersonalSchedule")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/admin")
-    public Object deleteTodo_Admin(
+    public Object deleteSchedule_Admin(
             @ApiParam("id") @RequestParam Long id) {
-        Todo todo = todoRepository.findById(id)
-          .orElseThrow(() -> new EntityNotFoundException(Todo.class, id));
+        PersonalSchedule schedule = repository.findById(id)
+          .orElseThrow(() -> new EntityNotFoundException(PersonalSchedule.class, id));
 
-        todoRepository.delete(todo);
+        repository.delete(schedule);
 
-        return genericMessage("Todo with id %s deleted".formatted(id));
+        return genericMessage("PersonalSchedule with id %s deleted".formatted(id));
     }
 
+    /* 
     // EDIT functions
     
     @ApiOperation(value = "Update a single schedule (if it belongs to current user)")

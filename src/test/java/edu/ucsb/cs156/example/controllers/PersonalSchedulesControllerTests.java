@@ -302,5 +302,114 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
 
     // _________________________________________________________________________________
     // Tests for /api/PersonalSchedules deleting
-    
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void delete_personal_schedule__user() throws Exception {
+        // arrange
+
+        User u = currentUserService.getCurrentUser().getUser();
+        PersonalSchedule s1 = PersonalSchedule.builder().name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(u).id(15L).build();
+        when(repo.findByIdAndUser(eq(15L), eq(u))).thenReturn(Optional.of(s1));
+
+        // act
+        MvcResult response = mockMvc.perform(
+                delete("/api/PersonalSchedules?id=15")
+                        .with(csrf()))
+                .andExpect(status().isOk()).andReturn();
+
+        // assert
+        verify(repo, times(1)).findByIdAndUser(15L, u);
+        verify(repo, times(1)).delete(s1);
+        Map<String, Object> json = responseToJson(response);
+        assertEquals("PersonalSchedule with id 15 deleted", json.get("message"));
+    }
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void delete_personal_schedule_dne__user() throws Exception {
+        // arrange
+
+        User u = currentUserService.getCurrentUser().getUser();
+        User otherUser = User.builder().id(98L).build();
+        PersonalSchedule s1 = PersonalSchedule.builder()
+            .name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(otherUser).id(15L).build();
+        when(repo.findByIdAndUser(eq(15L), eq(otherUser))).thenReturn(Optional.of(s1));
+
+        // act
+        MvcResult response = mockMvc.perform(
+                delete("/api/PersonalSchedules?id=15")
+                        .with(csrf()))
+                .andExpect(status().isNotFound()).andReturn();
+
+        // assert
+        verify(repo, times(1)).findByIdAndUser(15L, u);
+        Map<String, Object> json = responseToJson(response);
+        assertEquals("PersonalSchedule with id 15 not found", json.get("message"));
+    }
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void delete_diff_user_personal_schedule__user() throws Exception {
+        // arrange
+        User u = currentUserService.getCurrentUser().getUser();
+        User otherUser = User.builder().id(98L).build();
+        PersonalSchedule s1 = PersonalSchedule.builder()
+            .name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(otherUser).id(31L).build();
+        when(repo.findById(eq(31L))).thenReturn(Optional.of(s1));
+
+        // act
+        MvcResult response = mockMvc.perform(
+                delete("/api/PersonalSchedules?id=31")
+                        .with(csrf()))
+                .andExpect(status().isNotFound()).andReturn();
+
+        // assert
+        verify(repo, times(1)).findByIdAndUser(31L, u);
+        Map<String, Object> json = responseToJson(response);
+        assertEquals("PersonalSchedule with id 31 not found", json.get("message"));
+    }
+
+
+    @WithMockUser(roles = { "ADMIN", "USER" })
+    @Test
+    public void delete_personal_schedule__admin() throws Exception {
+        // arrange
+
+        User otherUser = User.builder().id(98L).build();
+        PersonalSchedule s1 = PersonalSchedule.builder()
+            .name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(otherUser).id(16L).build();
+        when(repo.findById(eq(16L))).thenReturn(Optional.of(s1));
+
+        // act
+        MvcResult response = mockMvc.perform(
+                delete("/api/PersonalSchedules/admin?id=16")
+                        .with(csrf()))
+                .andExpect(status().isOk()).andReturn();
+
+        // assert
+        verify(repo, times(1)).findById(16L);
+        verify(repo, times(1)).delete(s1);
+        Map<String, Object> output = responseToJson(response);
+        assertEquals("PersonalSchedule with id 16 deleted", output.get("message"));
+    }
+
+    @WithMockUser(roles = { "ADMIN", "USER" })
+    @Test
+    public void delete_personal_schedule_dne__admin() throws Exception {
+        // arrange
+
+        when(repo.findById(eq(17L))).thenReturn(Optional.empty());
+
+        // act
+        MvcResult response = mockMvc.perform(
+                delete("/api/PersonalSchedules/admin?id=17")
+                        .with(csrf()))
+                .andExpect(status().isNotFound()).andReturn();
+
+        // assert
+        verify(repo, times(1)).findById(17L);
+        Map<String, Object> output = responseToJson(response);
+        assertEquals("PersonalSchedule with id 17 not found", output.get("message"));
+    }
 }
