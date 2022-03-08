@@ -97,9 +97,12 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         User u2 = User.builder().id(2L).build();
         User u = currentUserService.getCurrentUser().getUser();
 
-        PersonalSchedule s1 = PersonalSchedule.builder().name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(u1).id(1L).build();
-        PersonalSchedule s2 = PersonalSchedule.builder().name("Schedule 2").description("Schedule 2").quarter("Quarter 2").user(u2).id(2L).build();
-        PersonalSchedule s3 = PersonalSchedule.builder().name("Schedule 3").description("Schedule 3").quarter("Quarter 3").user(u).id(3L).build();
+        PersonalSchedule s1 = PersonalSchedule.builder()
+            .name("Schedule 1").description("Schedule 1").quarterYYYYQ("20221").user(u1).id(1L).build();
+        PersonalSchedule s2 = PersonalSchedule.builder()
+            .name("Schedule 2").description("Schedule 2").quarterYYYYQ("20222").user(u2).id(2L).build();
+        PersonalSchedule s3 = PersonalSchedule.builder()
+            .name("Schedule 3").description("Schedule 3").quarterYYYYQ("20223").user(u).id(3L).build();
 
         ArrayList<PersonalSchedule> expected = new ArrayList<>();
         expected.addAll(Arrays.asList(s1, s2, s3));
@@ -129,8 +132,10 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
 
         User thisUser = currentUserService.getCurrentUser().getUser();
 
-        PersonalSchedule s1 = PersonalSchedule.builder().name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(thisUser).id(1L).build();
-        PersonalSchedule s2 = PersonalSchedule.builder().name("Schedule 2").description("Schedule 2").quarter("Quarter 2").user(thisUser).id(2L).build();
+        PersonalSchedule s1 = PersonalSchedule.builder()
+            .name("Schedule 1").description("Schedule 1").quarterYYYYQ("20221").user(thisUser).id(1L).build();
+        PersonalSchedule s2 = PersonalSchedule.builder()
+            .name("Schedule 2").description("Schedule 2").quarterYYYYQ("20222").user(thisUser).id(2L).build();
         ArrayList<PersonalSchedule> expected = new ArrayList<>();
         expected.addAll(Arrays.asList(s1, s2));
         when(repo.findAllByUserId(thisUser.getId())).thenReturn(expected);
@@ -157,7 +162,8 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         // arrange
 
         User u = currentUserService.getCurrentUser().getUser();
-        PersonalSchedule s1 = PersonalSchedule.builder().name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(u).id(7L).build();
+        PersonalSchedule s1 = PersonalSchedule.builder()
+            .name("Schedule 1").description("Schedule 1").quarterYYYYQ("20221").user(u).id(7L).build();
         when(repo.findByIdAndUser(eq(7L), eq(u))).thenReturn(Optional.of(s1));
 
         // act
@@ -203,7 +209,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         User u = currentUserService.getCurrentUser().getUser();
         User otherUser = User.builder().id(999L).build();
         PersonalSchedule otherSchedule = PersonalSchedule.builder()
-                .name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(otherUser).id(13L).build();
+                .name("Schedule 1").description("Schedule 1").quarterYYYYQ("20231").user(otherUser).id(13L).build();
 
         when(repo.findByIdAndUser(eq(13L), eq(otherUser))).thenReturn(Optional.of(otherSchedule));
 
@@ -231,7 +237,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         User u = currentUserService.getCurrentUser().getUser();
         User otherUser = User.builder().id(999L).build();
         PersonalSchedule otherSchedule = PersonalSchedule.builder()
-                .name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(otherUser).id(27L).build();
+                .name("Schedule 1").description("Schedule 1").quarterYYYYQ("20231").user(otherUser).id(27L).build();
 
         when(repo.findById(eq(27L))).thenReturn(Optional.of(otherSchedule));
 
@@ -280,7 +286,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         PersonalSchedule expectedSchedule = PersonalSchedule.builder()
                 .name("Schedule 1")
                 .description("Schedule 1")
-                .quarter("Quarter 1")
+                .quarterYYYYQ("20211")
                 .user(u)
                 .id(0L)
                 .build();
@@ -289,7 +295,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
 
         // act
         MvcResult response = mockMvc.perform(
-                post("/api/PersonalSchedules/post?name=Schedule 1&description=Schedule 1&quarter=Quarter 1")
+                post("/api/PersonalSchedules/post?name=Schedule 1&description=Schedule 1&quarterYYYYQ=20211")
                         .with(csrf()))
                 .andExpect(status().isOk()).andReturn();
 
@@ -309,7 +315,8 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         // arrange
 
         User u = currentUserService.getCurrentUser().getUser();
-        PersonalSchedule s1 = PersonalSchedule.builder().name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(u).id(15L).build();
+        PersonalSchedule s1 = PersonalSchedule.builder()
+            .name("Schedule 1").description("Schedule 1").quarterYYYYQ("20221").user(u).id(15L).build();
         when(repo.findByIdAndUser(eq(15L), eq(u))).thenReturn(Optional.of(s1));
 
         // act
@@ -333,7 +340,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         User u = currentUserService.getCurrentUser().getUser();
         User otherUser = User.builder().id(98L).build();
         PersonalSchedule s1 = PersonalSchedule.builder()
-            .name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(otherUser).id(15L).build();
+            .name("Schedule 1").description("Schedule 1").quarterYYYYQ("20231").user(otherUser).id(15L).build();
         when(repo.findByIdAndUser(eq(15L), eq(otherUser))).thenReturn(Optional.of(s1));
 
         // act
@@ -355,7 +362,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         User u = currentUserService.getCurrentUser().getUser();
         User otherUser = User.builder().id(98L).build();
         PersonalSchedule s1 = PersonalSchedule.builder()
-            .name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(otherUser).id(31L).build();
+            .name("Schedule 1").description("Schedule 1").quarterYYYYQ("20211").user(otherUser).id(31L).build();
         when(repo.findById(eq(31L))).thenReturn(Optional.of(s1));
 
         // act
@@ -380,7 +387,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
 
         User otherUser = User.builder().id(98L).build();
         PersonalSchedule s1 = PersonalSchedule.builder()
-            .name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(otherUser).id(16L).build();
+            .name("Schedule 1").description("Schedule 1").quarterYYYYQ("20221").user(otherUser).id(16L).build();
         when(repo.findById(eq(16L))).thenReturn(Optional.of(s1));
 
         // act
@@ -426,14 +433,14 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         User u = currentUserService.getCurrentUser().getUser();
         User otherUser = User.builder().id(999).build();
         PersonalSchedule s1 = PersonalSchedule.builder()
-            .name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(u).id(67L).build();
+            .name("Schedule 1").description("Schedule 1").quarterYYYYQ("20201").user(u).id(67L).build();
         // We deliberately set the user information to another user
         // This should get ignored and overwritten with current user when PersonalSchedule is saved
 
         PersonalSchedule updatedSchedule = PersonalSchedule.builder()
-            .name("New Schedule").description("New Schedule").quarter("New Quarter").user(otherUser).id(67L).build();
+            .name("New Schedule").description("New Schedule").quarterYYYYQ("20221").user(otherUser).id(67L).build();
         PersonalSchedule correctSchedule = PersonalSchedule.builder()
-            .name("New Schedule").description("New Schedule").quarter("New Quarter").user(u).id(67L).build();
+            .name("New Schedule").description("New Schedule").quarterYYYYQ("20221").user(u).id(67L).build();
 
         String requestBody = mapper.writeValueAsString(updatedSchedule);
         String expectedReturn = mapper.writeValueAsString(correctSchedule);
@@ -463,7 +470,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
 
         User u = currentUserService.getCurrentUser().getUser();
         PersonalSchedule updatedSchedule = PersonalSchedule.builder()
-            .name("New Schedule").description("New Schedule").quarter("New Quarter").id(67L).build();
+            .name("New Schedule").description("New Schedule").quarterYYYYQ("20223").id(67L).build();
 
         String requestBody = mapper.writeValueAsString(updatedSchedule);
 
@@ -492,9 +499,9 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
         User u = currentUserService.getCurrentUser().getUser();
         User otherUser = User.builder().id(98L).build();
         PersonalSchedule s1 = PersonalSchedule.builder()
-            .name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(otherUser).id(31L).build();
+            .name("Schedule 1").description("Schedule 1").quarterYYYYQ("20214").user(otherUser).id(31L).build();
         PersonalSchedule updatedSchedule = PersonalSchedule.builder()
-            .name("New Schedule").description("New Schedule").quarter("New Quarter").id(31L).build();
+            .name("New Schedule").description("New Schedule").quarterYYYYQ("20224").id(31L).build();
 
         when(repo.findByIdAndUser(eq(31L), eq(otherUser))).thenReturn(Optional.of(s1));
 
@@ -526,14 +533,14 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
 
         User otherUser = User.builder().id(255L).build();
         PersonalSchedule s1 = PersonalSchedule.builder()
-            .name("Schedule 1").description("Schedule 1").quarter("Quarter 1").user(otherUser).id(77L).build();
+            .name("Schedule 1").description("Schedule 1").quarterYYYYQ("20221").user(otherUser).id(77L).build();
         User yetAnotherUser = User.builder().id(512L).build();
-        // We deliberately put the wrong user on the updated todo
+        // We deliberately put the wrong user on the updated schedule
         // We expect the controller to ignore this and keep the user the same
         PersonalSchedule updatedSchedule = PersonalSchedule.builder()
-            .name("New Schedule").description("New Schedule").quarter("New Quarter").user(yetAnotherUser).id(77L).build();
+            .name("New Schedule").description("New Schedule").quarterYYYYQ("20212").user(yetAnotherUser).id(77L).build();
         PersonalSchedule correctSchedule = PersonalSchedule.builder()
-            .name("New Schedule").description("New Schedule").quarter("New Quarter").user(otherUser).id(77L).build();
+            .name("New Schedule").description("New Schedule").quarterYYYYQ("20212").user(otherUser).id(77L).build();
 
         String requestBody = mapper.writeValueAsString(updatedSchedule);
         String expectedJson = mapper.writeValueAsString(correctSchedule);
@@ -563,7 +570,7 @@ public class PersonalSchedulesControllerTests extends ControllerTestCase {
 
         User otherUser = User.builder().id(345L).build();
         PersonalSchedule updatedSchedule = PersonalSchedule.builder()
-            .name("New Schedule").description("New Schedule").quarter("New Quarter").user(otherUser).id(77L).build();
+            .name("New Schedule").description("New Schedule").quarterYYYYQ("20222").user(otherUser).id(77L).build();
 
         String requestBody = mapper.writeValueAsString(updatedSchedule);
 

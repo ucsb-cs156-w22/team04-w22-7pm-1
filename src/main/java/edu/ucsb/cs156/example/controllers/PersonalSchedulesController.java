@@ -92,7 +92,7 @@ public class PersonalSchedulesController extends ApiController{
     public PersonalSchedule postPersonalSchedule(
             @ApiParam("name") @RequestParam String name,
             @ApiParam("description") @RequestParam String description,
-            @ApiParam("quarter") @RequestParam String quarter) {
+            @ApiParam("quarterYYYYQ") @RequestParam String quarterYYYYQ) {
         CurrentUser currentUser = getCurrentUser();
         log.info("currentUser={}", currentUser);
 
@@ -100,7 +100,7 @@ public class PersonalSchedulesController extends ApiController{
         schedule.setUser(currentUser.getUser());
         schedule.setName(name);
         schedule.setDescription(description);
-        schedule.setQuarter(quarter);
+        schedule.setQuarterYYYYQ(quarterYYYYQ);
         PersonalSchedule savedSchedule = repository.save(schedule);
         return savedSchedule;
     }
@@ -149,7 +149,7 @@ public class PersonalSchedulesController extends ApiController{
 
         schedule.setName(incomingSchedule.getName());
         schedule.setDescription(incomingSchedule.getDescription());
-        schedule.setQuarter(incomingSchedule.getQuarter());
+        schedule.setQuarterYYYYQ(incomingSchedule.getQuarterYYYYQ());
 
         repository.save(schedule);
 
@@ -167,7 +167,7 @@ public class PersonalSchedulesController extends ApiController{
 
         schedule.setName(incomingSchedule.getName());
         schedule.setDescription(incomingSchedule.getDescription());
-        schedule.setQuarter(incomingSchedule.getQuarter());
+        schedule.setQuarterYYYYQ(incomingSchedule.getQuarterYYYYQ());
 
         repository.save(schedule);
 
