@@ -30,7 +30,7 @@ const LoadSubjectsPage = () => {
     if (subjectsCount === subjects.length) {
       toast('No new subjects were loaded');
     } else {
-      toast.success(`${subjects.length} subjects loaded`);
+      toast(`${subjects.length} subjects loaded`);
       subjectsCount = subjects.length;
     }
   };
@@ -49,7 +49,7 @@ const LoadSubjectsPage = () => {
 
   return (
     <BasicLayout>
-      <h2>Load Subjects</h2>
+      <h2>Subjects</h2>
       <LoadSubjectsTable subjects={subjects} />
       <Button
         variant="primary"
