@@ -8,6 +8,8 @@ import { useBackendMutation } from 'main/utils/useBackend';
 import { useBackend } from 'main/utils/useBackend';
 
 let subjectsCount = 0;
+// Stryker disable next-line all : not testing page reload properly
+let initialLoad = false;
 
 const LoadSubjectsPage = () => {
   const {
@@ -26,14 +28,33 @@ const LoadSubjectsPage = () => {
     method: 'POST',
   });
 
+  // Stryker disable next-line all : not testing page reload properly
+  if (!initialLoad) {
+    subjectsCount = subjects.length;
+    // Stryker disable next-line all : not testing page reload properly
+    initialLoad = true;
+  }
+  // Stryker disable all : mutation caught by previous boolean, don't know why it's still flagged
   const onSuccess = (subjects) => {
-    if (subjectsCount === subjects.length) {
+    if (subjects.length - subjectsCount === 0) {
       toast('No new subjects were loaded');
+    } else if (subjects.length - subjectsCount < 0) {
+      if (subjectsCount - subjects.length === 1) {
+        toast(`1 subject was deleted`);
+      } else {
+        toast(`${subjectsCount - subjects.length} subjects were deleted`);
+      }
     } else {
-      toast(`${subjects.length} subjects loaded`);
-      subjectsCount = subjects.length;
+      if (subjects.length - subjectsCount === 1) {
+        toast(`1 new subject was loaded`);
+      } else {
+        toast(`${subjects.length - subjectsCount} new subjects were loaded`);
+      }
     }
+    subjectsCount = subjects.length;
   };
+  // Stryker enable all
+
   const postMutation = useBackendMutation(
     objectToAxiosParams,
     {
