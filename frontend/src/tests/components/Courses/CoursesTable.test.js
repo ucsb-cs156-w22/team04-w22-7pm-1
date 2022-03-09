@@ -13,7 +13,7 @@ jest.mock('react-router-dom', () => ({
     useNavigate: () => mockedNavigate
 }));
 
-describe("UserTable tests", () => {
+describe("CoursesTable tests", () => {
   const queryClient = new QueryClient();
 
 
@@ -83,6 +83,38 @@ describe("UserTable tests", () => {
     });
 
 
+  });
+  test("Has the expected colum headers and content for adminUser with longer text", () => {
+
+    const currentUser = currentUserFixtures.adminUser;
+
+    const { getByText, queryByText,getByTestId } = render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <CoursesTable courses={coursesFixtures.oneCoursesLongDescription} currentUser={currentUser} />
+        </MemoryRouter>
+      </QueryClientProvider>
+
+    );
+
+    const expectedHeaders = ["quarter", "courseId", "title", "description","objLevelCode","subjectArea","unitsFixed"];
+    const expectedFields = ["quarter", "courseId", "title", "description","objLevelCode","subjectArea","unitsFixed"];
+    const testId = "CoursesTable";
+
+    expectedHeaders.forEach((headerText) => {
+      const header = getByText(headerText);
+      expect(header).toBeInTheDocument();
+    });
+
+    expectedFields.forEach((field) => {
+      const header = getByTestId(`${testId}-cell-row-0-col-${field}`);
+      expect(header).toBeInTheDocument();
+      
+    });
+    const description = queryByText(coursesFixtures.oneCoursesLongDescription[0].description);
+    expect(description).not.toBeInTheDocument();
+    const descriptionShort = getByText(coursesFixtures.oneCoursesLongDescription[0].description.substr(0,150));
+    expect(descriptionShort).toBeInTheDocument();
   });
 
 });

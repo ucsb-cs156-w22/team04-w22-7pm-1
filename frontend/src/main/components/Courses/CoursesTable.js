@@ -1,8 +1,18 @@
 import React from "react";
-import OurTable from "main/components/OurTable";
+import OurTable, { ButtonColumn } from "main/components/OurTable";
+
 
 
 export default function  CoursesTable({  courses, currentUser }) {
+
+   const limitText = ({value})=>{
+ 
+          if(value.length >=150){
+            return value.substr(0,150);
+          }
+          return value;
+           
+    };
 
     const columns = [
         {
@@ -22,6 +32,8 @@ export default function  CoursesTable({  courses, currentUser }) {
         {
             Header: 'description',
             accessor: 'description',
+            Cell:limitText,
+
            
         },
         {
@@ -40,6 +52,7 @@ export default function  CoursesTable({  courses, currentUser }) {
            
         }
     ];
+
 
     // Stryker disable ArrayDeclaration : [columns] and [students] are performance optimization; mutation preserves correctness
     const memoizedColumns = React.useMemo(() => columns, [columns]);
