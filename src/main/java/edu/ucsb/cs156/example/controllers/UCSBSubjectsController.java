@@ -29,7 +29,7 @@ import java.util.List;
 
 @Slf4j
 @Api(description = "API to handle CRUD operations for UCSB Subjects database")
-@RequestMapping("/api/UCSBSubjects")
+@RequestMapping("/api/admin/UCSBSubjects")
 @RestController
 public class UCSBSubjectsController extends ApiController {
     @Autowired
