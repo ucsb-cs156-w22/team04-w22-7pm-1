@@ -22,7 +22,7 @@ public class PersonalSchedule {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-  // This establishes that many todos can belong to one user
+  // This establishes that many PersonalSchedules can belong to one user
   // Only the user_id is stored in the table, and through it we
   // can access the user's details
 
