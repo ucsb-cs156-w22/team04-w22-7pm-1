@@ -158,12 +158,12 @@ describe("SingleSubjectSelector tests", () => {
     test("sorts based on subjectCode", async () => {
         const { getByText } =
             render(<SingleSubjectDropdown
-                subjects={outOfOrderSubjects}
+                subjects={subjectFixtures.wrongSubjectsOrder}
                 subject={subject}
                 setSubject={setSubject}
                 controlId="ssd1"
             />);
-        await waitFor(() => expect(getByText("Subject Area")).toBeInTheDocument);
+        await waitFor(() => expect(getByText("Subject")).toBeInTheDocument);
         expect(getByText("ANTH - Anthropology")).toHaveAttribute("data-testid", "ssd1-option-0");
     });
 
