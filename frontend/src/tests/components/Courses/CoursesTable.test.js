@@ -80,7 +80,16 @@ describe("CoursesTable tests", () => {
     expectedFields.forEach((field) => {
       const header = getByTestId(`${testId}-cell-row-0-col-${field}`);
       expect(header).toBeInTheDocument();
+      expect(getByTestId(`${testId}-cell-row-0-col-quarter`)).toHaveTextContent("20222");
+      expect(getByTestId(`${testId}-cell-row-0-col-courseId`)).toHaveTextContent("ANTH 2");
+      expect(getByTestId(`${testId}-cell-row-0-col-title`)).toHaveTextContent("INTRO CULT ANTHRO");
+      expect(getByTestId(`${testId}-cell-row-0-col-description`)).toHaveTextContent("The nature of culture: survey of the range of cultural phenomena.");
+      expect(getByTestId(`${testId}-cell-row-0-col-objLevelCode`)).toHaveTextContent("U");
+      expect(getByTestId(`${testId}-cell-row-0-col-subjectArea`)).toHaveTextContent("ANTH");
+      expect(getByTestId(`${testId}-cell-row-0-col-unitsFixed`)).toHaveTextContent(4);
     });
+
+    
 
 
   });
@@ -115,8 +124,19 @@ describe("CoursesTable tests", () => {
     expect(description).not.toBeInTheDocument();
     const descriptionShort = getByText(coursesFixtures.oneCoursesLongDescription[0].description.substr(0,150));
     expect(descriptionShort).toBeInTheDocument();
+    expect(getByTestId(`${testId}-cell-row-0-col-quarter`)).toHaveTextContent("20222");
+    expect(getByTestId(`${testId}-cell-row-0-col-courseId`)).toHaveTextContent("ANTH 2");
+    expect(getByTestId(`${testId}-cell-row-0-col-title`)).toHaveTextContent("INTRO CULT ANTHRO");
+    expect(getByTestId(`${testId}-cell-row-0-col-description`)).toHaveTextContent("The nature of culture: survey of the range of cultural phenomena, including material culture, social organization, religion, and other topics.he natur");
+    expect(getByTestId(`${testId}-cell-row-0-col-objLevelCode`)).toHaveTextContent("U");
+    expect(getByTestId(`${testId}-cell-row-0-col-subjectArea`)).toHaveTextContent("ANTH");
+    expect(getByTestId(`${testId}-cell-row-0-col-unitsFixed`)).toHaveTextContent(4);  
   });
 
+  
+
 });
+
+
 
 

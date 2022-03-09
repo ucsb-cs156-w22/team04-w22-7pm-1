@@ -7,10 +7,10 @@ export default function  CoursesTable({  courses, currentUser }) {
 
    const limitText = ({value})=>{
  
-          if(value.length >=150){
+          
             return value.substr(0,150);
-          }
-          return value;
+          
+          
            
     };
 

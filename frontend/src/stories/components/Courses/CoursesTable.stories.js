@@ -23,6 +23,6 @@ Empty.args = {
 export const oneCourses = Template.bind({});
 
 oneCourses.args = {
-    courses: coursesFixtures.oneCourses
+    courses: coursesFixtures.oneCoursesLongDescription
 
 };
