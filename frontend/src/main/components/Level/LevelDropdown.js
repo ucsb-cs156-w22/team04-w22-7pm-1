@@ -15,10 +15,6 @@ const ManyLevelDropdown = ({ level, setLevel, onChange = null}) => {
         <Form.Group >  
             <Form.Label>Course Level</Form.Label>
             <Form.Control title = "Course Level" as="select" value={level} onChange={handleLevelOnChange} id="level-dropdown" data-testid="level-dropdown" >
-                {/* <option key={"UG-lower div"} label = "UG-lower div" value="UG-lower div"></option>;
-                <option key={"UG-upper div"}label = "UG-upper div" value="UG-upper div"></option>;
-                <option key = {"GRAD"} label = "GRAD" value="GRAD"></option>;
-                <option key = {"All"} label = "All" value="All"></option>; */}
 
                 {levels.map(function (object, i) {
                     const key=`level-dropdown-option-${i}`;
