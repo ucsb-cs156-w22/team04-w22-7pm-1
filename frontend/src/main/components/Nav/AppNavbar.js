@@ -52,6 +52,32 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
               }
             </Nav>
 
+			<Nav className="mr-auto">
+              {hasRole(currentUser, 'ROLE_USER') && (
+                  <NavDropdown 
+				  title="PersonalSchedule" 
+				  id="appnavbar-personalSchedule-dropdown" 
+				  data-testid="appnavbar-personalSchedule-dropdown" 
+				  >
+                    <NavDropdown.Item 
+					href="/personalschedule/list"
+					data-testid="appnavbar-personalSchedule-list" 
+					>
+						List
+					</NavDropdown.Item>
+
+					{hasRole(currentUser, 'ROLE_ADMIN') && (
+						<NavDropdown.Item 
+						href="/personalschedule/create"
+						data-testid="appnavbar-personalSchedule-create" 
+						>
+							Create
+						</NavDropdown.Item>
+					)}
+                  </NavDropdown>
+                )}
+            </Nav>
+
             <Nav className="ml-auto">
               {
                 currentUser && currentUser.loggedIn ? (
