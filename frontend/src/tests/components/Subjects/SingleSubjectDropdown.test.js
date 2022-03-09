@@ -155,4 +155,16 @@ describe("SingleSubjectSelector tests", () => {
         await waitFor(() => expect(useState).toBeCalledWith("ANTH"));
     });
 
+    test("sorts based on subjectCode", async () => {
+        const { getByText } =
+            render(<SingleSubjectDropdown
+                subjects={outOfOrderSubjects}
+                subject={subject}
+                setSubject={setSubject}
+                controlId="ssd1"
+            />);
+        await waitFor(() => expect(getByText("Subject Area")).toBeInTheDocument);
+        expect(getByText("ANTH - Anthropology")).toHaveAttribute("data-testid", "ssd1-option-0");
+    });
+
 });

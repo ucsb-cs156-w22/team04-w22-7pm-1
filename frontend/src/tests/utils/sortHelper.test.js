@@ -3,6 +3,7 @@ import { compareValues } from "main/utils/sortHelper"
 describe("sortHelper tests", () => {
   
    var singers = [];
+   var singers2 = [];
 
    const tyler = { name: 'Steven Tyler', band: 'Aerosmith', born: 1948 };
    const carpenter = { name: 'Karen Carpenter', band: 'The Carpenters', born: 1950 };
@@ -11,6 +12,7 @@ describe("sortHelper tests", () => {
 
   beforeEach(() => {
     singers = [ tyler, carpenter, cobain, nicks ]
+    singers2 = [tyler, tyler]
   });
 
   test("should sort by name", async () => {
@@ -32,5 +34,17 @@ describe("sortHelper tests", () => {
     singers.sort(compareValues('potato'));
     expect(singers).toEqual( singers )
   });
+
+  test("sort band, asc left blank", async () =>{
+    singers.sort(compareValues('name', ""));
+    expect(singers).toEqual( [carpenter, cobain, tyler, nicks] )
+  });
+
+  test("same value", async () => {
+    singers2.sort(compareValues('born'));
+    expect(singers2).toEqual( [tyler, tyler] )
+  });
+
+
   
 });

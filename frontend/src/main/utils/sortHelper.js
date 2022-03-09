@@ -1,6 +1,7 @@
 
 export function compareValues(key, order = 'asc') {
     return function innerSort(a, b) {
+      // Stryker disable next-line all : mutants generate false or result in 0 or undefined
       if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
         // property doesn't exist on either object
         return 0;
@@ -18,6 +19,7 @@ export function compareValues(key, order = 'asc') {
         comparison = -1;
       }
       return (
+        // Stryker disable next-line ArithmeticOperator : / -1 is == to * -1
         (order === 'desc') ? (comparison * -1) : comparison
       );
     };

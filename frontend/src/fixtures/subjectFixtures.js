@@ -37,6 +37,34 @@ export const threeSubjects = [
         }
 ];
 
+export const wrongSubjectsOrder = [
+    
+  {
+    "subjectCode": "ART  CS",
+    "subjectTranslation": "Art (Creative Studies)",
+    "deptCode": "CRSTU",
+    "collegeCode": "CRST",
+    "relatedDeptCode": null,
+    "inactive": false
+  },
+  {
+    "subjectCode": "ANTH",
+    "subjectTranslation": "Anthropology",
+    "deptCode": "ANTH",
+    "collegeCode": "L&S",
+    "relatedDeptCode": null,
+    "inactive": false
+  },
+  {
+    "subjectCode": "ARTHI",
+    "subjectTranslation": "Art History",
+    "deptCode": "ARTHI",
+    "collegeCode": "L&S",
+    "relatedDeptCode": null,
+    "inactive": false
+  }
+];
+
 export const allTheSubjects = [
     
         {
