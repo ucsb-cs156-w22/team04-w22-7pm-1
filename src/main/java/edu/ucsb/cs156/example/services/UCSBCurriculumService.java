@@ -39,6 +39,7 @@ public class UCSBCurriculumService  {
         HttpEntity<String> entity = new HttpEntity<>("body", headers);
 
         String uri = "https://api.ucsb.edu/academics/curriculums/v1/classes/search";
+        
         String params = String.format(
                 "?quarter=%s&subjectCode=%s&objLevelCode=%s&pageNumber=%d&pageSize=%d&includeClassSections=%s", quarter,
                 subjectArea, courseLevel, 1, 100, "true");
