@@ -49,14 +49,14 @@ public class UCSBSubjectsControllerTests extends ControllerTestCase {
 
     @Test
     public void api_UCSBSubjects_all__logged_out__returns_403() throws Exception {
-        mockMvc.perform(get("/api/UCSBSubjects/all"))
+        mockMvc.perform(get("/api/admin/UCSBSubjects/all"))
                 .andExpect(status().is(403));
     }
 
     @WithMockUser(roles = { "USER" })
     @Test
     public void api_UCSBSubjects_all__user_logged_in__returns_200() throws Exception {
-        mockMvc.perform(get("/api/UCSBSubjects/all"))
+        mockMvc.perform(get("/api/admin/UCSBSubjects/all"))
                 .andExpect(status().isOk());
     }
 
@@ -82,7 +82,7 @@ public class UCSBSubjectsControllerTests extends ControllerTestCase {
         when(ucsbSubjectRepository.findById(eq("ANTH"))).thenReturn(Optional.of(us));
 
         // act
-        MvcResult response = mockMvc.perform(get("/api/UCSBSubjects?subjectCode=ANTH"))
+        MvcResult response = mockMvc.perform(get("/api/admin/UCSBSubjects?subjectCode=ANTH"))
                 .andExpect(status().isOk()).andReturn();
 
         // assert
@@ -104,7 +104,7 @@ public class UCSBSubjectsControllerTests extends ControllerTestCase {
         when(ucsbSubjectRepository.findById(eq("ANTH"))).thenReturn(Optional.empty());
 
         // act
-        MvcResult response = mockMvc.perform(get("/api/UCSBSubjects?subjectCode=ANTH"))
+        MvcResult response = mockMvc.perform(get("/api/admin/UCSBSubjects?subjectCode=ANTH"))
                 .andExpect(status().isNotFound()).andReturn();
 
         // assert
@@ -155,7 +155,7 @@ public class UCSBSubjectsControllerTests extends ControllerTestCase {
         when(ucsbSubjectRepository.findAll()).thenReturn(expectedUSs);
 
         // act
-        MvcResult response = mockMvc.perform(get("/api/UCSBSubjects/all"))
+        MvcResult response = mockMvc.perform(get("/api/admin/UCSBSubjects/all"))
                 .andExpect(status().isOk()).andReturn();
 
         // assert
@@ -184,7 +184,7 @@ public class UCSBSubjectsControllerTests extends ControllerTestCase {
 
         // act
         MvcResult response = mockMvc.perform(
-                delete("/api/UCSBSubjects?subjectCode=ANTH")
+                delete("/api/admin/UCSBSubjects?subjectCode=ANTH")
                         .with(csrf()))
                 .andExpect(status().isOk()).andReturn();
 
@@ -204,7 +204,7 @@ public class UCSBSubjectsControllerTests extends ControllerTestCase {
 
         // act
         MvcResult response = mockMvc.perform(
-                delete("/api/UCSBSubjects?subjectCode=ANTH")
+                delete("/api/admin/UCSBSubjects?subjectCode=ANTH")
                         .with(csrf()))
                 .andExpect(status().isNotFound()).andReturn();
 
@@ -223,7 +223,7 @@ public class UCSBSubjectsControllerTests extends ControllerTestCase {
 
         // act
         MvcResult response = mockMvc.perform(
-                delete("/api/UCSBSubjects/all")
+                delete("/api/admin/UCSBSubjects/all")
                         .with(csrf()))
                 .andExpect(status().isOk()).andReturn();
 
@@ -275,7 +275,7 @@ public class UCSBSubjectsControllerTests extends ControllerTestCase {
 
         when(ucsbSubjectsService.get()).thenReturn(expectedUSs);
 
-        MvcResult response = mockMvc.perform(post("/api/UCSBSubjects/load")
+        MvcResult response = mockMvc.perform(post("/api/admin/UCSBSubjects/load")
                 .with(csrf()))
                 .andExpect(status().isOk()).andReturn();
 
@@ -337,7 +337,7 @@ public class UCSBSubjectsControllerTests extends ControllerTestCase {
 
         when(ucsbSubjectRepository.save(us1)).thenThrow(new org.springframework.dao.DuplicateKeyException("test"));
 
-        MvcResult response = mockMvc.perform(post("/api/UCSBSubjects/load")
+        MvcResult response = mockMvc.perform(post("/api/admin/UCSBSubjects/load")
                 .with(csrf()))
                 .andExpect(status().isOk()).andReturn();
 
