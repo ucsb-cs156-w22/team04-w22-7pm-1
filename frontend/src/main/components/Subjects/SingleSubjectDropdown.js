@@ -9,7 +9,7 @@ function SingleSubjectDropdown({ subjects, subject, setSubject, controlId, onCha
 
     const [subjectState, setSubjectState] = useState(
         // Stryker disable next-line all : not sure how to test/mock local storage
-    localSearchSubject || quarters[0].subjectCode
+        localSearchSubject || subjects[0].subjectCode
     );
 
     const handleSubjectOnChange = (event) => {
