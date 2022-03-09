@@ -12,6 +12,4 @@ const coursesFixtures = {
                     ]
 
 };
-
-
 export { coursesFixtures };
