@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,21 +52,21 @@ public class UCSBSubjectsController extends ApiController {
     @ApiOperation(value = "Load subjects into database from UCSB API")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/load")
-    public List<UCSBSubject> loadSubjects() {
-       
+    public List<UCSBSubject> loadSubjects() throws HttpClientErrorException, JsonProcessingException {
+
         List<UCSBSubject> subjects = ucsbSubjectsService.get();
-        
+
         List<UCSBSubject> savedSubjects = new ArrayList<UCSBSubject>();
 
-        subjects.forEach((ucsbSubject)->{
+        subjects.forEach((ucsbSubject) -> {
             try {
-              subjectRepository.save(ucsbSubject);
-              savedSubjects.add(ucsbSubject);
+                subjectRepository.save(ucsbSubject);
+                savedSubjects.add(ucsbSubject);
             } catch (DuplicateKeyException dke) {
                 log.info("Skipping duplicate entity %s".formatted(ucsbSubject.getSubjectCode()));
             }
         });
-        log.info("subjects={}",subjects);
+        log.info("subjects={}", subjects);
         return savedSubjects;
     }
 
