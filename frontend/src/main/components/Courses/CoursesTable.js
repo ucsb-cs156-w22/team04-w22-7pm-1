@@ -54,7 +54,7 @@ export default function  CoursesTable({  courses, currentUser }) {
     ];
 
 
-    // Stryker disable ArrayDeclaration : [columns] and [students] are performance optimization; mutation preserves correctness
+    // Stryker disable ArrayDeclaration : [columns] and [courses] are performance optimization; mutation preserves correctness
     const memoizedColumns = React.useMemo(() => columns, [columns]);
     const memoizedDates = React.useMemo(() =>  courses, [courses]);
     // Stryker enable ArrayDeclaration
