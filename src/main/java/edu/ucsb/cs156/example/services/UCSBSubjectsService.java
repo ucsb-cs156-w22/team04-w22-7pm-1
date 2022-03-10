@@ -1,57 +1,57 @@
 package edu.ucsb.cs156.example.services;
 
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import edu.ucsb.cs156.example.entities.UCSBSubject;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
-@Slf4j
 @Service("UCSBSubjects")
 public class UCSBSubjectsService {
 
-    public List<UCSBSubject> get() {
+        @Autowired
+        ObjectMapper mapper = new ObjectMapper();
 
-        // TODO: Replace with a service that will call the UCSB
-        // developer API at the endpoint
-        // https://api.ucsb.edu/students/lookups/v1/subjects?includeInactive=false
-        // convert the JSON to a List<UCSBSubjects> object
-        // return that object.
+        @Value("${app.ucsb.api.consumer_key}")
+        private String apiKey;
 
-        UCSBSubject us1 = UCSBSubject.builder()
-                .subjectCode("ANTH")
-                .subjectTranslation("Anthropology")
-                .deptCode("ANTH")
-                .collegeCode("L&S")
-                .relatedDeptCode(null)
-                .inactive(false)
-                .build();
+        public static final String ENDPOINT = "https://api.ucsb.edu/students/lookups/v1/subjects?includeInactive=false";
 
-        UCSBSubject us2 = UCSBSubject.builder()
-                .subjectCode("ART  CS")
-                .subjectTranslation("Art (Creative Studies)")
-                .deptCode("CRSTU")
-                .collegeCode("CRST")
-                .relatedDeptCode(null)
-                .inactive(false)
-                .build();
+        private final RestTemplate restTemplate;
 
-        UCSBSubject us3 = UCSBSubject.builder()
-                .subjectCode("CH E")
-                .subjectTranslation("Chemical Engineering")
-                .deptCode("CNENG")
-                .collegeCode("ENGR")
-                .relatedDeptCode(null)
-                .inactive(false)
-                .build();
+        public UCSBSubjectsService(RestTemplateBuilder restTemplateBuilder) {
+                restTemplate = restTemplateBuilder.build();
+        }
 
-        List<UCSBSubject> temporaryFakeList = new ArrayList<>();
-        temporaryFakeList.addAll(Arrays.asList(us1, us2, us3));
-        log.info("temporaryFakeList={}",temporaryFakeList);
-        return temporaryFakeList;
-    }
+        public List<UCSBSubject> get() throws JsonProcessingException {
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                headers.set("ucsb-api-key", this.apiKey);
+                headers.set("ucsb-api-version", "1.0");
+
+                HttpEntity<String> entity = new HttpEntity<>(headers);
+                ResponseEntity<String> re = restTemplate.exchange(ENDPOINT, HttpMethod.GET, entity, String.class);
+
+                String UCSBSubjectJSON = re.getBody();
+                List<UCSBSubject> UCSBSubjectList = mapper.readValue(UCSBSubjectJSON,
+                                new TypeReference<List<UCSBSubject>>() {
+                                });
+                return UCSBSubjectList;
+        }
 
 }
