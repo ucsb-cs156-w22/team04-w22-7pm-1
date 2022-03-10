@@ -113,7 +113,7 @@ public class UCSBCurriculumServiceTest {
             .andExpect(header("Content-Type", MediaType.APPLICATION_JSON.toString()))
             .andExpect(header("ucsb-api-version", "1.0"))
             .andExpect(header("ucsb-api-key", apiKey))
-            .andRespond(withSuccess(expectedResult, MediaType.APPLICATION_JSON));
+            .andRespond(withUnauthorizedRequest());
 
         String result = ucs.getJSON(subjectArea, quarter, level);
 
@@ -151,7 +151,7 @@ public class UCSBCurriculumServiceTest {
             .andExpect(header("Content-Type", MediaType.APPLICATION_JSON.toString()))
             .andExpect(header("ucsb-api-version", "1.0"))
             .andExpect(header("ucsb-api-key", apiKey))
-            .andRespond(withSuccess(expectedResult, MediaType.APPLICATION_JSON));
+            .andRespond(withUnauthorizedRequest());
         String result = ucs.getSubjectsJSON();
         assertEquals(expectedResult, result);
     }
