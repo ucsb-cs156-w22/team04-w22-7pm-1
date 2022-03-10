@@ -1,7 +1,9 @@
 package edu.ucsb.cs156.example.services;
 import java.util.Map;
 import java.util.Arrays;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +28,15 @@ public class UCSBCurriculumService  {
     @Value("${app.ucsb.api.consumer_key}")
     private String apiKey;
 
-    private RestTemplate restTemplate = new RestTemplate();
+    //private RestTemplate restTemplate = new RestTemplate();
+
+    ObjectMapper mapper = new ObjectMapper();
+
+    private final RestTemplate restTemplate;
+
+    public UCSBCurriculumService(RestTemplateBuilder restTemplateBuilder) {
+        restTemplate = restTemplateBuilder.build();
+    }
 
     public String getJSON(String subjectArea, String quarter, String courseLevel) {
         logger.info("quarter={}",quarter,"subjectArea={}",subjectArea,"courseLevel={}",courseLevel);
