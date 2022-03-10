@@ -61,7 +61,6 @@ describe("SingleSubjectSelector tests", () => {
                 label="Subject"
             />
             );
-        //await waitFor(() => expect(getByLabelText("Subject")).toBeInTheDocument);
         const selectSubject = getByLabelText("Subject")
         userEvent.selectOptions(selectSubject, "ANTH");
         expect(setSubject).toBeCalledWith("ANTH");
@@ -84,9 +83,7 @@ describe("SingleSubjectSelector tests", () => {
         userEvent.selectOptions(selectSubject, "ANTH");
         await waitFor(() => expect(setSubject).toBeCalledWith("ANTH"));
         await waitFor(() => expect(onChange).toBeCalledTimes(1));
-
-        // x.mock.calls[0][0] is the first argument of the first call to the jest.fn() mock x
-
+        
         const event = onChange.mock.calls[0][0];
         expect(event.target.value).toBe("ANTH");
     });
