@@ -13,6 +13,8 @@ export function compareValues(key, order = 'asc') {
         ? b[key].toUpperCase() : b[key];
   
       let comparison = 0;
+
+      // Stryker disable next-line EqualityOperator : >= does not affect switching results in same
       if (varA > varB) {
         comparison = 1;
       } else if (varA < varB) {
