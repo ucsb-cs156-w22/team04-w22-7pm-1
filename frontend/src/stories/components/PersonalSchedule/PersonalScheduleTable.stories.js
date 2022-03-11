@@ -1,7 +1,7 @@
 import React from "react";
 
 import PersonalScheduleTable from "main/components/PersonalSchedule/PersonalScheduleTable";
-import { ucsbDatesFixtures } from "fixtures/personalSchedulesFixtures";
+import { personalSchedulesFixtures, ucsbDatesFixtures } from "fixtures/personalSchedulesFixtures";
 
 export default {
   title: "components/PersonalSchedule/PersonalScheduleTable",
@@ -21,5 +21,5 @@ Empty.args = {
 export const ThreeSchedules = Template.bind({});
 
 ThreeSchedules.args = {
-  schedules: ucsbDatesFixtures.threeDates,
+  schedules: personalSchedulesFixtures.threeSchedules,
 };
