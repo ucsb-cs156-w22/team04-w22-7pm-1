@@ -1,7 +1,9 @@
-package edu.ucsb.courses.services;
-
+package edu.ucsb.cs156.example.services;
+import java.util.Map;
 import java.util.Arrays;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,9 +28,17 @@ public class UCSBCurriculumService  {
     @Value("${app.ucsb.api.consumer_key}")
     private String apiKey;
 
-    private RestTemplate restTemplate = new RestTemplate();
+    ObjectMapper mapper = new ObjectMapper();
+
+
+    private final RestTemplate restTemplate;
+
+    public UCSBCurriculumService(RestTemplateBuilder restTemplateBuilder) {
+        restTemplate = restTemplateBuilder.build();
+    }
 
     public String getJSON(String subjectArea, String quarter, String courseLevel) {
+        logger.info("quarter={}",quarter,"subjectArea={}",subjectArea,"courseLevel={}",courseLevel);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -38,26 +48,22 @@ public class UCSBCurriculumService  {
 
         HttpEntity<String> entity = new HttpEntity<>("body", headers);
 
-        String uri = "https://api.ucsb.edu/academics/curriculums/v1/classes/search";
-        String params = String.format(
-                "?quarter=%s&subjectCode=%s&objLevelCode=%s&pageNumber=%d&pageSize=%d&includeClassSections=%s", quarter,
-                subjectArea, courseLevel, 1, 100, "true");
-        String url = uri + params;
+        String URL = "https://api.ucsb.edu/academics/curriculums/v1/classes/search?quarter={quarter_in}&subjectCode={subjectCode_in}&objLevelCode={objLevelCode_in}&pageNumber=1&pageSize=100&includeClassSections=true";
 
-        if (courseLevel.equals("A")) {
-            params = String.format(
-                    "?quarter=%s&subjectCode=%s&pageNumber=%d&pageSize=%d&includeClassSections=%s",
-                    quarter, subjectArea, 1, 100, "true");
-            url = uri + params;
+
+        Map<String,String> uriVariables = Map.of("quarter_in",quarter,"subjectCode_in",subjectArea,"objLevelCode_in",courseLevel);
+
+        if(courseLevel.equals("A")){
+            URL = "https://api.ucsb.edu/academics/curriculums/v1/classes/search?quarter={quarter_in}&subjectCode={subjectCode_in}&pageNumber=1&pageSize=100&includeClassSections=true";
+
+            uriVariables = Map.of("quarter_in",quarter,"subjectCode_in",subjectArea);
         }
-
-        logger.info("url=" + url);
 
         String retVal = "";
         MediaType contentType=null;
         HttpStatus statusCode=null;
         try {
-            ResponseEntity<String> re = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+            ResponseEntity<String> re = restTemplate.exchange(URL, HttpMethod.GET, entity, String.class,uriVariables);
             contentType = re.getHeaders().getContentType();
             statusCode = re.getStatusCode();
             retVal = re.getBody();
