@@ -1,17 +1,9 @@
 import React from "react";
 import OurTable, { ButtonColumn } from "main/components/OurTable";
 
-
-
-export default function  CoursesTable({  courses, currentUser }) {
-
-   const limitText = ({value})=>{
- 
-          
-            return value.substr(0,150);
-          
-          
-           
+export default function CoursesTable({ courses, currentUser }) {
+    const limitText = ({value})=>{
+        return value.substr(0,150);
     };
 
     const columns = [
