@@ -1,9 +1,9 @@
-import BasicLayout from 'main/layouts/BasicLayout/BasicLayout';
-import { useParams } from 'react-router-dom';
-import PersonalScheduleForm from 'main/components/PersonalSchedule/PersonalScheduleForm';
-import { Navigate } from 'react-router-dom';
-import { useBackend, useBackendMutation } from 'main/utils/useBackend';
-import { toast } from 'react-toastify';
+import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
+import { useParams } from "react-router-dom";
+import PersonalScheduleForm from "main/components/PersonalSchedule/PersonalScheduleForm";
+import { Navigate } from "react-router-dom";
+import { useBackend, useBackendMutation } from "main/utils/useBackend";
+import { toast } from "react-toastify";
 
 export default function PersonalSchedulesEditPage() {
   let { id } = useParams();
@@ -17,7 +17,7 @@ export default function PersonalSchedulesEditPage() {
     [`/api/PersonalSchedules?id=${id}`],
     {
       // Stryker disable next-line all : GET is the default, so changing this to "" doesn't introduce a bug
-      method: 'GET',
+      method: "GET",
       url: `/api/PersonalSchedules`,
       params: {
         id,
@@ -26,22 +26,23 @@ export default function PersonalSchedulesEditPage() {
   );
 
   const objectToAxiosPutParams = (PersonalSchedule) => ({
-    url: '/api/PersonalSchedules',
-    method: 'PUT',
+    url: "/api/PersonalSchedules",
+    method: "PUT",
     params: {
       id: PersonalSchedule.id,
     },
     data: {
-      quarterYYYYQ: PersonalSchedule.quarterYYYYQ,
+      user: PersonalSchedule.user,
       name: PersonalSchedule.name,
-      localDateTime: PersonalSchedule.localDateTime,
+      description: PersonalSchedule.description,
+      quarterYYYYQ: PersonalSchedule.quarterYYYYQ,
     },
   });
 
+  console.log(PersonalSchedule);
+
   const onSuccess = (PersonalSchedule) => {
-    toast(
-      `PersonalSchedule Updated - id: ${PersonalSchedule.id} name: ${PersonalSchedule.name}`
-    );
+    toast(`PersonalSchedule Updated - id: ${PersonalSchedule.id} name: ${PersonalSchedule.name}`);
   };
 
   const mutation = useBackendMutation(
@@ -58,7 +59,7 @@ export default function PersonalSchedulesEditPage() {
   };
 
   if (isSuccess) {
-    return <Navigate to="/PersonalSchedules/list" />;
+    return <Navigate to="/personalschedule/list" />;
   }
 
   return (
