@@ -1,16 +1,11 @@
 import React, { useState } from 'react'
 import { Button, Form, DropdownButton, Dropdown } from 'react-bootstrap';
-
-import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 
 
 function SubmitButton({ initialUCSBSubject, submitAction}) {
 
     return (
-
-        //<Form onSubmit={handleSubmit(submitAction)}>
 
             <Button
                 variant="primary"
@@ -19,8 +14,6 @@ function SubmitButton({ initialUCSBSubject, submitAction}) {
             >
                 Submit
             </Button>
-
-        //</Form>
 
     )
 }

@@ -3,8 +3,6 @@ import SubmitButton from "main/components/SubmitButton/SubmitButton"
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 
-import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
-import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 
@@ -35,18 +33,10 @@ describe("SubmitButton tests", () => {
     beforeEach(() => {
         axiosMock.reset();
         axiosMock.resetHistory();
-        // axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
-        // axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
     });
 
     test("when submit button is hit, it gives a toast", async () => {
 
-        // const subjectCodeField = getByTestId("UCSBSubjectForm-subjectCode");
-        // const subjectTranslationField = getByTestId("UCSBSubjectForm-subjectTranslation");
-        // const deptCodeField = getByTestId("UCSBSubjectForm-deptCode");
-        // const collegeCodeField = getByTestId("UCSBSubjectForm-collegeCode");
-        // const relatedDeptCodeField = getByTestId("UCSBSubjectForm-relatedDeptCode");
-        // const inactiveField = getByTestId("UCSBSubjectForm-inactive");
         const queryClient = new QueryClient();
         const { getByTestId } = render(
             <QueryClientProvider client={queryClient}>
