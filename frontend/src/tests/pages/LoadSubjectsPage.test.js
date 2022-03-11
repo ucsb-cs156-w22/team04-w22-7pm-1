@@ -36,7 +36,7 @@ jest.mock('react-router-dom', () => {
 describe('LoadSubjectsPage tests', () => {
   const axiosMock = new AxiosMockAdapter(axios);
 
-  const testId = 'LoadSubjectsTable';
+  const testId = 'UCSBSubjectsTable';
 
   beforeEach(() => {
     axiosMock.reset();
