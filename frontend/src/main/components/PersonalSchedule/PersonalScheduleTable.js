@@ -17,7 +17,11 @@ export default function PersonalScheduleTable({ schedules, currentUser }) {
   const deleteMutation = useBackendMutation(
     cellToAxiosParamsDelete,
     { onSuccess: onDeleteSuccess },
-    ["/api/PersonalSchedules/all"]
+    [
+      hasRole(currentUser, "ROLE_ADMIN")
+        ? "/api/PersonalSchedules/admin/all"
+        : "/api/PersonalSchedules/all",
+    ]
   );
   // Stryker enable all
 
