@@ -45,13 +45,7 @@ public class UCSBCurriculumServiceTest {
 
     @Test
     public void test_getJSON_success() throws Exception {
-/*
 
-        level = "A";
-        result = ucs.getJSON(subjectArea, quarter, level);
-
-        assertEquals(expectedResult, result);
-*/      
         String expectedResult = "{expectResult}";
         String subjectArea = "CMPSC";
         String quarter = "20201";
