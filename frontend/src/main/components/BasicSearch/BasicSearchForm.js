@@ -12,10 +12,6 @@ import SingleSubjectDropdown from "../Subjects/SingleSubjectDropdown"
 
 const BasicCourseSearchForm = ({ setCourseJSON, fetchJSON }) => {
 	const quarters = quarterRange("20084", "20222");
-	const levels = [["L","Undergrad-Lower"], 
-					["S","Undergrad-Upper Division"], 
-					["U","Undergrad-All"], 
-					["G","Graduate"]];
 
     const localSubject = localStorage.getItem("BasicSearch.Subject");
     const localQuarter = localStorage.getItem("BasicSearch.Quarter");
@@ -61,14 +57,14 @@ const BasicCourseSearchForm = ({ setCourseJSON, fetchJSON }) => {
 					<Col md = "auto"><SingleSubjectDropdown
 						subjects={allTheSubjects}
 						subject={subject}
-						setSubject={handleSubjectOnChange}
+						setSubject={setSubject}
                         controlId={"BasicSearch.Subject"}
                         label={"Subject"}
 					/></Col>
 					<Col md = "auto"><ManyLevelDropdown
-						levels={levels}
+						levels={allTheLevels}
 						level={level}
-						setLevel={handleLevelOnChange}
+						setLevel={setLevel}
 						controlId={"BasicSearch.Level"}
 						label={"Level"}
 					/></Col>
