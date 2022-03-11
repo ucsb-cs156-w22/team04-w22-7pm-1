@@ -41,7 +41,7 @@ export default function PersonalScheduleTable({ schedules, currentUser }) {
     },
     {
       Header: "Quarter (YYYYQ)",
-      accessor: "quarter",
+      accessor: "quarterYYYYQ",
     },
   ];
 
