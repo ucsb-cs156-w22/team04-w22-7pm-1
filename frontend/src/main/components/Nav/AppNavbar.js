@@ -51,7 +51,6 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
                 )
               }
             </Nav>
-
 			<Nav className="mr-auto">
               {hasRole(currentUser, 'ROLE_USER') && (
                   <NavDropdown 
@@ -76,8 +75,7 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
 					)}
                   </NavDropdown>
                 )}
-            </Nav>
-
+       </Nav>
             <Nav className="ml-auto">
               {
                 currentUser && currentUser.loggedIn ? (
