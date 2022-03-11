@@ -51,4 +51,7 @@ build/
 ### Local Configuration ###
 .env
 
+<<<<<<< HEAD
 .DS_Store
+=======
+>>>>>>> 8d496b6 (tp - restored git ignore to prepare for backend merge)
