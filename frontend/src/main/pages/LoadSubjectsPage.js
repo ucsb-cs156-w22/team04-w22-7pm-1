@@ -26,14 +26,21 @@ const LoadSubjectsPage = () => {
     method: 'POST',
   });
 
+  subjectsCount = subjects.length;
+
   const onSuccess = (subjects) => {
-    if (subjectsCount === subjects.length) {
+    if (subjects.length - subjectsCount === 0) {
       toast('No new subjects were loaded');
     } else {
-      toast(`${subjects.length} subjects loaded`);
-      subjectsCount = subjects.length;
+      if (subjects.length - subjectsCount === 1) {
+        toast(`1 new subject was loaded`);
+      } else {
+        toast(`${subjects.length - subjectsCount} new subjects were loaded`);
+      }
     }
+    subjectsCount = subjects.length;
   };
+
   const postMutation = useBackendMutation(
     objectToAxiosParams,
     {
