@@ -45,8 +45,6 @@ export default function PersonalScheduleTable({ schedules, currentUser }) {
     },
   ];
 
-  console.log(schedules);
-
   if (hasRole(currentUser, "ROLE_ADMIN")) {
     columns.splice(1, 0, {
       Header: "User",

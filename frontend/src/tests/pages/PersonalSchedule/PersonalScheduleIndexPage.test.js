@@ -60,7 +60,9 @@ describe("PersonalScheduleIndexPage tests", () => {
   test("renders three PersonalSchedule without crashing for regular user", async () => {
     setupUserOnly();
     const queryClient = new QueryClient();
-    axiosMock.onGet("/api/PersonalSchedules/").reply(200, personalSchedulesFixtures.threeSchedules);
+    axiosMock
+      .onGet("/api/PersonalSchedules/all")
+      .reply(200, personalSchedulesFixtures.threeSchedules);
 
     const { getByTestId } = render(
       <QueryClientProvider client={queryClient}>
@@ -81,7 +83,7 @@ describe("PersonalScheduleIndexPage tests", () => {
     setupAdminUser();
     const queryClient = new QueryClient();
     axiosMock
-      .onGet("/api/PersonalSchedules/all")
+      .onGet("/api/PersonalSchedules/admin/all")
       .reply(200, personalSchedulesFixtures.threeSchedules);
 
     const { getByTestId } = render(

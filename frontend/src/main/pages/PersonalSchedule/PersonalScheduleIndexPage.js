@@ -8,17 +8,23 @@ import { useBackend } from "main/utils/useBackend";
 export default function PersonalScheduleIndexPage() {
   const currentUser = useCurrentUser();
 
+  // Stryker disable all : hard to test, the queryKey doesn't really matter
+  // but it needs to be same as the actual request
   const {
     data: schedule,
     error: _error,
     status: _status,
   } = useBackend(
-    [hasRole(currentUser, "ROLE_ADMIN") ? "/api/PersonalSchedules/all" : "/api/PersonalSchedules/"],
+    [
+      hasRole(currentUser, "ROLE_ADMIN")
+        ? "/api/PersonalSchedules/admin/all"
+        : "/api/PersonalSchedules/all",
+    ],
     {
       method: "GET",
       url: hasRole(currentUser, "ROLE_ADMIN")
-        ? "/api/PersonalSchedules/all"
-        : "/api/PersonalSchedules/",
+        ? "/api/PersonalSchedules/admin/all"
+        : "/api/PersonalSchedules/all",
     },
     []
   );
