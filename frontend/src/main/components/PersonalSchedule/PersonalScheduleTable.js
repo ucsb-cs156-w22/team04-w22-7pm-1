@@ -17,7 +17,7 @@ export default function PersonalScheduleTable({ schedules, currentUser }) {
   const deleteMutation = useBackendMutation(
     cellToAxiosParamsDelete,
     { onSuccess: onDeleteSuccess },
-    ["/api/ucsbdates/all"]
+    ["/api/PersonalSchedules/all"]
   );
   // Stryker enable all
 

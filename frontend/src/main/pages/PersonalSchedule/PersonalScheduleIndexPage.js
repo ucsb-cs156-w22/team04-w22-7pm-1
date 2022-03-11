@@ -1,5 +1,6 @@
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
-import React from "react";
+import { hasRole } from "main/utils/currentUser";
+import React, { useEffect } from "react";
 import PersonalScheduleTable from "main/components/PersonalSchedule/PersonalScheduleTable";
 import { useCurrentUser } from "main/utils/currentUser";
 import { useBackend } from "main/utils/useBackend";
@@ -12,10 +13,16 @@ export default function PersonalScheduleIndexPage() {
     error: _error,
     status: _status,
   } = useBackend(
-    ["/api/PersonalSchedules/all"],
-    { method: "GET", url: "/api/PersonalSchedules/all" },
+    [hasRole(currentUser, "ROLE_ADMIN") ? "/api/PersonalSchedules/all" : "/api/PersonalSchedules/"],
+    {
+      method: "GET",
+      url: hasRole(currentUser, "ROLE_ADMIN")
+        ? "/api/PersonalSchedules/all"
+        : "/api/PersonalSchedules/",
+    },
     []
   );
+
   return (
     <BasicLayout>
       <div className="pt-2">
