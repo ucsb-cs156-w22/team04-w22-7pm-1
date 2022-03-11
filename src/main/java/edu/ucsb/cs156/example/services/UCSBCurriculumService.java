@@ -28,9 +28,8 @@ public class UCSBCurriculumService  {
     @Value("${app.ucsb.api.consumer_key}")
     private String apiKey;
 
-    //private RestTemplate restTemplate = new RestTemplate();
-
     ObjectMapper mapper = new ObjectMapper();
+
 
     private final RestTemplate restTemplate;
 
@@ -59,8 +58,6 @@ public class UCSBCurriculumService  {
 
             uriVariables = Map.of("quarter_in",quarter,"subjectCode_in",subjectArea);
         }
-
-        //logger.info("URL=" + URL);
 
         String retVal = "";
         MediaType contentType=null;
