@@ -1,11 +1,6 @@
 package edu.ucsb.cs156.example.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-//-no longer used library-//
-// import com.fasterxml.jackson.databind.ObjectMapper;
-// import org.slf4j.Logger;
-// import org.slf4j.LoggerFactory;
-//------------------------//
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
@@ -18,9 +13,6 @@ import edu.ucsb.cs156.example.services.UCSBCurriculumService;
 @RestController
 @RequestMapping("/api/public")
 public class UCSBCurriculumController {
-    // private final Logger logger = LoggerFactory.getLogger(BasicSearchController.class);
-    // private ObjectMapper mapper = new ObjectMapper();
-
     @Autowired
     UCSBCurriculumService ucsbCurriculumService;
 
