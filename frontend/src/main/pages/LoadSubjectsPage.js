@@ -1,6 +1,6 @@
 import React from 'react';
 import BasicLayout from 'main/layouts/BasicLayout/BasicLayout';
-import LoadSubjectsTable from 'main/components/LoadSubjects/LoadSubjectsTable';
+import UCSBSubjectsTable from 'main/components/UCSBSubjects/UCSBSubjectsTable';
 import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useBackendMutation } from 'main/utils/useBackend';
@@ -50,7 +50,7 @@ const LoadSubjectsPage = () => {
   return (
     <BasicLayout>
       <h2>Subjects</h2>
-      <LoadSubjectsTable subjects={subjects} />
+      <UCSBSubjectsTable subjects={subjects} />
       <Button
         variant="primary"
         data-testid="subjectsLoad"
