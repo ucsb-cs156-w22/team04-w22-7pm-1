@@ -1,14 +1,12 @@
-
 import React from 'react';
-import loadsubjectsFixtures from 'fixtures/loadsubjectsFixtures';
 
-import LoadSubjectsTable from "main/components/LoadSubjects/LoadSubjectsTable";
+import LoadSubjectsPage from 'main/pages/LoadSubjectsPage';
 
 export default {
-    title: 'components/LoadSubjects/LoadSubjectsTable',
-    component: LoadSubjectsTable
+  title: 'pages/LoadSubjectsPage/LoadSubjectsPage',
+  component: LoadSubjectsPage,
 };
 
-const Template = () => <LoadSubjectsTable subjects={loadsubjectsFixtures.threeSubjects}/>;
+const Template = () => <LoadSubjectsPage />;
 
 export const Default = Template.bind({});
