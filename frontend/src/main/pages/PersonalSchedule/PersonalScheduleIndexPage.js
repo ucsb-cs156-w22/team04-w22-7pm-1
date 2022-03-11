@@ -20,7 +20,7 @@ export default function PersonalScheduleIndexPage() {
     <BasicLayout>
       <div className="pt-2">
         <h1>PersonalSchedule</h1>
-        <PersonalScheduleTable schedule={schedule} currentUser={currentUser} />
+        <PersonalScheduleTable schedules={schedule} currentUser={currentUser} />
       </div>
     </BasicLayout>
   );
