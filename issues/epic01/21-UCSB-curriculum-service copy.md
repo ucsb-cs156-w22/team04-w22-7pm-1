@@ -1,4 +1,4 @@
-Implement UCSBCurriculumService
+Implement UCSBService
 
 Look at the code from S21 proj-ucsb-courses-search.
 
