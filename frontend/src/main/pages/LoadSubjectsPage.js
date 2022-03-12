@@ -1,6 +1,6 @@
 import React from 'react';
 import BasicLayout from 'main/layouts/BasicLayout/BasicLayout';
-import LoadSubjectsTable from 'main/components/LoadSubjects/LoadSubjectsTable';
+import UCSBSubjectsTable from 'main/components/UCSBSubjects/UCSBSubjectsTable';
 import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useBackendMutation } from 'main/utils/useBackend';
@@ -26,14 +26,21 @@ const LoadSubjectsPage = () => {
     method: 'POST',
   });
 
+  subjectsCount = subjects.length;
+
   const onSuccess = (subjects) => {
-    if (subjectsCount === subjects.length) {
+    if (subjects.length - subjectsCount === 0) {
       toast('No new subjects were loaded');
     } else {
-      toast(`${subjects.length} subjects loaded`);
-      subjectsCount = subjects.length;
+      if (subjects.length - subjectsCount === 1) {
+        toast(`1 new subject was loaded`);
+      } else {
+        toast(`${subjects.length - subjectsCount} new subjects were loaded`);
+      }
     }
+    subjectsCount = subjects.length;
   };
+
   const postMutation = useBackendMutation(
     objectToAxiosParams,
     {
@@ -50,7 +57,7 @@ const LoadSubjectsPage = () => {
   return (
     <BasicLayout>
       <h2>Subjects</h2>
-      <LoadSubjectsTable subjects={subjects} />
+      <UCSBSubjectsTable subjects={subjects} />
       <Button
         variant="primary"
         data-testid="subjectsLoad"
