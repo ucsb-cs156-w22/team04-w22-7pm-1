@@ -11,19 +11,18 @@ export default function PersonalSchedulesEditPage() {
   const currentUser = useCurrentUser();
   let { id } = useParams();
 
+  // Stryker disable all
   const {
     data: PersonalSchedule,
     error: error,
     status: status,
   } = useBackend(
-    // Stryker disable all
     [
       hasRole(currentUser, "ROLE_ADMIN")
         ? "/api/PersonalSchedules/admin"
         : "/api/PersonalSchedules",
     ],
     {
-      // Stryker disable next-line all : GET is the default, so changing this to "" doesn't introduce a bug
       method: "GET",
       url: hasRole(currentUser, "ROLE_ADMIN")
         ? "/api/PersonalSchedules/admin"
@@ -33,7 +32,7 @@ export default function PersonalSchedulesEditPage() {
       },
     }
   );
-
+  // Stryker enable all
   const objectToAxiosPutParams = (PersonalSchedule) => ({
     url: hasRole(currentUser, "ROLE_ADMIN")
       ? "/api/PersonalSchedules/admin"
