@@ -16,7 +16,7 @@ export default function PersonalSchedulesEditPage() {
     error: error,
     status: status,
   } = useBackend(
-    // Stryker disable next-line all : don't test internal caching of React Query
+    // Stryker disable all
     [
       hasRole(currentUser, "ROLE_ADMIN")
         ? "/api/PersonalSchedules/admin"
@@ -49,6 +49,8 @@ export default function PersonalSchedulesEditPage() {
       quarterYYYYQ: PersonalSchedule.quarterYYYYQ,
     },
   });
+
+  // Stryker enable all
 
   console.log(PersonalSchedule);
 
