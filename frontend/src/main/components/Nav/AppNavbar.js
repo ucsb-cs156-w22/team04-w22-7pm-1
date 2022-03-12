@@ -62,14 +62,12 @@ export default function AppNavbar({
                     List
                   </NavDropdown.Item>
 
-                  {hasRole(currentUser, "ROLE_ADMIN") && (
-                    <NavDropdown.Item
-                      href="/personalschedule/create"
-                      data-testid="appnavbar-personalSchedule-create"
-                    >
-                      Create
-                    </NavDropdown.Item>
-                  )}
+                  <NavDropdown.Item
+                    href="/personalschedule/create"
+                    data-testid="appnavbar-personalSchedule-create"
+                  >
+                    Create
+                  </NavDropdown.Item>
                 </NavDropdown>
               )}
             </Nav>

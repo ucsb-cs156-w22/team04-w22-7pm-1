@@ -1,4 +1,6 @@
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
+import { hasRole } from "main/utils/currentUser";
+import { useCurrentUser } from "main/utils/currentUser";
 import { useParams } from "react-router-dom";
 import PersonalScheduleForm from "main/components/PersonalSchedule/PersonalScheduleForm";
 import { Navigate } from "react-router-dom";
@@ -6,6 +8,7 @@ import { useBackend, useBackendMutation } from "main/utils/useBackend";
 import { toast } from "react-toastify";
 
 export default function PersonalSchedulesEditPage() {
+  const currentUser = useCurrentUser();
   let { id } = useParams();
 
   const {
@@ -14,11 +17,17 @@ export default function PersonalSchedulesEditPage() {
     status: status,
   } = useBackend(
     // Stryker disable next-line all : don't test internal caching of React Query
-    [`/api/PersonalSchedules?id=${id}`],
+    [
+      hasRole(currentUser, "ROLE_ADMIN")
+        ? "/api/PersonalSchedules/admin"
+        : "/api/PersonalSchedules",
+    ],
     {
       // Stryker disable next-line all : GET is the default, so changing this to "" doesn't introduce a bug
       method: "GET",
-      url: `/api/PersonalSchedules`,
+      url: hasRole(currentUser, "ROLE_ADMIN")
+        ? "/api/PersonalSchedules/admin"
+        : "/api/PersonalSchedules",
       params: {
         id,
       },
@@ -26,7 +35,9 @@ export default function PersonalSchedulesEditPage() {
   );
 
   const objectToAxiosPutParams = (PersonalSchedule) => ({
-    url: "/api/PersonalSchedules",
+    url: hasRole(currentUser, "ROLE_ADMIN")
+      ? "/api/PersonalSchedules/admin"
+      : "/api/PersonalSchedules",
     method: "PUT",
     params: {
       id: PersonalSchedule.id,

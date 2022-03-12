@@ -1,6 +1,7 @@
 import {
   onDeleteSuccess,
-  cellToAxiosParamsDelete,
+  cellToAxiosParamsDeleteUser,
+  cellToAxiosParamsDeleteAdmin,
   editCallback,
 } from "main/utils/PersonalScheduleUtils";
 import mockConsole from "jest-mock-console";
@@ -31,17 +32,34 @@ describe("PersonalScheduleUtils", () => {
       restoreConsole();
     });
   });
-  describe("cellToAxiosParamsDelete", () => {
+  describe("cellToAxiosParamsDeleteUser", () => {
     test("It returns the correct params", () => {
       // arrange
       const cell = { row: { values: { id: 99 } } };
 
       // act
-      const result = cellToAxiosParamsDelete(cell);
+      const result = cellToAxiosParamsDeleteUser(cell);
 
       // assert
       expect(result).toEqual({
         url: "/api/PersonalSchedules/",
+        method: "DELETE",
+        params: { id: 99 },
+      });
+    });
+  });
+
+  describe("cellToAxiosParamsDeleteAdmin", () => {
+    test("It returns the correct params", () => {
+      // arrange
+      const cell = { row: { values: { id: 99 } } };
+
+      // act
+      const result = cellToAxiosParamsDeleteAdmin(cell);
+
+      // assert
+      expect(result).toEqual({
+        url: "/api/PersonalSchedules/admin",
         method: "DELETE",
         params: { id: 99 },
       });
