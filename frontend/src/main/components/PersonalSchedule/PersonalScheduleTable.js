@@ -7,6 +7,7 @@ import {
   cellToAxiosParamsDeleteUser,
   onDeleteSuccess,
 } from "main/utils/PersonalScheduleUtils";
+import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/PersonalScheduleUtils";
 import { useNavigate } from "react-router-dom";
 
 export default function PersonalScheduleTable({ schedules, currentUser }) {
@@ -53,14 +54,17 @@ export default function PersonalScheduleTable({ schedules, currentUser }) {
     },
   ];
 
+
   columns.push(ButtonColumn("Edit", "primary", editCallback, "PersonalScheduleTable"));
   columns.push(ButtonColumn("Delete", "danger", deleteCallback, "PersonalScheduleTable"));
+
 
   if (hasRole(currentUser, "ROLE_ADMIN")) {
     columns.splice(1, 0, {
       Header: "User",
       accessor: "user.fullName",
     });
+
   }
 
   const memoizedColumns = React.useMemo(() => columns, [columns]);

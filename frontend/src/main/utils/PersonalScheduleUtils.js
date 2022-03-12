@@ -21,6 +21,7 @@ export function cellToAxiosParamsDeleteUser(cell) {
   return {
     url: '/api/PersonalSchedules/',
     method: 'DELETE',
+
     params: {
       id: cell.row.values.id,
     },

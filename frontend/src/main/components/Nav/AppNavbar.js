@@ -61,7 +61,6 @@ export default function AppNavbar({
                   >
                     List
                   </NavDropdown.Item>
-
                   <NavDropdown.Item
                     href="/personalschedule/create"
                     data-testid="appnavbar-personalSchedule-create"
