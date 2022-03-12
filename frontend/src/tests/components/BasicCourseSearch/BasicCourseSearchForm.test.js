@@ -1,5 +1,5 @@
 import React from "react";
-import { render, waitFor } from "@testing-library/react";
+import { getByTestId, render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { toast } from "react-toastify";
 import { allTheSubjects } from "fixtures/subjectFixtures";
@@ -34,13 +34,14 @@ describe("BasicCourseSearchForm tests", () => {
 	});
 
 	test("when I select a level, the state for level changes", () => {
-		const { getByLabelText } = render(<BasicCourseSearchForm />);
-		const selectLevel = getByLabelText("Course Level");
-		userEvent.selectOptions(selectLevel, "G");
-		expect(selectLevel.value).toBe("G");
+		const { getByTestId } = render(<BasicCourseSearchForm />);
+		const selectLevel = getByTestId("level-dropdown");
+        // const selectLevel = getByLabelText("CourseLevel");
+		userEvent.selectOptions(selectLevel, "GRAD");
+		expect(selectLevel.value).toBe("GRAD");
 	});
 
-	test("when I click submit, the right stuff happens", async () => {
+	test("when I click search, the right stuff happens", async () => {
 		const sampleReturnValue = {
 			sampleKey: "sampleValue",
 		};
@@ -51,7 +52,7 @@ describe("BasicCourseSearchForm tests", () => {
 
 		fetchJSONSpy.mockResolvedValue(sampleReturnValue);
 
-		const { getByText, getByLabelText } = render(
+		const { getByText, getByLabelText, getByTestId } = render(
 			<BasicCourseSearchForm
 				setCourseJSON={setCourseJSONSpy}
 				fetchJSON={fetchJSONSpy}
@@ -61,17 +62,17 @@ describe("BasicCourseSearchForm tests", () => {
 		const expectedFields = {
 			quarter: "20204",
 			subject: "MATH",
-			level: "G",
+			level: "GRAD",
 		};
 
 		const selectQuarter = getByLabelText("Quarter");
 		userEvent.selectOptions(selectQuarter, "20204");
 		const selectSubject = getByLabelText("Subject");
 		userEvent.selectOptions(selectSubject, "MATH");
-		const selectLevel = getByLabelText("Course Level");
-		userEvent.selectOptions(selectLevel, "G");
+		const selectLevel = getByTestId("level-dropdown");
+		userEvent.selectOptions(selectLevel, "GRAD");
 
-		const submitButton = getByText("Submit");
+		const submitButton = getByText("Search");
 		userEvent.click(submitButton);
 
 		await waitFor(() => expect(setCourseJSONSpy).toHaveBeenCalledTimes(1));
@@ -96,7 +97,7 @@ describe("BasicCourseSearchForm tests", () => {
 
 		fetchJSONSpy.mockResolvedValue(sampleReturnValue);
 
-		const { getByText, getByLabelText } = render(
+		const { getByText, getByLabelText, getByTestId} = render(
 			<BasicCourseSearchForm
 				setCourseJSON={setCourseJSONSpy}
 				fetchJSON={fetchJSONSpy}
@@ -107,10 +108,10 @@ describe("BasicCourseSearchForm tests", () => {
 		userEvent.selectOptions(selectQuarter, "20204");
 		const selectSubject = getByLabelText("Subject");
 		userEvent.selectOptions(selectSubject, "MATH");
-		const selectLevel = getByLabelText("Course Level");
-		userEvent.selectOptions(selectLevel, "G");
+		const selectLevel = getByTestId("level-dropdown");
+		userEvent.selectOptions(selectLevel, "GRAD");
 
-		const submitButton = getByText("Submit");
+		const submitButton = getByText("Search");
 		userEvent.click(submitButton);
 
 		await waitFor(() => expect(setCourseJSONSpy).toHaveBeenCalledTimes(0));
@@ -127,7 +128,7 @@ describe("BasicCourseSearchForm tests", () => {
 
 		fetchJSONSpy.mockResolvedValue(sampleReturnValue);
 
-		const { getByText, getByLabelText } = render(
+		const { getByText, getByLabelText, getByTestId } = render(
 			<BasicCourseSearchForm
 				setCourseJSON={setCourseJSONSpy}
 				fetchJSON={fetchJSONSpy}
@@ -137,17 +138,17 @@ describe("BasicCourseSearchForm tests", () => {
 		const expectedFields = {
 			quarter: "20204",
 			subject: "MATH",
-			level: "G",
+			level: "GRAD",
 		};
 
 		const selectQuarter = getByLabelText("Quarter");
 		userEvent.selectOptions(selectQuarter, "20204");
 		const selectSubject = getByLabelText("Subject");
 		userEvent.selectOptions(selectSubject, "MATH");
-		const selectLevel = getByLabelText("Course Level");
-		userEvent.selectOptions(selectLevel, "G");
+		const selectLevel = getByTestId("level-dropdown");
+		userEvent.selectOptions(selectLevel, "GRAD");
 
-		const submitButton = getByText("Submit");
+		const submitButton = getByText("Search");
 		userEvent.click(submitButton);
 
 		await waitFor(() => expect(setCourseJSONSpy).toHaveBeenCalledTimes(1));
