@@ -7,6 +7,7 @@ import LoadSubjectsPage from "main/pages/LoadSubjectsPage";
 import PersonalScheduleIndexPage from "main/pages/PersonalSchedule/PersonalScheduleIndexPage";
 import PersonalSchedulCreatePage from "main/pages/PersonalSchedule/PersonalScheduleCreatePage";
 import PersonalSchedulEditPage from "main/pages/PersonalSchedule/PersonalScheduleEditPage";
+import BasicCourseSearchPage from "main/pages/BasicCourseSearchPage"
 
 import { hasRole, useCurrentUser } from "main/utils/currentUser";
 
@@ -40,6 +41,14 @@ function App() {
             <Route exact path="/personalschedule/edit/:id" element={<PersonalSchedulEditPage />} />
           </>
         )}
+        {
+          hasRole(currentUser, "ROLE_USER") && (
+            <>
+
+              <Route exact path="/basiccoursesearch/search" element={<BasicCourseSearchPage />} />
+            </>
+          )
+        }
       </Routes>
     </BrowserRouter>
   );
