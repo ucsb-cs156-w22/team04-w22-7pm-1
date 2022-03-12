@@ -61,7 +61,7 @@ const BasicCourseSearchForm = ({ setCourseJSON, fetchJSON }) => {
 						level={level}
 						setLevel={setLevel}
 						controlId={"BasicSearch.Level"}
-						label={"Level"}
+						label={"ourse Level"}
 					/></Col>
 				</Row>
 			</Container>
