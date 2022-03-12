@@ -24,7 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(SecurityConfig.class)
 public class UCSBCurriculumControllerTests {
 
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -38,10 +37,10 @@ public class UCSBCurriculumControllerTests {
     public void test_curriculum() throws Exception {
 
         String expectedResult = "{expectedJSONResult}";
-        String urlTemplate = "/api/public/curriculum?qtr=%s&dept=%s&level=%s";
+        String urlTemplate = "/api/curriculum/curriculum?qtr=%s&dept=%s&level=%s";
         String url = String.format(urlTemplate, "20204", "CMPSC", "L");
         when(ucsbCurriculumService.getJSON(any(String.class), any(String.class), any(String.class)))
-                .thenReturn(expectedResult);   
+                .thenReturn(expectedResult);
 
         MvcResult response = mockMvc.perform(get(url).contentType("application/json")).andExpect(status().isOk())
                 .andReturn();
