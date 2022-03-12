@@ -31,12 +31,6 @@ function App() {
           <>
             <Route exact path="/personalschedule/list" element={<PersonalScheduleIndexPage />} />
             <Route exact path="/personalschedule/create" element={<PersonalSchedulCreatePage />} />
-          </>
-        )}
-        {hasRole(currentUser, "ROLE_ADMIN") && (
-          <>
-            <Route exact path="/personalschedule/list" element={<PersonalScheduleIndexPage />} />
-            <Route exact path="/personalschedule/create" element={<PersonalSchedulCreatePage />} />
             <Route exact path="/personalschedule/edit/:id" element={<PersonalSchedulEditPage />} />
           </>
         )}
