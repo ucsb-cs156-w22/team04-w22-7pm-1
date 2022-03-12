@@ -1,13 +1,14 @@
 import {
   onDeleteSuccess,
-  cellToAxiosParamsDelete,
+  cellToAxiosParamsDeleteUser,
+  cellToAxiosParamsDeleteAdmin,
   editCallback,
-} from "main/utils/PersonalScheduleUtils";
-import mockConsole from "jest-mock-console";
+} from 'main/utils/PersonalScheduleUtils';
+import mockConsole from 'jest-mock-console';
 
 const mockToast = jest.fn();
-jest.mock("react-toastify", () => {
-  const originalModule = jest.requireActual("react-toastify");
+jest.mock('react-toastify', () => {
+  const originalModule = jest.requireActual('react-toastify');
   return {
     __esModule: true,
     ...originalModule,
@@ -15,34 +16,54 @@ jest.mock("react-toastify", () => {
   };
 });
 
-describe("PersonalScheduleUtils", () => {
-  describe("onDeleteSuccess", () => {
-    test("It puts the message on console.log and in a toast", () => {
+describe('PersonalScheduleUtils', () => {
+  describe('onDeleteSuccess', () => {
+    test('It puts the message on console.log and in a toast', () => {
       // arrange
       const restoreConsole = mockConsole();
       // act
-      onDeleteSuccess("abc");
+      const success = {
+        message: 'abc',
+      };
+      onDeleteSuccess(success);
       // assert
-      expect(mockToast).toHaveBeenCalledWith("abc");
+      expect(mockToast).toHaveBeenCalledWith('abc');
       expect(console.log).toHaveBeenCalled();
       const message = console.log.mock.calls[0][0];
-      expect(message).toMatch("abc");
+      expect(message).toEqual({ message: 'abc' });
 
       restoreConsole();
     });
   });
-  describe("cellToAxiosParamsDelete", () => {
-    test("It returns the correct params", () => {
+  describe('cellToAxiosParamsDeleteUser', () => {
+    test('It returns the correct params', () => {
       // arrange
       const cell = { row: { values: { id: 99 } } };
 
       // act
-      const result = cellToAxiosParamsDelete(cell);
+      const result = cellToAxiosParamsDeleteUser(cell);
 
       // assert
       expect(result).toEqual({
-        url: "/api/PersonalSchedules/",
-        method: "DELETE",
+        url: '/api/PersonalSchedules/',
+        method: 'DELETE',
+        params: { id: 99 },
+      });
+    });
+  });
+
+  describe('cellToAxiosParamsDeleteAdmin', () => {
+    test('It returns the correct params', () => {
+      // arrange
+      const cell = { row: { values: { id: 99 } } };
+
+      // act
+      const result = cellToAxiosParamsDeleteAdmin(cell);
+
+      // assert
+      expect(result).toEqual({
+        url: '/api/PersonalSchedules/admin',
+        method: 'DELETE',
         params: { id: 99 },
       });
     });
