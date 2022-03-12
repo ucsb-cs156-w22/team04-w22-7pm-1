@@ -1,18 +1,27 @@
-import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { hasRole } from "main/utils/currentUser";
-import AppNavbarLocalhost from "main/components/Nav/AppNavbarLocalhost"
+import { Button, Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { hasRole } from 'main/utils/currentUser';
+import AppNavbarLocalhost from 'main/components/Nav/AppNavbarLocalhost';
 
-export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUrl = window.location.href }) {
+export default function AppNavbar({
+  currentUser,
+  systemInfo,
+  doLogout,
+  currentUrl = window.location.href,
+}) {
   return (
     <>
-      {
-        (currentUrl.startsWith("http://localhost:3000") ||
-          currentUrl.startsWith("http://127.0.0.1:3000")) && (
-          <AppNavbarLocalhost url={currentUrl} />
-        )
-      }
-      <Navbar expand="xl" variant="dark" bg="dark" sticky="top" data-testid="AppNavbar">
+      {(currentUrl.startsWith('http://localhost:3000') ||
+        currentUrl.startsWith('http://127.0.0.1:3000')) && (
+        <AppNavbarLocalhost url={currentUrl} />
+      )}
+      <Navbar
+        expand="xl"
+        variant="dark"
+        bg="dark"
+        sticky="top"
+        data-testid="AppNavbar"
+      >
         <Container>
           <Navbar.Brand as={Link} to="/">
             Example
@@ -26,71 +35,68 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
 
           <Navbar.Collapse className="justify-content-between">
             <Nav className="me-auto">
-              {
-                systemInfo?.springH2ConsoleEnabled && (
-                  <>
-                    <Nav.Link href="/h2-console">H2Console</Nav.Link>
-                  </>
-                )
-              }
-              {
-                systemInfo?.showSwaggerUILink && (
-                  <>
-                    <Nav.Link href="/swagger-ui/index.html">Swagger</Nav.Link>
-                  </>
-                )
-              }
+              {systemInfo?.springH2ConsoleEnabled && (
+                <>
+                  <Nav.Link href="/h2-console">H2Console</Nav.Link>
+                </>
+              )}
+              {systemInfo?.showSwaggerUILink && (
+                <>
+                  <Nav.Link href="/swagger-ui/index.html">Swagger</Nav.Link>
+                </>
+              )}
             </Nav>
             <Nav className="mr-auto">
-              {
-                hasRole(currentUser, "ROLE_ADMIN") && (
-                  <NavDropdown title="Admin" id="appnavbar-admin-dropdown" data-testid="appnavbar-admin-dropdown" >
-                    <NavDropdown.Item href="/admin/users">Users</NavDropdown.Item>
-                    <NavDropdown.Item href="/admin/UCSBSubjects">Load Subjects</NavDropdown.Item>
-                  </NavDropdown>
-                )
-              }
+              {hasRole(currentUser, 'ROLE_ADMIN') && (
+                <NavDropdown
+                  title="Admin"
+                  id="appnavbar-admin-dropdown"
+                  data-testid="appnavbar-admin-dropdown"
+                >
+                  <NavDropdown.Item href="/admin/users">Users</NavDropdown.Item>
+                  <NavDropdown.Item href="/admin/UCSBSubjects">
+                    Load Subjects
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
             </Nav>
-			<Nav className="mr-auto">
+            <Nav className="mr-auto">
               {hasRole(currentUser, 'ROLE_USER') && (
-                  <NavDropdown 
-				  title="PersonalSchedule" 
-				  id="appnavbar-personalSchedule-dropdown" 
-				  data-testid="appnavbar-personalSchedule-dropdown" 
-				  >
-                    <NavDropdown.Item 
-					href="/personalschedule/list"
-					data-testid="appnavbar-personalSchedule-list" 
-					>
-						List
-					</NavDropdown.Item>
-
-					{hasRole(currentUser, 'ROLE_ADMIN') && (
-						<NavDropdown.Item 
-						href="/personalschedule/create"
-						data-testid="appnavbar-personalSchedule-create" 
-						>
-							Create
-						</NavDropdown.Item>
-					)}
-                  </NavDropdown>
-                )}
-       </Nav>
+                <NavDropdown
+                  title="PersonalSchedule"
+                  id="appnavbar-personalSchedule-dropdown"
+                  data-testid="appnavbar-personalSchedule-dropdown"
+                >
+                  <NavDropdown.Item
+                    href="/personalschedule/list"
+                    data-testid="appnavbar-personalSchedule-list"
+                  >
+                    List
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    href="/personalschedule/create"
+                    data-testid="appnavbar-personalSchedule-create"
+                  >
+                    Create
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
+            </Nav>
             <Nav className="ml-auto">
-              {
-                currentUser && currentUser.loggedIn ? (
-                  <>
-                    <Navbar.Text className="me-3" as={Link} to="/profile">Welcome, {currentUser.root.user.email}</Navbar.Text>
-                    <Button onClick={doLogout}>Log Out</Button>
-                  </>
-                ) : (
-                  <Button href="/oauth2/authorization/google">Log In</Button>
-                )
-              }
+              {currentUser && currentUser.loggedIn ? (
+                <>
+                  <Navbar.Text className="me-3" as={Link} to="/profile">
+                    Welcome, {currentUser.root.user.email}
+                  </Navbar.Text>
+                  <Button onClick={doLogout}>Log Out</Button>
+                </>
+              ) : (
+                <Button href="/oauth2/authorization/google">Log In</Button>
+              )}
             </Nav>
           </Navbar.Collapse>
-        </Container >
-      </Navbar >
+        </Container>
+      </Navbar>
     </>
   );
 }
