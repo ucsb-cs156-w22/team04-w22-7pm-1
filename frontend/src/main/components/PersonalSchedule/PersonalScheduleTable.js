@@ -1,14 +1,13 @@
-import { hasRole } from "main/utils/currentUser";
-import React from "react";
-import OurTable, { ButtonColumn } from "../OurTable";
-import { useBackendMutation } from "main/utils/useBackend";
+import { hasRole } from 'main/utils/currentUser';
+import React from 'react';
+import OurTable, { ButtonColumn } from '../OurTable';
+import { useBackendMutation } from 'main/utils/useBackend';
 import {
   cellToAxiosParamsDeleteAdmin,
   cellToAxiosParamsDeleteUser,
   onDeleteSuccess,
-} from "main/utils/PersonalScheduleUtils";
-import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/PersonalScheduleUtils";
-import { useNavigate } from "react-router-dom";
+} from 'main/utils/PersonalScheduleUtils';
+import { useNavigate } from 'react-router-dom';
 
 export default function PersonalScheduleTable({ schedules, currentUser }) {
   const navigate = useNavigate();
@@ -20,12 +19,14 @@ export default function PersonalScheduleTable({ schedules, currentUser }) {
   // Stryker disable all : hard to test for query caching
 
   const deleteMutation = useBackendMutation(
-    hasRole(currentUser, "ROLE_ADMIN") ? cellToAxiosParamsDeleteAdmin : cellToAxiosParamsDeleteUser,
+    hasRole(currentUser, 'ROLE_ADMIN')
+      ? cellToAxiosParamsDeleteAdmin
+      : cellToAxiosParamsDeleteUser,
     { onSuccess: onDeleteSuccess },
     [
-      hasRole(currentUser, "ROLE_ADMIN")
-        ? "/api/PersonalSchedules/admin/all"
-        : "/api/PersonalSchedules/all",
+      hasRole(currentUser, 'ROLE_ADMIN')
+        ? '/api/PersonalSchedules/admin/all'
+        : '/api/PersonalSchedules/all',
     ]
   );
   // Stryker enable all
@@ -37,40 +38,45 @@ export default function PersonalScheduleTable({ schedules, currentUser }) {
 
   const columns = [
     {
-      Header: "id",
-      accessor: "id",
+      Header: 'id',
+      accessor: 'id',
     },
     {
-      Header: "Name",
-      accessor: "name",
+      Header: 'Name',
+      accessor: 'name',
     },
     {
-      Header: "Description",
-      accessor: "description",
+      Header: 'Description',
+      accessor: 'description',
     },
     {
-      Header: "Quarter (YYYYQ)",
-      accessor: "quarterYYYYQ",
+      Header: 'Quarter (YYYYQ)',
+      accessor: 'quarterYYYYQ',
     },
   ];
 
+  columns.push(
+    ButtonColumn('Edit', 'primary', editCallback, 'PersonalScheduleTable')
+  );
+  columns.push(
+    ButtonColumn('Delete', 'danger', deleteCallback, 'PersonalScheduleTable')
+  );
 
-  columns.push(ButtonColumn("Edit", "primary", editCallback, "PersonalScheduleTable"));
-  columns.push(ButtonColumn("Delete", "danger", deleteCallback, "PersonalScheduleTable"));
-
-
-  if (hasRole(currentUser, "ROLE_ADMIN")) {
+  if (hasRole(currentUser, 'ROLE_ADMIN')) {
     columns.splice(1, 0, {
-      Header: "User",
-      accessor: "user.fullName",
+      Header: 'User',
+      accessor: 'user.fullName',
     });
-
   }
 
   const memoizedColumns = React.useMemo(() => columns, [columns]);
   const memoizedSchedule = React.useMemo(() => schedules, [schedules]);
 
   return (
-    <OurTable data={memoizedSchedule} columns={memoizedColumns} testid={"PersonalScheduleTable"} />
+    <OurTable
+      data={memoizedSchedule}
+      columns={memoizedColumns}
+      testid={'PersonalScheduleTable'}
+    />
   );
 }
