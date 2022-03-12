@@ -11,18 +11,22 @@ export default function PersonalSchedulesEditPage() {
   const currentUser = useCurrentUser();
   let { id } = useParams();
 
-  // Stryker disable all
   const {
     data: PersonalSchedule,
     error: error,
     status: status,
   } = useBackend(
+    // Stryker disable next-line all: React caching does not need to be tested
     [
+      // Stryker disable next-line all
       hasRole(currentUser, "ROLE_ADMIN")
-        ? "/api/PersonalSchedules/admin"
-        : "/api/PersonalSchedules",
+        ? // Stryker disable next-line all
+          "/api/PersonalSchedules/admin"
+        : // Stryker disable next-line all
+          "/api/PersonalSchedules",
     ],
     {
+      // Stryker disable next-line all
       method: "GET",
       url: hasRole(currentUser, "ROLE_ADMIN")
         ? "/api/PersonalSchedules/admin"
@@ -32,7 +36,7 @@ export default function PersonalSchedulesEditPage() {
       },
     }
   );
-  // Stryker enable all
+
   const objectToAxiosPutParams = (PersonalSchedule) => ({
     url: hasRole(currentUser, "ROLE_ADMIN")
       ? "/api/PersonalSchedules/admin"
