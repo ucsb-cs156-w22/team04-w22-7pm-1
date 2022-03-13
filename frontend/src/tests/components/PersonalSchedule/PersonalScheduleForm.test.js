@@ -1,23 +1,27 @@
-import { render, waitFor, fireEvent, queryByText } from "@testing-library/react";
-import PersonalScheduleForm from "main/components/PersonalSchedule/PersonalScheduleForm";
-import SingleQuarterDropdown from "main/components/Quarters/SingleQuarterDropdown";
+import {
+  render,
+  waitFor,
+  fireEvent,
+  queryByText,
+} from '@testing-library/react';
+import PersonalScheduleForm from 'main/components/PersonalSchedule/PersonalScheduleForm';
+import SingleQuarterDropdown from 'main/components/Quarters/SingleQuarterDropdown';
 import { quarterRange } from 'main/utils/quarterUtilities';
-import { personalSchedulesFixtures } from "fixtures/personalSchedulesFixtures";
-import { BrowserRouter as Router } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { MemoryRouter } from "react-router-dom";
-import userEvent from "@testing-library/user-event";
+import { personalSchedulesFixtures } from 'fixtures/personalSchedulesFixtures';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { MemoryRouter } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
 
 const mockedNavigate = jest.fn();
 
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
   useNavigate: () => mockedNavigate,
 }));
 
-describe("PersonalScheduleForm tests", () => {
-
-  test("renders work correctly ", async () => {
+describe('PersonalScheduleForm tests', () => {
+  test('renders work correctly ', async () => {
     const { getByText } = render(
       <Router>
         <PersonalScheduleForm />
@@ -29,78 +33,89 @@ describe("PersonalScheduleForm tests", () => {
   });
 
   const quarter = jest.fn();
-  const setQuarter = jest.fn();  
-  test("The Dropdown is able to reassign values and operates", async () => {
-    const { getByLabelText } =
-            render(<SingleQuarterDropdown
-              quarter={quarter}
-              setQuarter={setQuarter}
-              controlId={"quarterYYYYQ"}
-              quarters={quarterRange("20221", "20224")}
-              //label="Select Quarter"
-            />
-            );
-        await waitFor(() => expect(getByLabelText("Quarter")).toBeInTheDocument);
-        const selectQuarter = getByLabelText("Quarter");
-        userEvent.selectOptions(selectQuarter, "20222");
-        expect(setQuarter).toBeCalledWith("20222");
-      }
+  const setQuarter = jest.fn();
+  test('The Dropdown is able to reassign values and operates', async () => {
+    const { getByLabelText } = render(
+      <SingleQuarterDropdown
+        quarter={quarter}
+        setQuarter={setQuarter}
+        controlId={'quarterYYYYQ'}
+        quarters={quarterRange('20221', '20224')}
+        //label="Select Quarter"
+      />
     );
-
-
-  test("renders correctly when passing in a PersonalSchedule ", async () => {
-    const { getByText, getByTestId } = render(
-      <Router>
-        <PersonalScheduleForm initialPersonalSchedule={personalSchedulesFixtures.oneSchedule} />
-      </Router>
-    );
-    await waitFor(() => expect(getByTestId(/PersonalScheduleForm-id/)).toBeInTheDocument());
-    expect(getByText(/Id/)).toBeInTheDocument();
-    expect(getByTestId(/PersonalScheduleForm-id/)).toHaveValue("1");
+    await waitFor(() => expect(getByLabelText('Quarter')).toBeInTheDocument);
+    const selectQuarter = getByLabelText('Quarter');
+    userEvent.selectOptions(selectQuarter, '20222');
+    expect(setQuarter).toBeCalledWith('20222');
   });
 
-  // test("Correct Error messsages on bad input", async () => {
-  //   const mockSubmitAction = jest.fn();
-  //   const { getByTestId, getByText } = render(
-  //     <Router>
-  //       <PersonalScheduleForm submitAction={mockSubmitAction}/>
-  //     </Router>
-  //   );
-  //   //await waitFor(() => expect(getByTestId("PersonalScheduleForm-quarter")).toBeInTheDocument());
-  //   const nameField = getByTestId("PersonalScheduleForm-name");
-  //   const descriptionField = getByTestId("PersonalScheduleForm-description");
-  //   const quarterYYYYQField = document.querySelector("PersonalScheduleForm-quarter");//changed to a dropdown test
-  //   const submitButton = getByTestId("PersonalScheduleForm-submit");
+  test('renders correctly when passing in a PersonalSchedule ', async () => {
+    const { getByText, getByTestId } = render(
+      <Router>
+        <PersonalScheduleForm
+          initialPersonalSchedule={personalSchedulesFixtures.oneSchedule}
+        />
+      </Router>
+    );
+    await waitFor(() =>
+      expect(getByTestId(/PersonalScheduleForm-id/)).toBeInTheDocument()
+    );
+    expect(getByText(/Id/)).toBeInTheDocument();
+    expect(getByTestId(/PersonalScheduleForm-id/)).toHaveValue('1');
+  });
 
-  //   fireEvent.change(quarterYYYYQField, { target: { value: "20222" } });
-  //   fireEvent.change(nameField, { target: { value: "Test Name 1" } });
-  //   fireEvent.change(descriptionField, { target: { value: "Test description 1" } });
+  test('Correct Error messsages on bad input', async () => {
+    const mockSubmitAction = jest.fn();
+    const { getByTestId, getByText } = render(
+      <Router>
+        <PersonalScheduleForm submitAction={mockSubmitAction} />
+      </Router>
+    );
+    await waitFor(() =>
+      expect(getByTestId('PersonalScheduleForm-quarter')).toBeInTheDocument()
+    );
+    const nameField = getByTestId('PersonalScheduleForm-name');
+    const descriptionField = getByTestId('PersonalScheduleForm-description');
+    const quarterYYYYQField = document.querySelector(
+      'PersonalScheduleForm-quarter'
+    ); //changed to a dropdown test
+    const submitButton = getByTestId('PersonalScheduleForm-submit');
 
-  //   fireEvent.click(submitButton);
+    fireEvent.change(quarterYYYYQField, { target: { value: '20222' } });
+    fireEvent.change(nameField, { target: { value: 'Test Name 1' } });
+    fireEvent.change(descriptionField, {
+      target: { value: 'Test description 1' },
+    });
 
-  //   await waitFor(() => expect(mockSubmitAction).toHaveBeenCalled());
-  //   expect(queryByText("/Name is required./")).not.toBeInTheDocument();
-  //   expect(queryByText("/Description is required./")).not.toBeInTheDocument();
-  //   expect(quarterYYYYQField).toHaveValue("20222");
-  //   // );
-  //  });
-/*
-  test("Correct Error messsages on missing input", async () => {
+    fireEvent.click(submitButton);
+
+    await waitFor(() => expect(mockSubmitAction).toHaveBeenCalled());
+    expect(queryByText('/Name is required./')).not.toBeInTheDocument();
+    expect(queryByText('/Description is required./')).not.toBeInTheDocument();
+    expect(quarterYYYYQField).toHaveValue('20222');
+    // );
+  });
+
+  test('Correct Error messsages on missing input', async () => {
     const { getByTestId, getByText } = render(
       <Router>
         <PersonalScheduleForm />
       </Router>
     );
-    await waitFor(() => expect(getByTestId("PersonalScheduleForm-submit")).toBeInTheDocument());
-    const submitButton = getByTestId("PersonalScheduleForm-submit");
+    await waitFor(() =>
+      expect(getByTestId('PersonalScheduleForm-submit')).toBeInTheDocument()
+    );
+    const submitButton = getByTestId('PersonalScheduleForm-submit');
 
     fireEvent.click(submitButton);
 
-    await waitFor(() => expect(getByText(/QuarterYYYYQ is required./)).toBeInTheDocument());
-    expect(getByText(/Name is required./)).toBeInTheDocument();
+    await waitFor(() =>
+      expect(getByText(/Name is required./)).toBeInTheDocument()
+    );
   });
 
-  test("No Error messsages on good input", async () => {
+  test('No Error messsages on good input', async () => {
     const mockSubmitAction = jest.fn();
 
     const { getByTestId, queryByText } = render(
@@ -108,35 +123,42 @@ describe("PersonalScheduleForm tests", () => {
         <PersonalScheduleForm submitAction={mockSubmitAction} />
       </Router>
     );
-    await waitFor(() => expect(getByTestId("PersonalScheduleForm-quarter")).toBeInTheDocument());
+    await waitFor(() =>
+      expect(getByTestId('PersonalScheduleForm-name')).toBeInTheDocument()
+    );
 
-    const nameField = getByTestId("PersonalScheduleForm-name");
-    const descriptionField = getByTestId("PersonalScheduleForm-description");
-    const quarterField = getByTestId("PersonalScheduleForm-quarter");
-    const submitButton = getByTestId("PersonalScheduleForm-submit");
+    const nameField = getByTestId('PersonalScheduleForm-name');
+    const descriptionField = getByTestId('PersonalScheduleForm-description');
+    const quarterField = document.querySelector('PersonalScheduleForm-quarter');
+    const submitButton = getByTestId('PersonalScheduleForm-submit');
 
-    fireEvent.change(quarterField, { target: { value: "20221" } });
-    fireEvent.change(nameField, { target: { value: "CS154" } });
-    fireEvent.change(descriptionField, { target: { value: "Test description 1" } });
+    fireEvent.change(quarterField, { target: { value: '20221' } });
+    fireEvent.change(nameField, { target: { value: 'CS154' } });
+    fireEvent.change(descriptionField, {
+      target: { value: 'Test description 1' },
+    });
     fireEvent.click(submitButton);
 
     await waitFor(() => expect(mockSubmitAction).toHaveBeenCalled());
 
-    expect(queryByText(/QuarterYYYYQ must be in the format YYYYQ/)).not.toBeInTheDocument();
+    expect(
+      queryByText(/QuarterYYYYQ must be in the format YYYYQ/)
+    ).not.toBeInTheDocument();
   });
 
-  test("Test that navigate(-1) is called when Cancel is clicked", async () => {
+  test('Test that navigate(-1) is called when Cancel is clicked', async () => {
     const { getByTestId } = render(
       <Router>
         <PersonalScheduleForm />
       </Router>
     );
-    await waitFor(() => expect(getByTestId("PersonalScheduleForm-cancel")).toBeInTheDocument());
-    const cancelButton = getByTestId("PersonalScheduleForm-cancel");
+    await waitFor(() =>
+      expect(getByTestId('PersonalScheduleForm-cancel')).toBeInTheDocument()
+    );
+    const cancelButton = getByTestId('PersonalScheduleForm-cancel');
 
     fireEvent.click(cancelButton);
 
     await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith(-1));
   });
-  */
 });
