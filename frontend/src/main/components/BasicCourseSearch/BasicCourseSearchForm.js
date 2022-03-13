@@ -25,7 +25,7 @@ const BasicCourseSearchForm = ({ setCourseJSON, fetchJSON }) => {
 	//Stryker disable next-line all: cannot change it to boolean value
 	const [quarter, setQuarter] = useState(localQuarter || quarters[0].yyyyq);
 	const [subject, setSubject] = useState(localSubject || firstDepartment);
-	const [level, setLevel] = useState(localLevel || "UG-lower div");
+	const [level, setLevel] = useState(localLevel || "U");
 	//Stryker enable all
 
 	const handleSubmit = (event) => {
