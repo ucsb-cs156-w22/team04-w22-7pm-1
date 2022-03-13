@@ -5,19 +5,12 @@ import CoursesTable from "main/components/Courses/CoursesTable"
 import { Navigate } from 'react-router-dom'
 import { useState } from "react";
 import { useBackendMutation } from "main/utils/useBackend";
-
+import { queryAllByTestId } from "@testing-library/react";
+import { toast } from "react-toastify";
 
 const Home = () => {
-    //Stryker disable all: this is just a message
-    const initialCourseJSON = {
-        "pageNumber": 1,
-        "pageSize": 1,
-        "total": 0,
-        "classes": []
-    };
-    //Stryker enable all
 
-    const [courseJSON, setCourseJSON] = useState(initialCourseJSON);
+    const [courseJSON, setCourseJSON] = useState([]);
     
     const objectToAxiosParams = (query) => ({
       // Stryker disable next-line all : hard to set up test for caching
@@ -39,10 +32,8 @@ const Home = () => {
         objectToAxiosParams,
          {onSuccess},
          // Stryker disable next-line all : hard to set up test for caching
-         ["api/curriculum/curriculum"]
+         []
          );
-
-    const { isSuccess } = mutation
 
     async function fetchBasicCourseJSON(event, query) {
       mutation.mutate(query);
@@ -54,9 +45,9 @@ const Home = () => {
             <div className="text-left">
                 <h5>Welcome to the UCSB Courses Search App!</h5>
 
-                <BasicCourseSearchForm setCourseJSON={setCourseJSON} fetchJSON={fetchBasicCourseJSON} />
+                <BasicCourseSearchForm fetchJSON={fetchBasicCourseJSON} />
 
-                <CourseTable courses={coursesJSON} />
+                <CoursesTable courses={courseJSON} />
 
             </div>
         </BasicLayout>

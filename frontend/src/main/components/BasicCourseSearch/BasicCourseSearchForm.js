@@ -29,19 +29,9 @@ const BasicCourseSearchForm = ({ setCourseJSON, fetchJSON }) => {
 	//Stryker enable all
 
 	const handleSubmit = (event) => {
-		//Stryker disable all: this is just a message
-		toast(
-			"Not getting anything yet",
-			{
-			  appearance: "error",
-			}
-		);
-		//Stryker enable all
 		
 		event.preventDefault();
-		fetchJSON(event, {quarter, subject, level}).then((courseJSON) => {
-			setCourseJSON(courseJSON);
-		});
+		fetchJSON(event, {quarter, subject, level});
 	};
 
 	return (

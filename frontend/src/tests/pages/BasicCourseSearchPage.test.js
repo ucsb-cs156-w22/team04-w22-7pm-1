@@ -72,8 +72,6 @@ describe("BasicCourseSearchPage tests", () => {
         expect(searchButton).toBeInTheDocument();
         fireEvent.click(searchButton);
 
-        await waitFor(() => expect(mockNavigate).toBeCalledTimes(1));
-        expect(mockNavigate).toBeCalledWith({ "to": "/basiccoursesearch/index" });
         
     });
 

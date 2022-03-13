@@ -39,7 +39,7 @@ public class UCSBCurriculumService {
 
     public String getJSON(String subjectArea, String quarter, String courseLevel) {
         logger.info("quarter={}", quarter, "subjectArea={}", subjectArea, "courseLevel={}", courseLevel);
-
+        logger.info("KEY = {}", this.apiKey);
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -68,7 +68,8 @@ public class UCSBCurriculumService {
             statusCode = re.getStatusCode();
             retVal = re.getBody();
         } catch (HttpClientErrorException e) {
-            retVal = "{\"error\": \"401: Unauthorized\"}";
+            logger.error("exception:", e);
+            retVal = "{\"error\": \"See backend log for error & stack trace\"}";
         }
         logger.info("json: {} contentType: {} statusCode: {}", retVal, contentType, statusCode);
         return retVal;
