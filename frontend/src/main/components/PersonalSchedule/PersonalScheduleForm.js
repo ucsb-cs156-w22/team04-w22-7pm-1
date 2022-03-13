@@ -21,7 +21,7 @@ function PersonalScheduleForm({
   // Stryker enable all
 
   const navigate = useNavigate();
-  const [quarter, setQuarter] = useState("20221");
+  const [quarter, setQuarter] = useState("20213");
 
   setValue("quarterYYYYQ", quarter);
 
