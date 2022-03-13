@@ -78,7 +78,6 @@ function PersonalScheduleForm({
           setQuarter={setQuarter}
           controlId={"quarterYYYYQ"}
           quarters={quarterRange("20221", "20224")}
-          //label="Select Quarter"
         />
       </Form.Group>
 

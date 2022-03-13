@@ -58,7 +58,7 @@ describe("PersonalScheduleCreatePage tests", () => {
       id: 99,
       name: "Test name 1",
       description: "Test description 1",
-      quarterYYYYQ: "Test quarter 2022W",
+      quarterYYYYQ: "20221",
     };
 
     axiosMock.onPost("/api/PersonalSchedules/post").reply(202, personalschedule);

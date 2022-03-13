@@ -40,8 +40,8 @@ describe("PersonalScheduleForm tests", () => {
               //label="Select Quarter"
             />
             );
-        await waitFor(() => expect(getByLabelText("Select Quarter")).toBeInTheDocument);
-        const selectQuarter = getByLabelText("Select Quarter");
+        await waitFor(() => expect(getByLabelText("Quarter")).toBeInTheDocument);
+        const selectQuarter = getByLabelText("Quarter");
         userEvent.selectOptions(selectQuarter, "20222");
         expect(setQuarter).toBeCalledWith("20222");
       }
