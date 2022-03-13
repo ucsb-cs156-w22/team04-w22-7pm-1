@@ -141,11 +141,11 @@ describe("PersonalScheduleEditPage tests", () => {
       const idField = getByTestId("PersonalScheduleForm-id");
       const nameField = getByTestId("PersonalScheduleForm-name");
       const descriptionField = getByTestId("PersonalScheduleForm-description");
-      const quarterField = getByTestId("PersonalScheduleForm-quarter");
+      const quarterField = document.querySelector("#PersonalScheduleForm-quarter");
       const submitButton = getByTestId("PersonalScheduleForm-submit");
 
       expect(idField).toHaveValue("17");
-      expect(quarterField).toHaveValue("20222");
+      expect(quarterField).toHaveValue("20001");
       expect(nameField).toHaveValue("Test Name 1");
       expect(descriptionField).toHaveValue("Test description 1");
     });
@@ -165,11 +165,11 @@ describe("PersonalScheduleEditPage tests", () => {
       const idField = getByTestId("PersonalScheduleForm-id");
       const nameField = getByTestId("PersonalScheduleForm-name");
       const descriptionField = getByTestId("PersonalScheduleForm-description");
-      const quarterField = getByTestId("PersonalScheduleForm-quarter");
+      const quarterField = document.querySelector("#PersonalScheduleForm-quarter");
       const submitButton = getByTestId("PersonalScheduleForm-submit");
 
       expect(idField).toHaveValue("17");
-      expect(quarterField).toHaveValue("20222");
+      expect(quarterField).toHaveValue("20001");
       expect(nameField).toHaveValue("Test Name 1");
       expect(descriptionField).toHaveValue("Test description 1");
 
@@ -212,11 +212,11 @@ describe("PersonalScheduleEditPage tests", () => {
       const idField = getByTestId("PersonalScheduleForm-id");
       const nameField = getByTestId("PersonalScheduleForm-name");
       const descriptionField = getByTestId("PersonalScheduleForm-description");
-      const quarterField = getByTestId("PersonalScheduleForm-quarter");
+      const quarterField = document.querySelector("#PersonalScheduleForm-quarter");
       const submitButton = getByTestId("PersonalScheduleForm-submit");
 
       expect(idField).toHaveValue("17");
-      expect(quarterField).toHaveValue("20222");
+      expect(quarterField).toHaveValue("20224");
       expect(nameField).toHaveValue("Test Name 1");
       expect(descriptionField).toHaveValue("Test description 1");
 
