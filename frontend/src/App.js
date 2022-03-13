@@ -41,14 +41,6 @@ function App() {
             <Route exact path="/personalschedule/edit/:id" element={<PersonalSchedulEditPage />} />
           </>
         )}
-        {
-          hasRole(currentUser, "ROLE_USER") && (
-            <>
-
-              <Route exact path="/basiccoursesearch/search" element={<BasicCourseSearchPage />} />
-            </>
-          )
-        }
       </Routes>
     </BrowserRouter>
   );
