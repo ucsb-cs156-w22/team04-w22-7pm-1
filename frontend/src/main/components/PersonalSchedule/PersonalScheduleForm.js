@@ -72,11 +72,11 @@ function PersonalScheduleForm({
         <Form.Control.Feedback type="invalid">{errors.description?.message}</Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group className="mb-3" data-testid="PersonalScheduleForm-quarter">
+      <Form.Group className="mb-3">
         <SingleQuarterDropdown
           quarter={quarter}
           setQuarter={setQuarter}
-          controlId={"quarterYYYYQ"}
+          controlId={"PersonalScheduleForm-quarter"}
           quarters={quarterRange("20221", "20224")}
         />
       </Form.Group>

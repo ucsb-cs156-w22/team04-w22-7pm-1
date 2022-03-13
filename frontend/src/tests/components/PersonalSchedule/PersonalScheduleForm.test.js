@@ -78,7 +78,7 @@ describe('PersonalScheduleForm tests', () => {
     const nameField = getByTestId('PersonalScheduleForm-name');
     const descriptionField = getByTestId('PersonalScheduleForm-description');
     const quarterYYYYQField = document.querySelector(
-      'PersonalScheduleForm-quarter'
+      '#PersonalScheduleForm-quarter'
     ); //changed to a dropdown test
     const submitButton = getByTestId('PersonalScheduleForm-submit');
 
@@ -129,7 +129,7 @@ describe('PersonalScheduleForm tests', () => {
 
     const nameField = getByTestId('PersonalScheduleForm-name');
     const descriptionField = getByTestId('PersonalScheduleForm-description');
-    const quarterField = document.querySelector('PersonalScheduleForm-quarter');
+    const quarterField = document.querySelector('#PersonalScheduleForm-quarter');
     const submitButton = getByTestId('PersonalScheduleForm-submit');
 
     fireEvent.change(quarterField, { target: { value: '20221' } });
