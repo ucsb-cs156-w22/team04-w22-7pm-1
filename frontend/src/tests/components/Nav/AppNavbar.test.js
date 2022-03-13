@@ -161,6 +161,7 @@ describe("AppNavbar tests", () => {
     await waitFor(() => expect(getByTestId("appnavbar-personalSchedule-list")).toBeInTheDocument());
   });
 
+
   test("renders the personalSchedule menu correctly for an admin", async () => {
     const currentUser = currentUserFixtures.adminUser;
     const systemInfo = systemInfoFixtures.showingBoth;
