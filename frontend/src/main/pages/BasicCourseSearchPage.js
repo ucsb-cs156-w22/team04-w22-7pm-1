@@ -27,6 +27,7 @@ const Home = () => {
     // courseId, title, sectionNumber, instructor, enroll code, units, total enrolled students, max enrolled
     const [courseJSON, setCourseJSON] = useState(initialCourseJSON);
 
+    
     const objectToAxiosParams = (query) => ({
       url: "/api/curriculum/curriculum",
       method: "GET",
@@ -40,6 +41,8 @@ const Home = () => {
     const [returned_courses, setCourses] = useState([]);
 
     const onSuccess = (courses) => { return courses };
+
+    setCourses(courses)
 
     const mutation = useBackendMutation(objectToAxiosParams, {onSuccess}, []);
 
