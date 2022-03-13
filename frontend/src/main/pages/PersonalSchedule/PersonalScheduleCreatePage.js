@@ -33,6 +33,7 @@ export default function PersonalScheduleCreatePage() {
   const { isSuccess } = mutation;
 
   const onSubmit = async (data) => {
+    console.log(data);
     mutation.mutate(data);
   };
 

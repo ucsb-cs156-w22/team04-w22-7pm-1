@@ -1,4 +1,5 @@
-import { render, waitFor, fireEvent } from "@testing-library/react";
+import { render, waitFor, fireEvent, screen } from "@testing-library/react";
+
 import PersonalScheduleCreatePage from "main/pages/PersonalSchedule/PersonalScheduleCreatePage";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
@@ -58,7 +59,7 @@ describe("PersonalScheduleCreatePage tests", () => {
       id: 99,
       name: "Test name 1",
       description: "Test description 1",
-      quarterYYYYQ: "Test quarter 2022W",
+      quarterYYYYQ: "20221",
     };
 
     axiosMock.onPost("/api/PersonalSchedules/post").reply(202, personalschedule);
@@ -77,7 +78,7 @@ describe("PersonalScheduleCreatePage tests", () => {
 
     const nameField = getByTestId("PersonalScheduleForm-name");
     const descriptionField = getByTestId("PersonalScheduleForm-description");
-    const quarterField = getByTestId("PersonalScheduleForm-quarter");
+    const quarterField = document.querySelector("#PersonalScheduleForm-quarter");
     const submitButton = getByTestId("PersonalScheduleForm-submit");
 
     fireEvent.change(nameField, { target: { value: "Test Name 1" } });
