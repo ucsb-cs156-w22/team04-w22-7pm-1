@@ -16,6 +16,7 @@ function PersonalScheduleForm({
     register,
     formState: { errors },
     handleSubmit,
+    setValue,
   } = useForm({ defaultValues: initialPersonalSchedule || {} });
   // Stryker enable all
 
@@ -25,6 +26,8 @@ function PersonalScheduleForm({
       quarters: quarterRange("20081", "20213"),
     }.quarters[0]
   );
+
+  setValue("quarterYYYYQ", quarter);
 
   const yyyyq_regex = /((19)|(20))\d{2}[1-4]/i; // Accepts from 1900-2099 followed by 1-4.  Close enough.
 
