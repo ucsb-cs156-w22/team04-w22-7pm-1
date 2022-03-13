@@ -3,6 +3,8 @@ import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import BasicCourseSearchForm from "main/components/BasicCourseSearch/BasicCourseSearchForm";
 import CoursesTable from "main/components/Courses/CoursesTable"
 
+import axios from "axios";
+
 import { useState } from "react";
 import { useBackendMutation } from "main/utils/useBackend";
 
@@ -24,10 +26,13 @@ const Home = () => {
         "classes": []
     };
 
+    const [returned_courses, setCourses] = useState([]);
+
     // courseId, title, sectionNumber, instructor, enroll code, units, total enrolled students, max enrolled
-    const [courseJSON, setCourseJSON] = useState(initialCourseJSON);
+    //const [courseJSON, setCourseJSON] = useState(initialCourseJSON);
 
     
+    /*
     const objectToAxiosParams = (query) => ({
       url: "/api/curriculum/curriculum",
       method: "GET",
@@ -38,8 +43,6 @@ const Home = () => {
       },
     });
 
-    const [returned_courses, setCourses] = useState([]);
-
     const onSuccess = (courses) => { return courses };
 
     setCourses(courses)
@@ -48,15 +51,30 @@ const Home = () => {
 
     async function fetchBasicCourseJSON(event, query) {
       mutation.mutate(query);
-    }
+    }*/
+
+    const fetchBasicCourseJSON = async (event, {qtr, dept, level}) => {
+      const response = await axios({
+        url: "/api/curriculum/curriculum",
+        method: "GET",
+        params: {
+          qtr: quarter,
+          dept: subject,
+          level: level
+        }
+      }).then(e => e.data.classes)
+      setCourses(response);
+    };
+
 
     return (
         <BasicLayout>
             <div className="text-left">
                 <h5>Welcome to the UCSB Courses Search App!</h5>
 
-                <BasicCourseSearchForm setCourseJSON={setCourseJSON} fetchJSON={fetchBasicCourseJSON} />
-                <CoursesTable coursestab = {returned_courses}/>
+                <BasicCourseSearchForm fetchJSON={fetchBasicCourseJSON} />
+                <TableLegend legend />
+                <CoursesTable courses = {returned_courses}/>
             </div>
         </BasicLayout>
     );
