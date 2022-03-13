@@ -1,6 +1,7 @@
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 
 import BasicCourseSearchForm from "main/components/BasicCourseSearch/BasicCourseSearchForm";
+import CoursesTable from "main/components/Courses/CoursesTable"
 
 import { useState } from "react";
 import { useBackendMutation } from "main/utils/useBackend";
@@ -36,6 +37,8 @@ const Home = () => {
       },
     });
 
+    const [returned_courses, setCourses] = useState([]);
+
     const onSuccess = (courses) => { return courses };
 
     const mutation = useBackendMutation(objectToAxiosParams, {onSuccess}, []);
@@ -50,7 +53,7 @@ const Home = () => {
                 <h5>Welcome to the UCSB Courses Search App!</h5>
 
                 <BasicCourseSearchForm setCourseJSON={setCourseJSON} fetchJSON={fetchBasicCourseJSON} />
-
+                <CoursesTable coursestab = {returned_courses}/>
             </div>
         </BasicLayout>
     );
