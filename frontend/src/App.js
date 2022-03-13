@@ -12,6 +12,7 @@ import BasicCourseSearchPage from "main/pages/BasicCourseSearchPage"
 import { hasRole, useCurrentUser } from "main/utils/currentUser";
 
 import "bootstrap/dist/css/bootstrap.css";
+import BasicCourseListPage from "main/pages/BasicCourseListPage";
 
 function App() {
   const { data: currentUser } = useCurrentUser();
@@ -45,7 +46,7 @@ function App() {
             <>
 
               <Route exact path="/basiccoursesearch/search" element={<BasicCourseSearchPage />} />
-              <Route exact path="/basiccoursesearch/index" element={<BasicCourseSearchPage />} />
+              <Route exact path="/basiccoursesearch/index" element={<BasicCourseListPage />} />
             </>
           )
         }
