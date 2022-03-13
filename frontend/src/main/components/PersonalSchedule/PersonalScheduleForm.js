@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import SingleQuarterDropdown from "../Quarters/SingleQuarterDropdown";
+import { quarterRange } from "../../utils/quarterUtilities";
 
 function PersonalScheduleForm({
   initialPersonalSchedule,
@@ -18,6 +20,11 @@ function PersonalScheduleForm({
   // Stryker enable all
 
   const navigate = useNavigate();
+  const [quarter, setQuarter] = useState(
+    {
+      quarters: quarterRange("20081", "20213"),
+    }.quarters[0]
+  );
 
   const yyyyq_regex = /((19)|(20))\d{2}[1-4]/i; // Accepts from 1900-2099 followed by 1-4.  Close enough.
 
@@ -62,23 +69,13 @@ function PersonalScheduleForm({
         <Form.Control.Feedback type="invalid">{errors.description?.message}</Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group className="mb-3">
-        <Form.Label htmlFor="quarterYYYYQ">QuarterYYYYQ</Form.Label>
-        <Form.Control
-          data-testid="PersonalScheduleForm-quarter"
-          id="quarterYYYYQ"
-          type="text"
-          isInvalid={Boolean(errors.quarterYYYYQ)}
-          {...register("quarterYYYYQ", {
-            required: "QuarterYYYYQ is required.",
-            pattern: yyyyq_regex,
-          })}
+      <Form.Group className="mb-3" data-testid="PersonalScheduleForm-quarter">
+        <SingleQuarterDropdown
+          quarter={quarter}
+          setQuarter={setQuarter}
+          controlId={"quarterYYYYQ"}
+          quarters={quarterRange("20001", "20224")}
         />
-        <Form.Control.Feedback type="invalid">
-          {errors.quarterYYYYQ && "QuarterYYYYQ is required. "}
-          {errors.quarterYYYYQ?.type === "pattern" &&
-            "QuarterYYYYQ must be in the format YYYYQ, e.g. 20224 for Fall 2022"}
-        </Form.Control.Feedback>
       </Form.Group>
 
       <Button type="submit" data-testid="PersonalScheduleForm-submit">
