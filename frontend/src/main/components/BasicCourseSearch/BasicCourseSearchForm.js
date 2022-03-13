@@ -12,26 +12,29 @@ import SingleSubjectDropdown from "../Subjects/SingleSubjectDropdown"
 const BasicCourseSearchForm = ({ setCourseJSON, fetchJSON }) => {
 	const quarters = quarterRange("20084", "20222");
 
-	//const allTheLevels = [["L","UG-lower div"], ["S", "UG-upper div"], ["G","GRAD"], ["A","All"]]
-	const allTheLevels = ["UG-lower div","UG-upper div", "GRAD", "All"]
-
+	// Stryker disable all : hard-coded string 
     const localSubject = localStorage.getItem("BasicSearch.Subject");
     const localQuarter = localStorage.getItem("BasicSearch.Quarter");
 	const localLevel = localStorage.getItem("BasicSearch.CourseLevel");
+	//Stryker enable all
 	
 	const firstDepartment = allTheSubjects[0].subjectCode;
+	//Stryker disable next-line all: cannot change it to boolean value
 	const [quarter, setQuarter] = useState(localQuarter || quarters[0].yyyyq);
 	const [subject, setSubject] = useState(localSubject || firstDepartment);
 	const [level, setLevel] = useState(localLevel || "UG-lower div");
-	const [errorNotified, setErrorNotified] = useState(false);
+	//Stryker enable all
 
 	const handleSubmit = (event) => {
+		//Stryker disable all: this is just a message
 		toast(
 			"Not getting anything yet",
 			{
 			  appearance: "error",
 			}
 		);
+		//Stryker enable all
+		
 		event.preventDefault();
 		fetchJSON(event, {quarter, subject, level}).then((courseJSON) => {
 			setCourseJSON(courseJSON);
@@ -58,7 +61,6 @@ const BasicCourseSearchForm = ({ setCourseJSON, fetchJSON }) => {
                         label={"Subject"}
 					/></Col>
 					<Col md = "auto"><ManyLevelDropdown
-						levels={allTheLevels}
 						level={level}
 						setLevel={setLevel}
 						controlId={"BasicSearch.CourseLevel"}

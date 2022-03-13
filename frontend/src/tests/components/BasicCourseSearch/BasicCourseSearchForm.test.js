@@ -1,11 +1,9 @@
 import React from "react";
-import { getByTestId, render, waitFor } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { toast } from "react-toastify";
-import { allTheSubjects } from "fixtures/subjectFixtures";
 
 import BasicCourseSearchForm from "main/components/BasicCourseSearch/BasicCourseSearchForm";
-import { quarterRange } from "main/utils/quarterUtilities";
+
 
 
 jest.mock("react-toastify", () => ({
