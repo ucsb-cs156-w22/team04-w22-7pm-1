@@ -1,4 +1,5 @@
-import { render, waitFor, fireEvent,screen } from "@testing-library/react";
+import { render, waitFor, fireEvent, screen } from "@testing-library/react";
+
 import PersonalScheduleCreatePage from "main/pages/PersonalSchedule/PersonalScheduleCreatePage";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
@@ -83,7 +84,6 @@ describe("PersonalScheduleCreatePage tests", () => {
     fireEvent.change(nameField, { target: { value: "Test Name 1" } });
     fireEvent.change(descriptionField, { target: { value: "Test description 1" } });
     fireEvent.change(quarterField, { target: { value: "20222" } });
-    
 
     expect(submitButton).toBeInTheDocument();
 

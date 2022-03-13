@@ -41,7 +41,6 @@ describe('PersonalScheduleForm tests', () => {
         setQuarter={setQuarter}
         controlId={'quarterYYYYQ'}
         quarters={quarterRange('20221', '20224')}
-        //label="Select Quarter"
       />
     );
     await waitFor(() => expect(getByLabelText('Quarter')).toBeInTheDocument);
