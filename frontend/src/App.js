@@ -7,7 +7,6 @@ import LoadSubjectsPage from "main/pages/LoadSubjectsPage";
 import PersonalScheduleIndexPage from "main/pages/PersonalSchedule/PersonalScheduleIndexPage";
 import PersonalSchedulCreatePage from "main/pages/PersonalSchedule/PersonalScheduleCreatePage";
 import PersonalSchedulEditPage from "main/pages/PersonalSchedule/PersonalScheduleEditPage";
-import BasicCourseSearchPage from "main/pages/BasicCourseSearchPage"
 
 import { hasRole, useCurrentUser } from "main/utils/currentUser";
 
