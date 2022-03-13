@@ -65,38 +65,6 @@ describe('PersonalScheduleForm tests', () => {
     expect(getByTestId(/PersonalScheduleForm-id/)).toHaveValue('1');
   });
 
-  test('Correct Error messsages on bad input', async () => {
-    const mockSubmitAction = jest.fn();
-    const { getByTestId, getByText } = render(
-      <Router>
-        <PersonalScheduleForm submitAction={mockSubmitAction} />
-      </Router>
-    );
-    await waitFor(() =>
-      expect(getByTestId('PersonalScheduleForm-quarter')).toBeInTheDocument()
-    );
-    const nameField = getByTestId('PersonalScheduleForm-name');
-    const descriptionField = getByTestId('PersonalScheduleForm-description');
-    const quarterYYYYQField = document.querySelector(
-      '#PersonalScheduleForm-quarter'
-    ); //changed to a dropdown test
-    const submitButton = getByTestId('PersonalScheduleForm-submit');
-
-    fireEvent.change(quarterYYYYQField, { target: { value: '20222' } });
-    fireEvent.change(nameField, { target: { value: 'Test Name 1' } });
-    fireEvent.change(descriptionField, {
-      target: { value: 'Test description 1' },
-    });
-
-    fireEvent.click(submitButton);
-
-    await waitFor(() => expect(mockSubmitAction).toHaveBeenCalled());
-    expect(queryByText('/Name is required./')).not.toBeInTheDocument();
-    expect(queryByText('/Description is required./')).not.toBeInTheDocument();
-    expect(quarterYYYYQField).toHaveValue('20222');
-    // );
-  });
-
   test('Correct Error messsages on missing input', async () => {
     const { getByTestId, getByText } = render(
       <Router>
@@ -142,7 +110,7 @@ describe('PersonalScheduleForm tests', () => {
     await waitFor(() => expect(mockSubmitAction).toHaveBeenCalled());
 
     expect(
-      queryByText(/QuarterYYYYQ must be in the format YYYYQ/)
+      queryByText(/Name is required/)
     ).not.toBeInTheDocument();
   });
 
