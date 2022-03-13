@@ -29,7 +29,7 @@ const Home = () => {
     const [returned_courses, setCourses] = useState([]);
 
     // courseId, title, sectionNumber, instructor, enroll code, units, total enrolled students, max enrolled
-    //const [courseJSON, setCourseJSON] = useState(initialCourseJSON);
+    const [courseJSON, setCourseJSON] = useState(initialCourseJSON);
 
     
     /*
@@ -72,7 +72,7 @@ const Home = () => {
             <div className="text-left">
                 <h5>Welcome to the UCSB Courses Search App!</h5>
 
-                <BasicCourseSearchForm fetchJSON={fetchBasicCourseJSON} />
+                <BasicCourseSearchForm setCourseJSON={setCourseJSON} fetchJSON={fetchBasicCourseJSON} />
                 
                 <CoursesTable courses = {returned_courses}/>
             </div>
