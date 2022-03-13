@@ -8,8 +8,11 @@ import { quarterRange } from "main/utils/quarterUtilities";
 import SingleQuarterDropdown from "../Quarters/SingleQuarterDropdown";
 import ManyLevelDropdown from "../Level/LevelDropdown";
 import SingleSubjectDropdown from "../Subjects/SingleSubjectDropdown"
+import { useNavigate } from 'react-router-dom'
+
 
 const BasicCourseSearchForm = ({ setCourseJSON, fetchJSON }) => {
+
 	const quarters = quarterRange("20084", "20222");
 
 	// Stryker disable all : hard-coded string 
@@ -41,7 +44,6 @@ const BasicCourseSearchForm = ({ setCourseJSON, fetchJSON }) => {
 		});
 	};
 
-
 	return (
 		<Form onSubmit={handleSubmit}>
 			<Container>
@@ -51,6 +53,7 @@ const BasicCourseSearchForm = ({ setCourseJSON, fetchJSON }) => {
 						quarter={quarter}
 						setQuarter={setQuarter}
 						controlId={"BasicSearch.Quarter"}
+						data-testid = "BasicSearch.Quarter" 
 						label={"Quarter"}
 					/></Col>
 					<Col md = "auto"><SingleSubjectDropdown
@@ -58,17 +61,19 @@ const BasicCourseSearchForm = ({ setCourseJSON, fetchJSON }) => {
 						subject={subject}
 						setSubject={setSubject}
                         controlId={"BasicSearch.Subject"}
+						data-testid = "BasicSearch.Subject" 
                         label={"Subject"}
 					/></Col>
 					<Col md = "auto"><ManyLevelDropdown
 						level={level}
 						setLevel={setLevel}
 						controlId={"BasicSearch.CourseLevel"}
+						data-testid = "BasicSearch.CourseLevel" 
 						label={"CourseLevel"}
 					/></Col>
 				</Row>
 			</Container>
-			<Button variant="primary" type="submit">
+			<Button variant="primary" type="submit" data-testid = "BasicSearch.Submit"> 
 				Search
 			</Button>
 		</Form>
