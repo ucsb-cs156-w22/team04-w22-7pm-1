@@ -82,6 +82,7 @@ export default function AppNavbar({
                 </NavDropdown>
               )}
             </Nav>
+
             <Nav className="ml-auto">
               {currentUser && currentUser.loggedIn ? (
                 <>
