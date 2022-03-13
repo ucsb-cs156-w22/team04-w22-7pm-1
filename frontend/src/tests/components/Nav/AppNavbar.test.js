@@ -161,6 +161,29 @@ describe("AppNavbar tests", () => {
     await waitFor(() => expect(getByTestId("appnavbar-personalSchedule-list")).toBeInTheDocument());
   });
 
+  test("renders the search correctly for a user", async () => {
+    const currentUser = currentUserFixtures.userOnly;
+    const systemInfo = systemInfoFixtures.showingBoth;
+
+    const doLogin = jest.fn();
+
+    const { getByTestId } = render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <AppNavbar currentUser={currentUser} systemInfo={systemInfo} doLogin={doLogin} />
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
+
+    await waitFor(() =>
+      expect(getByTestId("appnavbar-basicsearch-dropdown")).toBeInTheDocument()
+    );
+    const dropdown = getByTestId("appnavbar-basicsearch-dropdown");
+    const aElement = dropdown.querySelector("a");
+    expect(aElement).toBeInTheDocument();
+    aElement?.click();
+    await waitFor(() => expect(getByTestId("appnavbar-basicsearch-dropdown")).toBeInTheDocument());
+  });
 
   test("renders the personalSchedule menu correctly for an admin", async () => {
     const currentUser = currentUserFixtures.adminUser;

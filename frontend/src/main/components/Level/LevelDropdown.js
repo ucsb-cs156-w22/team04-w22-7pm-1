@@ -9,7 +9,13 @@ const ManyLevelDropdown = ({ level, setLevel, onChange = null}) => {
             onChange(event);
         }
     };
-    const levels = ["UG-lower div", "UG-upper div", "GRAD", "All"]
+    const levels = [
+    {label:"UG-lower div", value:"L"}, 
+    {label:"UG-upper div", value:"S"},
+    {label:"UG-All", value:"U"},
+    {label:"GRAD", value:"G"}
+
+]
     return (
 
         <Form.Group >  
@@ -20,10 +26,10 @@ const ManyLevelDropdown = ({ level, setLevel, onChange = null}) => {
                     const key=`level-dropdown-option-${i}`;
                     return (
                         <option
-                            label = {object}
+                            label = {object.label}
                             key={key}
                             data-testid={key}
-                            value={object}
+                            value={object.value}
                         >
                         </option>
                     );

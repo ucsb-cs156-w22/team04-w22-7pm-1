@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.ucsb.cs156.example.services.UCSBCurriculumService;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/curriculum")
 public class UCSBCurriculumController {
@@ -22,6 +24,7 @@ public class UCSBCurriculumController {
             @RequestParam String level) throws JsonProcessingException {
 
         String body = ucsbCurriculumService.getJSON(dept, qtr, level);
+        log.info("body = {}", body);
 
         return ResponseEntity.ok().body(body);
     }
