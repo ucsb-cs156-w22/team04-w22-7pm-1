@@ -31,7 +31,9 @@ const Home = () => {
     });
 
     // Stryker disable next-line all : hard to set up test for caching
-    const onSuccess = (courses) => { return courses };
+    const onSuccess = (courses) => { 
+      setCourseJSON(courses.classes);
+    };
 
     const mutation = useBackendMutation(
         objectToAxiosParams,
@@ -46,10 +48,6 @@ const Home = () => {
       mutation.mutate(query);
     }
 
-    if (isSuccess) {
-        return <Navigate to="/basiccoursesearch/index" />
-    }
-
 
     return (
         <BasicLayout>
@@ -57,6 +55,9 @@ const Home = () => {
                 <h5>Welcome to the UCSB Courses Search App!</h5>
 
                 <BasicCourseSearchForm setCourseJSON={setCourseJSON} fetchJSON={fetchBasicCourseJSON} />
+
+                <CourseTable courses={coursesJSON} />
+
             </div>
         </BasicLayout>
     );
