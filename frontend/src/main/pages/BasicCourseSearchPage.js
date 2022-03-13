@@ -53,7 +53,7 @@ const Home = () => {
       mutation.mutate(query);
     }*/
 
-    const fetchBasicCourseJSON = async (event, {qtr, dept, level}) => {
+    const fetchBasicCourseJSON = async (event, {quarter, subject, level}) => {
       const response = await axios({
         url: "/api/curriculum/curriculum",
         method: "GET",
@@ -73,7 +73,7 @@ const Home = () => {
                 <h5>Welcome to the UCSB Courses Search App!</h5>
 
                 <BasicCourseSearchForm fetchJSON={fetchBasicCourseJSON} />
-                <TableLegend legend />
+                
                 <CoursesTable courses = {returned_courses}/>
             </div>
         </BasicLayout>
