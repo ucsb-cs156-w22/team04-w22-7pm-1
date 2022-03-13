@@ -1,14 +1,13 @@
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 
 import BasicCourseSearchForm from "main/components/BasicCourseSearch/BasicCourseSearchForm";
-import CoursesTable from "main/components/Courses/CoursesTable"
 import { Navigate } from 'react-router-dom'
 import { useState } from "react";
 import { useBackendMutation } from "main/utils/useBackend";
 
 
 const Home = () => {
-    //Stryker disable all: this is just a message
+    //Stryker disable all
     const initialCourseJSON = {
         "pageNumber": 1,
         "pageSize": 1,
@@ -20,7 +19,7 @@ const Home = () => {
     const [courseJSON, setCourseJSON] = useState(initialCourseJSON);
     
     const objectToAxiosParams = (query) => ({
-      // Stryker disable next-line all : hard to set up test for caching
+      // Stryker disable next-line all 
       url: "/api/curriculum/curriculum",
       method: "GET",
       params: {
@@ -30,13 +29,13 @@ const Home = () => {
       },
     });
 
-    // Stryker disable next-line all : hard to set up test for caching
+    // Stryker disable next-line all 
     const onSuccess = (courses) => { return courses };
 
     const mutation = useBackendMutation(
         objectToAxiosParams,
          {onSuccess},
-         // Stryker disable next-line all : hard to set up test for caching
+         // Stryker disable next-line all 
          ["api/curriculum/curriculum"]
          );
 
