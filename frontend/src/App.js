@@ -41,11 +41,11 @@ function App() {
             <Route exact path="/personalschedule/edit/:id" element={<PersonalSchedulEditPage />} />
           </>
         )}
-        {
-          hasRole(currentUser, "ROLE_USER") && (
+        {hasRole(currentUser, "ROLE_USER") && (
             <>
 
               <Route exact path="/basiccoursesearch/search" element={<BasicCourseSearchPage />} />
+              <Route exact path="/basiccoursesearch/index" element={<BasicCourseSearchPage />} />
             </>
           )
         }
