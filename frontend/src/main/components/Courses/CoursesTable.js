@@ -1,7 +1,7 @@
 import React from "react";
 import OurTable, { ButtonColumn } from "main/components/OurTable";
 
-export default function CoursesTable({ courses, currentUser }) {
+export default function CoursesTable({ courses}) {
     const limitText = ({value})=>{
         return value.substr(0,150);
     };

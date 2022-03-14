@@ -22,9 +22,9 @@ describe("level dropdown tests", () => {
 
         await waitFor(() => expect(getByTestId("level-dropdown")).toBeInTheDocument());
 
-        userEvent.selectOptions(getByTestId("level-dropdown"), "GRAD");
+        userEvent.selectOptions(getByTestId("level-dropdown"), "G");
 
-        await waitFor(() => expect(setLevel).toBeCalledWith("GRAD"));
+        await waitFor(() => expect(setLevel).toBeCalledWith("G"));
         await waitFor(() => expect(onChange).toBeCalledTimes(1));
     });
 
@@ -40,9 +40,9 @@ describe("level dropdown tests", () => {
 
         await waitFor(() => expect(getByTestId("level-dropdown")).toBeInTheDocument());
 
-        userEvent.selectOptions(getByTestId("level-dropdown"), "GRAD");
+        userEvent.selectOptions(getByTestId("level-dropdown"), "G");
 
-        await waitFor(() => expect(setLevel).toBeCalledWith("GRAD"));
+        await waitFor(() => expect(setLevel).toBeCalledWith("G"));
         
     });
 
