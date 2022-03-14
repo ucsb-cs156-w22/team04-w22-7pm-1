@@ -139,8 +139,6 @@ describe("PersonalScheduleEditPage tests", () => {
         </QueryClientProvider>
       );
 
-      await waitFor(() => expect(getByTestId("PersonalScheduleForm-quarter")).toBeInTheDocument());
-
       const idField = getByTestId("PersonalScheduleForm-id");
       const nameField = getByTestId("PersonalScheduleForm-name");
       const descriptionField = getByTestId("PersonalScheduleForm-description");
@@ -162,8 +160,6 @@ describe("PersonalScheduleEditPage tests", () => {
           </MemoryRouter>
         </QueryClientProvider>
       );
-
-      await waitFor(() => expect(getByTestId("PersonalScheduleForm-quarter")).toBeInTheDocument());
 
       const idField = getByTestId("PersonalScheduleForm-id");
       const nameField = getByTestId("PersonalScheduleForm-name");
@@ -209,8 +205,6 @@ describe("PersonalScheduleEditPage tests", () => {
           </MemoryRouter>
         </QueryClientProvider>
       );
-
-      await waitFor(() => expect(getByTestId("PersonalScheduleForm-quarter")).toBeInTheDocument());
 
       const idField = getByTestId("PersonalScheduleForm-id");
       const nameField = getByTestId("PersonalScheduleForm-name");

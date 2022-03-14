@@ -1,11 +1,11 @@
-import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
-import { hasRole } from "main/utils/currentUser";
-import { useCurrentUser } from "main/utils/currentUser";
-import { useParams } from "react-router-dom";
-import PersonalScheduleForm from "main/components/PersonalSchedule/PersonalScheduleForm";
-import { Navigate } from "react-router-dom";
-import { useBackend, useBackendMutation } from "main/utils/useBackend";
-import { toast } from "react-toastify";
+import BasicLayout from 'main/layouts/BasicLayout/BasicLayout';
+import { hasRole } from 'main/utils/currentUser';
+import { useCurrentUser } from 'main/utils/currentUser';
+import { useParams } from 'react-router-dom';
+import PersonalScheduleForm from 'main/components/PersonalSchedule/PersonalScheduleForm';
+import { Navigate } from 'react-router-dom';
+import { useBackend, useBackendMutation } from 'main/utils/useBackend';
+import { toast } from 'react-toastify';
 
 export default function PersonalSchedulesEditPage() {
   const currentUser = useCurrentUser();
@@ -19,7 +19,7 @@ export default function PersonalSchedulesEditPage() {
     // Stryker disable next-line all: React caching does not need to be tested
     [
       // Stryker disable next-line all
-      hasRole(currentUser, "ROLE_ADMIN")
+      hasRole(currentUser, 'ROLE_ADMIN')
         ? // Stryker disable next-line all
           `/api/PersonalSchedules/admin?id=${id}`
         : // Stryker disable next-line all
@@ -27,10 +27,10 @@ export default function PersonalSchedulesEditPage() {
     ],
     {
       // Stryker disable next-line all
-      method: "GET",
-      url: hasRole(currentUser, "ROLE_ADMIN")
-        ? "/api/PersonalSchedules/admin"
-        : "/api/PersonalSchedules",
+      method: 'GET',
+      url: hasRole(currentUser, 'ROLE_ADMIN')
+        ? '/api/PersonalSchedules/admin'
+        : '/api/PersonalSchedules',
       params: {
         id,
       },
@@ -38,10 +38,10 @@ export default function PersonalSchedulesEditPage() {
   );
 
   const objectToAxiosPutParams = (PersonalSchedule) => ({
-    url: hasRole(currentUser, "ROLE_ADMIN")
-      ? "/api/PersonalSchedules/admin"
-      : "/api/PersonalSchedules",
-    method: "PUT",
+    url: hasRole(currentUser, 'ROLE_ADMIN')
+      ? '/api/PersonalSchedules/admin'
+      : '/api/PersonalSchedules',
+    method: 'PUT',
     params: {
       id: PersonalSchedule.id,
     },
@@ -58,14 +58,32 @@ export default function PersonalSchedulesEditPage() {
   console.log(PersonalSchedule);
 
   const onSuccess = (PersonalSchedule) => {
-    toast(`PersonalSchedule Updated - id: ${PersonalSchedule.id} name: ${PersonalSchedule.name}`);
+    toast(
+      `PersonalSchedule Updated - id: ${PersonalSchedule.id} name: ${PersonalSchedule.name}`
+    );
+    // Stryker disable next-line all: React caching does not need to be tested
+    [
+      // Stryker disable next-line all
+      hasRole(currentUser, 'ROLE_ADMIN')
+        ? // Stryker disable next-line all
+          `/api/PersonalSchedules/admin?id=${id}`
+        : // Stryker disable next-line all
+          `/api/PersonalSchedules?id=${id}`,
+    ];
   };
 
   const mutation = useBackendMutation(
     objectToAxiosPutParams,
     { onSuccess },
     // Stryker disable next-line all : hard to set up test for caching
-    [`/api/PersonalSchedules?id=${id}`]
+    [
+      // Stryker disable next-line all
+      hasRole(currentUser, 'ROLE_ADMIN')
+        ? // Stryker disable next-line all
+          `/api/PersonalSchedules/admin?id=${id}`
+        : // Stryker disable next-line all
+          `/api/PersonalSchedules?id=${id}`,
+    ]
   );
 
   const { isSuccess } = mutation;

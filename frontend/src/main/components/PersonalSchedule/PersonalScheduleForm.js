@@ -34,7 +34,6 @@ function PersonalScheduleForm({
 
   const yyyyq_regex = /((19)|(20))\d{2}[1-4]/i; // Accepts from 1900-2099 followed by 1-4.  Close enough.
 
-  console.log("storagequarter" + storageQuarter)
   if(storageQuarter!=null)
   {
     localStorage.setItem("PersonalScheduleForm-quarter", storageQuarter)
