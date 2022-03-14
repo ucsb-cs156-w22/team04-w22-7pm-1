@@ -27,9 +27,10 @@ function PersonalScheduleForm({
 
   const quarters = quarterRange('20001', '20223');
 
+  const defaultQuarter = storageQuarter|| localSearchQuarter || quarters[0].yyyyq;
   const navigate = useNavigate();
   const [quarter, setQuarter] = useState(
-    localSearchQuarter || quarters[0].yyyyq
+    defaultQuarter
   );
 
   setValue('quarterYYYYQ', quarter);
