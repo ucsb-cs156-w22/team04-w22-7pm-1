@@ -87,6 +87,7 @@ export default function PersonalSchedulesEditPage() {
             initialPersonalSchedule={PersonalSchedule}
             submitAction={onSubmit}
             buttonLabel="Update"
+            storageQuarter={PersonalSchedule.quarterYYYYQ}
           />
         )}
       </div>

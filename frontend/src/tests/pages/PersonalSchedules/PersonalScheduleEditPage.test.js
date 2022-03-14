@@ -148,7 +148,7 @@ describe("PersonalScheduleEditPage tests", () => {
       const submitButton = getByTestId("PersonalScheduleForm-submit");
 
       expect(idField).toHaveValue("17");
-      expect(quarterField).toHaveValue("20001");
+      expect(quarterField).toHaveValue("20222");
       expect(nameField).toHaveValue("Test Name 1");
       expect(descriptionField).toHaveValue("Test description 1");
     });
@@ -172,7 +172,7 @@ describe("PersonalScheduleEditPage tests", () => {
       const submitButton = getByTestId("PersonalScheduleForm-submit");
 
       expect(idField).toHaveValue("17");
-      expect(quarterField).toHaveValue("20001");
+      expect(quarterField).toHaveValue("20222");
       expect(nameField).toHaveValue("Test Name 1");
       expect(descriptionField).toHaveValue("Test description 1");
 
@@ -219,7 +219,7 @@ describe("PersonalScheduleEditPage tests", () => {
       const submitButton = getByTestId("PersonalScheduleForm-submit");
 
       expect(idField).toHaveValue("17");
-      expect(quarterField).toHaveValue("20001");
+      expect(quarterField).toHaveValue("20222");
       expect(nameField).toHaveValue("Test Name 1");
       expect(descriptionField).toHaveValue("Test description 1");
 

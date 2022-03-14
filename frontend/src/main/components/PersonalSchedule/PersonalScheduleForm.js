@@ -10,6 +10,7 @@ function PersonalScheduleForm({
   submitAction,
   currentUser,
   buttonLabel = 'Create',
+  storageQuarter,
 }) {
   // Stryker disable all
   const {
@@ -32,6 +33,12 @@ function PersonalScheduleForm({
   setValue('quarterYYYYQ', quarter);
 
   const yyyyq_regex = /((19)|(20))\d{2}[1-4]/i; // Accepts from 1900-2099 followed by 1-4.  Close enough.
+
+  console.log("storagequarter" + storageQuarter)
+  if(storageQuarter!=null)
+  {
+    localStorage.setItem("PersonalScheduleForm-quarter", storageQuarter)
+  }
 
   return (
     <Form onSubmit={handleSubmit(submitAction)}>
