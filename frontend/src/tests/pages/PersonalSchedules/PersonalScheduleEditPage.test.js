@@ -7,6 +7,7 @@ import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
+import userEvent from '@testing-library/user-event';
 
 const mockToast = jest.fn();
 jest.mock("react-toastify", () => {
@@ -65,6 +66,7 @@ describe("PersonalScheduleEditPage tests", () => {
 
     const setupUserOnly = () => {
       axiosMock.reset();
+      window.localStorage.clear();
       axiosMock.resetHistory();
       axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
       axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
@@ -85,6 +87,7 @@ describe("PersonalScheduleEditPage tests", () => {
 
     const setupAdminUser = () => {
       axiosMock.reset();
+      window.localStorage.clear();
       axiosMock.resetHistory();
       axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.adminUser);
       axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
@@ -175,7 +178,7 @@ describe("PersonalScheduleEditPage tests", () => {
 
       expect(submitButton).toBeInTheDocument();
 
-      fireEvent.change(quarterField, { target: { value: "20224" } });
+      userEvent.selectOptions(quarterField, '20223');
       fireEvent.change(nameField, { target: { value: "PSTAT120A" } });
       fireEvent.change(descriptionField, { target: { value: "The best class" } });
 
@@ -191,7 +194,7 @@ describe("PersonalScheduleEditPage tests", () => {
         JSON.stringify({
           name: "PSTAT120A",
           description: "The best class",
-          quarterYYYYQ: "20224",
+          quarterYYYYQ: "20223",
         })
       ); // posted object
     });
@@ -216,13 +219,13 @@ describe("PersonalScheduleEditPage tests", () => {
       const submitButton = getByTestId("PersonalScheduleForm-submit");
 
       expect(idField).toHaveValue("17");
-      expect(quarterField).toHaveValue("20224");
+      expect(quarterField).toHaveValue("20001");
       expect(nameField).toHaveValue("Test Name 1");
       expect(descriptionField).toHaveValue("Test description 1");
 
       expect(submitButton).toBeInTheDocument();
 
-      fireEvent.change(quarterField, { target: { value: "20224" } });
+      fireEvent.change(quarterField, { target: { value: "20223" } });
       fireEvent.change(nameField, { target: { value: "PSTAT120A" } });
       fireEvent.change(descriptionField, { target: { value: "The best class" } });
 
@@ -238,7 +241,7 @@ describe("PersonalScheduleEditPage tests", () => {
         JSON.stringify({
           name: "PSTAT120A",
           description: "The best class",
-          quarterYYYYQ: "20224",
+          quarterYYYYQ: "20223",
         })
       ); // posted object
     });
