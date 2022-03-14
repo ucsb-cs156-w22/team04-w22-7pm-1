@@ -82,6 +82,18 @@ export default function AppNavbar({
                 </NavDropdown>
               )}
             </Nav>
+            <Nav className="mr-auto">
+          {
+            hasRole(currentUser, "ROLE_USER") && (
+              <NavDropdown title="BasicCourseSearch" id="appnavbar-basicsearch-dropdown" data-testid="appnavbar-basicsearch-dropdown" >
+              {
+
+                  <NavDropdown.Item href="/basiccoursesearch/search" data-testid="appnavbar-basicsearch-search">Search</NavDropdown.Item>
+              }
+              </NavDropdown>
+            )
+          }
+        </Nav>
             <Nav className="ml-auto">
               {currentUser && currentUser.loggedIn ? (
                 <>
