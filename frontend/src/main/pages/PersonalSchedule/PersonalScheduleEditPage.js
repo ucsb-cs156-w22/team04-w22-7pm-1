@@ -21,9 +21,9 @@ export default function PersonalSchedulesEditPage() {
       // Stryker disable next-line all
       hasRole(currentUser, "ROLE_ADMIN")
         ? // Stryker disable next-line all
-          "/api/PersonalSchedules/admin"
+          `/api/PersonalSchedules/admin?id=${id}`
         : // Stryker disable next-line all
-          "/api/PersonalSchedules",
+          `/api/PersonalSchedules?id=${id}`,
     ],
     {
       // Stryker disable next-line all
