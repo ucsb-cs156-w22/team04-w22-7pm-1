@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import SingleQuarterDropdown from "../Quarters/SingleQuarterDropdown";
-import { quarterRange } from "../../utils/quarterUtilities";
+import React, { useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import SingleQuarterDropdown from '../Quarters/SingleQuarterDropdown';
+import { quarterRange } from '../../utils/quarterUtilities';
 
 function PersonalScheduleForm({
   initialPersonalSchedule,
   submitAction,
   currentUser,
-  buttonLabel = "Create",
+  buttonLabel = 'Create',
 }) {
   // Stryker disable all
   const {
@@ -20,10 +20,16 @@ function PersonalScheduleForm({
   } = useForm({ defaultValues: initialPersonalSchedule || {} });
   // Stryker enable all
 
+  const localSearchQuarter = localStorage.getItem(
+    'PersonalScheduleForm-quarter'
+  );
+ 
+  const quarters = quarterRange('20001', '20213');
+  
   const navigate = useNavigate();
-  const [quarter, setQuarter] = useState("20213");
+  const [quarter, setQuarter] = useState(localSearchQuarter || quarters[0].yyyyq);
 
-  setValue("quarterYYYYQ", quarter);
+  setValue('quarterYYYYQ', quarter);
 
   const yyyyq_regex = /((19)|(20))\d{2}[1-4]/i; // Accepts from 1900-2099 followed by 1-4.  Close enough.
 
@@ -36,7 +42,7 @@ function PersonalScheduleForm({
             data-testid="PersonalScheduleForm-id"
             id="id"
             type="text"
-            {...register("id")}
+            {...register('id')}
             value={initialPersonalSchedule.id}
             disabled
           />
@@ -50,11 +56,13 @@ function PersonalScheduleForm({
           id="name"
           type="text"
           isInvalid={Boolean(errors.name)}
-          {...register("name", {
-            required: "Name is required.",
+          {...register('name', {
+            required: 'Name is required.',
           })}
         />
-        <Form.Control.Feedback type="invalid">{errors.name?.message}</Form.Control.Feedback>
+        <Form.Control.Feedback type="invalid">
+          {errors.name?.message}
+        </Form.Control.Feedback>
       </Form.Group>
       <Form.Group className="mb-3">
         <Form.Label htmlFor="description">Description</Form.Label>
@@ -63,17 +71,19 @@ function PersonalScheduleForm({
           id="description"
           type="text"
           isInvalid={Boolean(errors.description)}
-          {...register("description", { required: "Description is required." })}
+          {...register('description', { required: 'Description is required.' })}
         />
-        <Form.Control.Feedback type="invalid">{errors.description?.message}</Form.Control.Feedback>
+        <Form.Control.Feedback type="invalid">
+          {errors.description?.message}
+        </Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group className="mb-3">
         <SingleQuarterDropdown
           quarter={quarter}
           setQuarter={setQuarter}
-          controlId={"PersonalScheduleForm-quarter"}
-          quarters={quarterRange("20001", "20224")}
+          controlId={'PersonalScheduleForm-quarter'}
+          quarters={quarters}
         />
       </Form.Group>
 
