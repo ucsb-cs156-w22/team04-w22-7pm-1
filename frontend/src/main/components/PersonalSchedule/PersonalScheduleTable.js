@@ -13,6 +13,8 @@ export default function PersonalScheduleTable({ schedules, currentUser }) {
   const navigate = useNavigate();
 
   const editCallback = (cell) => {
+    // Stryker disable next-line all: localStorage set in test
+    localStorage.setItem('temp', 0);
     navigate(`/personalschedule/edit/${cell.row.values.id}`);
   };
 
