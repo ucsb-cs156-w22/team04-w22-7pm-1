@@ -67,6 +67,7 @@ describe("PersonalScheduleEditPage tests", () => {
     const setupUserOnly = () => {
       axiosMock.reset();
       window.localStorage.clear();
+      window.localStorage.setItem('temp', 0);
       axiosMock.resetHistory();
       axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
       axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
@@ -88,6 +89,7 @@ describe("PersonalScheduleEditPage tests", () => {
     const setupAdminUser = () => {
       axiosMock.reset();
       window.localStorage.clear();
+      window.localStorage.setItem('temp', 0);
       axiosMock.resetHistory();
       axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.adminUser);
       axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);

@@ -93,6 +93,8 @@ export default function PersonalSchedulesEditPage() {
   };
 
   if (isSuccess) {
+    // Stryker disable next-line all: localStorage set in test
+    localStorage.removeItem('temp');
     return <Navigate to="/personalschedule/list" />;
   }
 

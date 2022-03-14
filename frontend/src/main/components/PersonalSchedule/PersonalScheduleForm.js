@@ -24,19 +24,21 @@ function PersonalScheduleForm({
   const localSearchQuarter = localStorage.getItem(
     'PersonalScheduleForm-quarter'
   );
- 
+
   const quarters = quarterRange('20001', '20223');
-  
+
   const navigate = useNavigate();
-  const [quarter, setQuarter] = useState(localSearchQuarter || quarters[0].yyyyq);
+  const [quarter, setQuarter] = useState(
+    localSearchQuarter || quarters[0].yyyyq
+  );
 
   setValue('quarterYYYYQ', quarter);
 
   const yyyyq_regex = /((19)|(20))\d{2}[1-4]/i; // Accepts from 1900-2099 followed by 1-4.  Close enough.
-
-  if(storageQuarter!=null)
-  {
-    localStorage.setItem("PersonalScheduleForm-quarter", storageQuarter)
+  
+  if (localStorage.getItem('temp') == 0) {
+    localStorage.setItem('PersonalScheduleForm-quarter', storageQuarter);
+    localStorage.setItem('temp', 1);
   }
 
   return (
